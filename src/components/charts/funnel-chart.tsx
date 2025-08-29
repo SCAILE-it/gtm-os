@@ -1,10 +1,7 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { DataSourceBadge } from "@/components/ui/data-source-badge";
-import { Progress } from "@/components/ui/progress";
-import { TrendingUp, TrendingDown, Users, ArrowDown } from "lucide-react";
+import { TrendingUp, TrendingDown } from "lucide-react";
 
 interface FunnelBullet {
   label: string;

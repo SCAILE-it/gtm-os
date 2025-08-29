@@ -2,13 +2,11 @@
 
 import { useState } from "react";
 import { KpiCard } from "@/components/ui/kpi-card";
-import { FunnelCard } from "@/components/ui/funnel-card";
 import { FunnelChart } from "@/components/charts/funnel-chart";
 import { ChannelBreakdownChart } from "@/components/charts/channel-breakdown-chart";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Bot, Lightbulb, Database, BarChart3, Users, TrendingUp } from "lucide-react";
+import { Lightbulb, Database, BarChart3, Users, TrendingUp } from "lucide-react";
 
 // Mock data following the new specification
 const mockKpiData = {
@@ -132,7 +130,7 @@ export function OverviewDashboard() {
       <div>
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-semibold">GTM Dashboard</h2>
-          <Tabs value={viewMode} onValueChange={(value) => setViewMode(value as any)} className="w-auto">
+          <Tabs value={viewMode} onValueChange={(value) => setViewMode(value as "kpis" | "funnel" | "channels")} className="w-auto">
             <TabsList className="grid grid-cols-3">
               <TabsTrigger value="kpis" className="gap-2">
                 <TrendingUp className="h-4 w-4" />
@@ -150,7 +148,7 @@ export function OverviewDashboard() {
           </Tabs>
         </div>
 
-        <Tabs value={viewMode} onValueChange={(value) => setViewMode(value as any)}>
+        <Tabs value={viewMode} onValueChange={(value) => setViewMode(value as "kpis" | "funnel" | "channels")}>
           <TabsContent value="kpis" className="h-[600px]">
             {/* CEO KPI Ribbon - Two Rows for Better Spacing */}
             <div className="space-y-8">

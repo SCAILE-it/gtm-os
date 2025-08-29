@@ -16,7 +16,7 @@ export default async function StagePage({ params }: StagePageProps) {
     notFound();
   }
 
-  return <StageDashboard stage={stage as any} />;
+  return <StageDashboard stage={stage as "first-touch" | "qualified" | "opportunity" | "closed"} />;
 }
 
 export function generateStaticParams() {
