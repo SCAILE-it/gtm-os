@@ -27,9 +27,9 @@ export function isSupabaseConfigured(): boolean {
 }
 
 // Helper function to handle Supabase errors
-export function handleSupabaseError(error: any): string {
-  if (error?.message) {
-    return error.message;
+export function handleSupabaseError(error: unknown): string {
+  if (error && typeof error === 'object' && 'message' in error) {
+    return String(error.message);
   }
   return 'Database connection error';
 }

@@ -44,20 +44,19 @@ async function fetchRealKpiData(): Promise<KpiData | null> {
 
   // Calculate KPIs from real data
   const totalClicks = gscData.reduce((sum: number, row: GSCMetric) => sum + row.clicks, 0);
-  const totalImpressions = gscData.reduce((sum: number, row: GSCMetric) => sum + row.impressions, 0);
-  const avgCTR = totalClicks > 0 ? (totalClicks / totalImpressions) * 100 : 0;
-
+  
+  // Get mock data as base and override with real data
+  const mockData = getMockKpiData();
+  
   // TODO: Add more real data calculations as your data sources come online
   return {
+    ...mockData,
     totalContacts: {
+      ...mockData.totalContacts,
       value: totalClicks, // Using GSC clicks as proxy for now
-      delta: 12.3, // TODO: Calculate real delta
-      sparkline: [100, 120, 140, 135, 160, 180, 170, 190, 210, 200],
-      tooltip: "Organic traffic from Google Search Console",
+      tooltip: "Organic traffic from Google Search Console (real data)",
       dataSources: ["GSC"]
-    },
-    // ... other metrics with mock data until more sources are connected
-    ...getMockKpiData()
+    }
   };
 }
 
