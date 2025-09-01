@@ -1,18 +1,15 @@
 "use client";
 
-import { useState } from "react";
+
 import { KpiCard } from "@/components/ui/kpi-card";
 import { TimeSeriesChart } from "@/components/charts/time-series-chart";
-import { FunnelChart } from "@/components/charts/funnel-chart";
-import { ChannelBreakdownChart } from "@/components/charts/channel-breakdown-chart";
+
 import { ExposureRail } from "@/components/charts/exposure-rail";
 import { DataSourceBadge } from "@/components/ui/data-source-badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Progress } from "@/components/ui/progress";
-import { ArrowRight, Bot, TrendingUp } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type StageType = "first-touch" | "qualified" | "opportunity" | "closed";
@@ -22,16 +19,17 @@ interface StageDashboardProps {
 }
 
 type DataSource = "CRM" | "GA4" | "GSC" | "Google Ads" | "Email" | "LinkedIn" | "PostHog" | "Manual" | "Calculated";
-type BadgeType = "assumption" | "low-confidence" | "n/a" | "ads-only" | null;
+// type BadgeType = "assumption" | "low-confidence" | "n/a" | "ads-only" | null; // Commented out - unused
 
-interface Metric {
-  title: string;
-  value: string | number;
-  delta: number;
-  tooltip: string;
-  dataSources?: readonly DataSource[];
-  badge?: BadgeType;
-}
+// Removed unused Metric interface to fix linting
+// interface Metric {
+//   title: string;
+//   value: string | number;
+//   delta: number;
+//   tooltip: string;
+//   dataSources?: readonly DataSource[];
+//   badge?: BadgeType;
+// }
 
 const stageConfig = {
   "first-touch": {
@@ -84,14 +82,14 @@ const stageConfig = {
   }
 };
 
-// Mock data for charts and analysis
-const mockChannelData = [
-  { channel: "Organic Search", share: 35, delta: 2.1 },
-  { channel: "Paid Ads", share: 28, delta: -1.5 },
-  { channel: "Direct", share: 18, delta: 3.2 },
-  { channel: "Email", share: 12, delta: 1.8 },
-  { channel: "Social", share: 7, delta: -0.5 }
-];
+// Unused mock data - commented out to fix linting
+// const mockChannelData = [
+//   { channel: "Organic Search", share: 35, delta: 2.1 },
+//   { channel: "Paid Ads", share: 28, delta: -1.5 },
+//   { channel: "Direct", share: 18, delta: 3.2 },
+//   { channel: "Email", share: 12, delta: 1.8 },
+//   { channel: "Social", share: 7, delta: -0.5 }
+// ];
 
 const mockPersonas = [
   { title: "VP Marketing", share: 32, lift: 1.8 },
@@ -108,7 +106,7 @@ const mockKeywords = [
 ];
 
 export function StageDashboard({ stage }: StageDashboardProps) {
-  const [chartView, setChartView] = useState<"daily" | "cumulative">("daily");
+  // Removed unused chartView state to fix linting
   const config = stageConfig[stage];
 
   return (

@@ -2,7 +2,7 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Database, Globe, Search, Mail, Users, BarChart3, Calendar, Zap } from "lucide-react";
+import { Database, Globe, Search, Mail, Users, BarChart3, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type DataSource = 

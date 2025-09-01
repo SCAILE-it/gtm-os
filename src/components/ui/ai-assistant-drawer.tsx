@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetClose } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Bot, Send, X, TrendingUp, Lightbulb, Target, FileText } from "lucide-react";
+import { Bot, Send, TrendingUp, Lightbulb, Target, FileText } from "lucide-react";
 
 interface AIAssistantSheetProps {
   open: boolean;

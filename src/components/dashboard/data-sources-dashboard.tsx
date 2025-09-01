@@ -17,7 +17,6 @@ import {
   Globe,
   Mail,
   Search,
-  BarChart3,
   Users,
   Calendar
 } from "lucide-react";
@@ -99,14 +98,7 @@ const dataSources = [
   }
 ];
 
-const getStatusColor = (status: string) => {
-  switch (status) {
-    case "connected": return "text-green-600";
-    case "warning": return "text-yellow-600";
-    case "disconnected": return "text-red-600";
-    default: return "text-gray-600";
-  }
-};
+
 
 const getStatusIcon = (status: string) => {
   switch (status) {

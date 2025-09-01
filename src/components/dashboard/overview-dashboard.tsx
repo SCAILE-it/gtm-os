@@ -54,48 +54,49 @@ const mockKpiData = {
   }
 };
 
-const mockFunnelData = [
-  {
-    stage: "first-touch" as const,
-    title: "First Touch",
-    headline: 2847,
-    bullets: [
-      { label: "Top channel share", value: "SEO 35%", delta: 2.1 },
-      { label: "Engagement rate", value: "45%", delta: 3.2 },
-      { label: "Company-email share", value: "67%", delta: 1.8 }
-    ]
-  },
-  {
-    stage: "qualified" as const,
-    title: "Qualified", 
-    headline: 654,
-    bullets: [
-      { label: "MQL vs SQL mix", value: "MQL 60%", delta: 4.2 },
-      { label: "ICP match share", value: "78%", delta: 2.1 },
-      { label: "Top campaigns", value: "Content Marketing", delta: 1.8 }
-    ]
-  },
-  {
-    stage: "opportunity" as const,
-    title: "Opportunity",
-    headline: 147, 
-    bullets: [
-      { label: "Source→Opp top share", value: "SEO 42%", delta: 8.3 },
-      { label: "Proposal sent rate", value: "89%", delta: 5.2 },
-      { label: "Stage-stuck >30d", value: "12%", delta: -2.9 }
-    ]
-  },
-  {
-    stage: "closed" as const,
-    title: "Closed",
-    headline: 50,
-    bullets: [
-      { label: "Top win source", value: "SEO", delta: 5.1 },
-      { label: "Avg deal size", value: "€15.4K", delta: 8.3 },
-      { label: "Median sales cycle", value: "28 days", delta: -1.8 }
-    ]
-  }
-];
+// Unused mock data - commented out to fix linting
+// const mockFunnelData = [
+//   {
+//     stage: "first-touch" as const,
+//     title: "First Touch",
+//     headline: 2847,
+//     bullets: [
+//       { label: "Top channel share", value: "SEO 35%", delta: 2.1 },
+//       { label: "Engagement rate", value: "45%", delta: 3.2 },
+//       { label: "Company-email share", value: "67%", delta: 1.8 }
+//     ]
+//   },
+//   {
+//     stage: "qualified" as const,
+//     title: "Qualified", 
+//     headline: 654,
+//     bullets: [
+//       { label: "MQL vs SQL mix", value: "MQL 60%", delta: 4.2 },
+//       { label: "ICP match share", value: "78%", delta: 2.1 },
+//       { label: "Top campaigns", value: "Content Marketing", delta: 1.8 }
+//     ]
+//   },
+//   {
+//     stage: "opportunity" as const,
+//     title: "Opportunity",
+//     headline: 147, 
+//     bullets: [
+//       { label: "Source→Opp top share", value: "SEO 42%", delta: 8.3 },
+//       { label: "Proposal sent rate", value: "89%", delta: 5.2 },
+//       { label: "Stage-stuck >30d", value: "12%", delta: -2.9 }
+//     ]
+//   },
+//   {
+//     stage: "closed" as const,
+//     title: "Closed",
+//     headline: 50,
+//     bullets: [
+//       { label: "Top win source", value: "SEO", delta: 5.1 },
+//       { label: "Avg deal size", value: "€15.4K", delta: 8.3 },
+//       { label: "Median sales cycle", value: "28 days", delta: -1.8 }
+//     ]
+//   }
+// ];
 
 // Mock data for charts
 const mockChannelData = [
@@ -106,12 +107,13 @@ const mockChannelData = [
   { channel: "Social", value: 199, percentage: 7.0, delta: -0.5, color: "#ef4444" }
 ];
 
-const mockConversionFunnelData = [
-  { stage: "First Touch", count: 2847, conversionRate: 100, delta: 12.3, color: "#64748b" },
-  { stage: "Qualified", count: 654, conversionRate: 23.0, delta: 8.7, color: "#64748b" },
-  { stage: "Opportunity", count: 147, conversionRate: 22.5, delta: 15.3, color: "#64748b" },
-  { stage: "Closed", count: 50, conversionRate: 34.0, delta: 22.1, color: "#64748b" }
-];
+// Unused mock data - commented out to fix linting
+// const mockConversionFunnelData = [
+//   { stage: "First Touch", count: 2847, conversionRate: 100, delta: 12.3, color: "#64748b" },
+//   { stage: "Qualified", count: 654, conversionRate: 23.0, delta: 8.7, color: "#64748b" },
+//   { stage: "Opportunity", count: 147, conversionRate: 22.5, delta: 15.3, color: "#64748b" },
+//   { stage: "Closed", count: 50, conversionRate: 34.0, delta: 22.1, color: "#64748b" }
+// ];
 
 export function OverviewDashboard() {
   const [viewMode, setViewMode] = useState<"kpis" | "funnel" | "channels">("kpis");

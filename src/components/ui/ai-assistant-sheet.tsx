@@ -1,54 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetClose } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import { Bot, Send, X, TrendingUp, Lightbulb, Target, FileText } from "lucide-react";
+import { Bot, Send } from "lucide-react";
 
 interface AIAssistantSheetProps {
   open: boolean;
   onClose: () => void;
 }
 
-// Mock AI assistant data
-const mockSummary = {
-  topMovers: [
-    { metric: "First Touch Conversion", change: "+12.3%", trend: "up" },
-    { metric: "Opportunity Win Rate", change: "+5.1%", trend: "up" },
-    { metric: "CAC (Paid Ads)", change: "-8.7%", trend: "down" }
-  ],
-  recommendations: [
-    {
-      title: "Optimize Landing Page for Paid Traffic",
-      impact: "High",
-      effort: "Medium", 
-      ice: 8.7,
-      stage: "First Touch"
-    },
-    {
-      title: "Improve Email Nurture Sequence",
-      impact: "Medium",
-      effort: "Low",
-      ice: 7.2,
-      stage: "Qualified"
-    },
-    {
-      title: "Reduce Demo No-Show Rate",
-      impact: "High",
-      effort: "Low",
-      ice: 9.0,
-      stage: "Opportunity"
-    }
-  ],
-  keywordInsights: {
-    working: ["marketing automation", "lead generation", "sales funnel"],
-    mismatch: ["cheap CRM", "free tools", "small business"],
-    target: ["enterprise marketing", "B2B analytics", "revenue operations"]
-  }
-};
+
 
 interface ChatMessage {
   id: string;

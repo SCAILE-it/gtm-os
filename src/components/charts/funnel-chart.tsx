@@ -33,7 +33,7 @@ const mockFunnelData: FunnelStageData[] = [
   { stage: "Closed", count: 50, conversionRate: 34.0, delta: 22.1, color: "#f59e0b" }
 ];
 
-export function FunnelChart({ data, title, className }: FunnelChartProps) {
+export function FunnelChart({ data, className }: FunnelChartProps) {
   // Use mock data if no data provided
   const funnelData = data.length > 0 ? data : mockFunnelData;
   
@@ -43,7 +43,7 @@ export function FunnelChart({ data, title, className }: FunnelChartProps) {
     return val.toLocaleString();
   };
 
-  const maxCount = Math.max(...funnelData.map(d => d.count));
+
 
   return (
     <div className={className}>
