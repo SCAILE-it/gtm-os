@@ -98,6 +98,7 @@ const navigationSections = [
 export function Sidebar({ open, onClose }: SidebarProps) {
   const pathname = usePathname();
   const [expandedSections, setExpandedSections] = useState<string[]>(["Overview", "Stages", "Admin"]);
+  const [isHovered, setIsHovered] = useState(false);
 
   const toggleSection = (sectionTitle: string) => {
     setExpandedSections(prev =>
@@ -118,10 +119,15 @@ export function Sidebar({ open, onClose }: SidebarProps) {
       )}
 
       {/* Sidebar */}
-      <aside className={cn(
-        "fixed left-0 top-16 z-50 h-[calc(100vh-4rem)] w-64 transform border-r bg-background transition-transform duration-300 lg:translate-x-0 flex flex-col",
-        open ? "translate-x-0" : "-translate-x-full lg:w-16"
-      )}>
+      <aside 
+        className={cn(
+          "fixed left-0 top-16 z-50 h-[calc(100vh-4rem)] transform border-r bg-background transition-all duration-300 lg:translate-x-0 flex flex-col",
+          open ? "translate-x-0 w-72" : "-translate-x-full lg:translate-x-0",
+          !open && "lg:w-16 lg:hover:w-72"
+        )}
+        onMouseEnter={() => !open && setIsHovered(true)}
+        onMouseLeave={() => !open && setIsHovered(false)}
+      >
         {/* Mobile Close Button */}
         <div className="flex h-14 items-center justify-between px-4 lg:hidden">
           <span className="font-semibold">Navigation</span>
@@ -139,20 +145,20 @@ export function Sidebar({ open, onClose }: SidebarProps) {
                 variant="ghost"
                 className={cn(
                   "w-full justify-between p-2 h-auto font-medium text-xs uppercase tracking-wide text-muted-foreground hover:text-foreground",
-                  !open && "lg:justify-center"
+                  !open && !isHovered && "lg:justify-center"
                 )}
                 onClick={() => toggleSection(section.title)}
               >
-                <span className={cn(!open && "lg:hidden")}>{section.title}</span>
+                <span className={cn(!open && !isHovered && "lg:hidden")}>{section.title}</span>
                 <ChevronRight className={cn(
                   "h-3 w-3 transition-transform",
                   expandedSections.includes(section.title) && "rotate-90",
-                  !open && "lg:hidden"
+                  !open && !isHovered && "lg:hidden"
                 )} />
               </Button>
 
               {/* Section Items */}
-              {expandedSections.includes(section.title) && (
+              {(expandedSections.includes(section.title) || (!open && isHovered)) && (
                 <div className="space-y-1">
                   {section.items.map((item) => {
                     const isActive = pathname === item.href;
@@ -162,11 +168,11 @@ export function Sidebar({ open, onClose }: SidebarProps) {
                           variant={isActive ? "secondary" : "ghost"}
                           className={cn(
                             "w-full justify-start gap-3 p-3 h-auto",
-                            !open && "lg:justify-center lg:px-2"
+                            !open && !isHovered && "lg:justify-center lg:px-2"
                           )}
                         >
                           <item.icon className="h-4 w-4 shrink-0" />
-                          <div className={cn("text-left", !open && "lg:hidden")}>
+                          <div className={cn("text-left", !open && !isHovered && "lg:hidden")}>
                             <div className="font-medium">{item.title}</div>
                             {item.description && (
                               <div className="text-xs text-muted-foreground">
@@ -174,11 +180,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
                               </div>
                             )}
                           </div>
-                          {isActive && (
-                            <Badge variant="default" className={cn(!open && "lg:hidden")}>
-                              Active
-                            </Badge>
-                          )}
+
                         </Button>
                       </Link>
                     );

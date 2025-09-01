@@ -24,7 +24,7 @@ export function MainLayout({ children }: MainLayoutProps) {
         {/* Main Content */}
         <main className={cn(
           "flex-1 overflow-auto transition-all duration-300",
-          sidebarOpen ? "lg:ml-64" : "lg:ml-16"
+          sidebarOpen ? "lg:ml-72" : "lg:ml-16"
         )}>
           <div className="container mx-auto p-6">
             {children}

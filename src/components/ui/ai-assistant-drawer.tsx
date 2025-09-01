@@ -56,7 +56,7 @@ export function AIAssistantSheet({ open, onClose }: AIAssistantSheetProps) {
   const handleSendPrompt = () => {
     if (!prompt.trim()) return;
     // In a real app, this would send to AI service
-    console.log("Sending prompt:", prompt);
+    // TODO: Implement actual AI integration
     setPrompt("");
   };
 
