@@ -133,7 +133,7 @@ export function SettingsDashboard() {
             <CardContent>
               <div className="space-y-4">
                 <p className="text-sm text-muted-foreground">
-                  Define maximum time limits for each stage before contacts are flagged as "stuck"
+                  Define maximum time limits for each stage before contacts are flagged as &quot;stuck&quot;
                 </p>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

@@ -175,7 +175,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
                             )}
                           </div>
                           {isActive && (
-                            <Badge variant="default" size="sm" className={cn(!open && "lg:hidden")}>
+                            <Badge variant="default" className={cn(!open && "lg:hidden")}>
                               Active
                             </Badge>
                           )}

@@ -21,6 +21,18 @@ interface StageDashboardProps {
   stage: StageType;
 }
 
+type DataSource = "CRM" | "GA4" | "GSC" | "Google Ads" | "Email" | "LinkedIn" | "PostHog" | "Manual" | "Calculated";
+type BadgeType = "assumption" | "low-confidence" | "n/a" | "ads-only" | null;
+
+interface Metric {
+  title: string;
+  value: string | number;
+  delta: number;
+  tooltip: string;
+  dataSources?: readonly DataSource[];
+  badge?: BadgeType;
+}
+
 const stageConfig = {
   "first-touch": {
     title: "First Touch",
@@ -28,10 +40,10 @@ const stageConfig = {
     exitCondition: "Provides contact info OR demonstrates engagement intent",
     color: "blue",
     metrics: [
-      { title: "Contacts Created", value: 2847, delta: 12.3, tooltip: "# identified contacts created (CRM) or first seen (GA4→CRM join)", dataSources: ["CRM", "GA4"] },
-      { title: "Engagement Rate", value: "45%", delta: 3.2, tooltip: "Engaged sessions / sessions (GA4)", dataSources: ["GA4"] },
-      { title: "Cost per Touch", value: 12.50, delta: -2.1, tooltip: "Ads spend / Contacts Created. Hidden if no Ads", badge: "ads-only" as const, dataSources: ["Google Ads"] },
-      { title: "Time to Qualify", value: "3.2 days", delta: -0.5, tooltip: "Median(first touch → qualified)", dataSources: ["CRM"] }
+      { title: "Contacts Created", value: 2847, delta: 12.3, tooltip: "# identified contacts created (CRM) or first seen (GA4→CRM join)", dataSources: ["CRM", "GA4"] as const },
+      { title: "Engagement Rate", value: "45%", delta: 3.2, tooltip: "Engaged sessions / sessions (GA4)", dataSources: ["GA4"] as const },
+      { title: "Cost per Touch", value: 12.50, delta: -2.1, tooltip: "Ads spend / Contacts Created. Hidden if no Ads", badge: "ads-only" as const, dataSources: ["Google Ads"] as const },
+      { title: "Time to Qualify", value: "3.2 days", delta: -0.5, tooltip: "Median(first touch → qualified)", dataSources: ["CRM"] as const }
     ]
   },
   "qualified": {
@@ -40,10 +52,10 @@ const stageConfig = {
     exitCondition: "Passes qualification criteria (BANT, MEDDIC, etc.)",
     color: "purple",
     metrics: [
-      { title: "MQLs/SQLs", value: 654, delta: 8.7, tooltip: "Distinct contacts whose first qualifying timestamp for MQL/SQL falls in Zeitraum", dataSources: ["CRM"] },
-      { title: "ICP Match Score", value: "78%", delta: 4.2, tooltip: "% of Qualified that match ICP rule (Settings)", dataSources: ["CRM"] },
-      { title: "Cost per Qualified", value: 125, delta: -3.1, tooltip: "Ads spend ÷ # Qualified. Hidden if Ads absent", dataSources: ["Google Ads"], badge: "ads-only" },
-      { title: "Time to Opportunity", value: "5.8 days", delta: 1.2, tooltip: "Median days from first touch → opportunity", dataSources: ["CRM"] }
+      { title: "MQLs/SQLs", value: 654, delta: 8.7, tooltip: "Distinct contacts whose first qualifying timestamp for MQL/SQL falls in Zeitraum", dataSources: ["CRM"] as const },
+      { title: "ICP Match Score", value: "78%", delta: 4.2, tooltip: "% of Qualified that match ICP rule (Settings)", dataSources: ["CRM"] as const },
+      { title: "Cost per Qualified", value: 125, delta: -3.1, tooltip: "Ads spend ÷ # Qualified. Hidden if Ads absent", dataSources: ["Google Ads"] as const, badge: "ads-only" as const },
+      { title: "Time to Opportunity", value: "5.8 days", delta: 1.2, tooltip: "Median days from first touch → opportunity", dataSources: ["CRM"] as const }
     ]
   },
   "opportunity": {
@@ -53,8 +65,8 @@ const stageConfig = {
     color: "green", 
     metrics: [
       { title: "Opportunities", value: 147, delta: 15.3, tooltip: "Distinct contacts/deals with first opportunity timestamp in Zeitraum", dataSources: ["CRM"] },
-      { title: "Avg Deal Size", value: "€15.4K", delta: 8.3, tooltip: "Mean/median open opp amount in window. N/A if Deals missing", dataSources: ["CRM"], badge: "n/a" },
-      { title: "Cost per Opportunity", value: 540, delta: -5.2, tooltip: "Ads spend ÷ # Opportunities. Hidden if Ads absent", dataSources: ["Google Ads"], badge: "ads-only" },
+      { title: "Avg Deal Size", value: "€15.4K", delta: 8.3, tooltip: "Mean/median open opp amount in window. N/A if Deals missing", dataSources: ["CRM"], badge: "n/a" as const },
+      { title: "Cost per Opportunity", value: 540, delta: -5.2, tooltip: "Ads spend ÷ # Opportunities. Hidden if Ads absent", dataSources: ["Google Ads"], badge: "ads-only" as const },
       { title: "Time to Close", value: "28 days", delta: -1.8, tooltip: "Median days opportunity → closed for opps that closed in/after Zeitraum", dataSources: ["CRM"] }
     ]
   },
@@ -64,10 +76,10 @@ const stageConfig = {
     exitCondition: "Contract signed OR deal definitively lost",
     color: "orange",
     metrics: [
-      { title: "Won Deals", value: 50, delta: 22.1, tooltip: "# deals in closed-won with first won date in Zeitraum", dataSources: ["CRM"] },
-      { title: "Win Rate", value: "34%", delta: 5.1, tooltip: "Won / closed-any (won + lost) within Zeitraum", dataSources: ["CRM"] },
-      { title: "CAC", value: 1850, delta: -8.7, tooltip: "Σ Ads spend ÷ new customers in Zeitraum. Hidden if Ads missing", dataSources: ["Google Ads", "CRM"], badge: "ads-only" as const },
-      { title: "Sales Cycle Length", value: "32 days", delta: -2.3, tooltip: "Median days first touch → close (primary) and opp → close (secondary)", dataSources: ["CRM"] }
+      { title: "Won Deals", value: 50, delta: 22.1, tooltip: "# deals in closed-won with first won date in Zeitraum", dataSources: ["CRM"] as const },
+      { title: "Win Rate", value: "34%", delta: 5.1, tooltip: "Won / closed-any (won + lost) within Zeitraum", dataSources: ["CRM"] as const },
+      { title: "CAC", value: 1850, delta: -8.7, tooltip: "Σ Ads spend ÷ new customers in Zeitraum. Hidden if Ads missing", dataSources: ["Google Ads", "CRM"] as const, badge: "ads-only" as const },
+      { title: "Sales Cycle Length", value: "32 days", delta: -2.3, tooltip: "Median days first touch → close (primary) and opp → close (secondary)", dataSources: ["CRM"] as const }
     ]
   }
 };
@@ -159,7 +171,7 @@ export function StageDashboard({ stage }: StageDashboardProps) {
               delta={metric.delta}
               tooltip={metric.tooltip}
               badge={metric.badge}
-              dataSources={metric.dataSources || ["CRM"]}
+              dataSources={(metric.dataSources as DataSource[]) || (["CRM"] as const)}
             />
           ))}
         </div>

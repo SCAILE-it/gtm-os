@@ -21,13 +21,13 @@ const mockKpiData = {
     delta: -3.2, 
     sparkline: [400000, 420000, 450000, 480000, 485000],
     tooltip: "Total Closed Sales or ARR in €",
-    badge: null as const
+    badge: null
   },
   winRate: { 
     value: "34%", 
     delta: 5.1,
     tooltip: "closed-won / closed-any (CRM)",
-    badge: null as const
+    badge: null
   },
   cac: { 
     value: 1850, 

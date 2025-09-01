@@ -47,7 +47,7 @@ export function ChannelBreakdownChart({ data, title, valueLabel, className }: Ch
     return val.toLocaleString();
   };
 
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: Array<{ payload: { channel: string; value: number; percentage: number; delta: number } }>; label?: string }) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       return (
