@@ -73,7 +73,7 @@ const KpiCardComponent = React.memo(function KpiCard({
   };
 
   return (
-    <Card className={cn("relative overflow-hidden", className)}>
+    <Card className={cn("relative overflow-hidden transition-all duration-200 hover:shadow-md hover:border-primary/20 hover:bg-primary/5 cursor-pointer", className)}>
       <CardContent className="p-4">
         <div className="flex items-start justify-between">
           <div className="space-y-1">

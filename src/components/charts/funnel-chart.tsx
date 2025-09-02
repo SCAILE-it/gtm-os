@@ -35,6 +35,9 @@ const mockFunnelData: FunnelStageData[] = [
 ];
 
 const FunnelChartComponent = React.memo(function FunnelChart({ data, className }: FunnelChartProps) {
+  const [selectedStage, setSelectedStage] = React.useState<string | null>(null);
+  const [hoveredStage, setHoveredStage] = React.useState<string | null>(null);
+  
   // Memoize data processing
   const funnelData = React.useMemo(() => {
     return data.length > 0 ? data : mockFunnelData;
@@ -58,10 +61,22 @@ const FunnelChartComponent = React.memo(function FunnelChart({ data, className }
               const nextStage = funnelData[index + 1];
               const conversionToNext = nextStage ? ((nextStage.count / stage.count) * 100) : 100;
               
+              const isSelected = selectedStage === stage.stage;
+              const isHovered = hoveredStage === stage.stage;
+              
               return (
                 <div key={stage.stage} className="relative">
-                  {/* Stage Card - Spacious */}
-                  <div className="p-6 border rounded-xl bg-background/50 h-full flex flex-col justify-between">
+                  {/* Stage Card - Interactive */}
+                  <div 
+                    className={`p-6 border rounded-xl h-full flex flex-col justify-between cursor-pointer transition-all duration-200 ${
+                      isSelected ? 'border-primary bg-primary/5 shadow-lg scale-105' :
+                      isHovered ? 'border-primary/50 bg-primary/5 shadow-md' :
+                      'border-border bg-background/50 hover:border-border/80 hover:bg-background/70'
+                    }`}
+                    onClick={() => setSelectedStage(isSelected ? null : stage.stage)}
+                    onMouseEnter={() => setHoveredStage(stage.stage)}
+                    onMouseLeave={() => setHoveredStage(null)}
+                  >
                     {/* Stage Header */}
                     <div className="mb-6">
                       <div className="flex items-center gap-3 mb-3">
