@@ -132,11 +132,13 @@ const KpiCardComponent = React.memo(function KpiCard({
         {sparkline && sparkline.length > 0 && (
           <div className="mt-3 h-6 sm:h-8 flex items-end gap-0.5 overflow-hidden">
             {sparkline.slice(-20).map((value, index) => {
+              // Use a deterministic calculation to avoid hydration mismatch
               const maxValue = Math.max(...sparkline);
-              const heightPercent = Math.max(8, (value / maxValue) * 100);
+              const normalizedValue = maxValue > 0 ? value / maxValue : 0;
+              const heightPercent = Math.max(10, Math.round(normalizedValue * 90) + 10);
               return (
                 <div
-                  key={index}
+                  key={`sparkline-${index}`}
                   className="flex-1 bg-muted/60 rounded-sm min-w-[1px] sm:min-w-[2px]"
                   style={{
                     height: `${heightPercent}%`
