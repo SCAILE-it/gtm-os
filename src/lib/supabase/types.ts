@@ -1,34 +1,59 @@
-// Supabase Database Types (based on your schema)
+// Supabase Database Types (based on your actual schema)
 
-export interface DataSource {
-  id: string;
-  data_source_id: string;
-  site_url: string;
-  permission_level: string;
-  created_at?: string;
-  updated_at?: string;
-}
-
-export interface GSCMetric {
-  id: string;
-  site_url: string;
+// GA4 Tables
+export interface GA4AcquisitionDaily {
+  id: number;
+  created_at: string;
+  property_id: string;
   date: string;
-  query?: string;
-  page?: string;
-  clicks: number;
-  impressions: number;
-  ctr: number;
-  position: number;
-  created_at?: string;
+  session_source_medium: string;
+  session_campaign_name?: string;
+  sessions?: number;
+  users?: number;
+  new_users?: number;
+  conversions?: number;
 }
 
-export interface GSCSite {
-  id: string;
-  data_source_id: string;
+export interface GA4EventsDaily {
+  id: number;
+  created_at: string;
+  property_id: string;
+  date?: string;
+  event_name?: string;
+  event_count?: number;
+}
+
+export interface GA4LandingPageDaily {
+  id: number;
+  created_at: string;
+  property_id: string;
+  date: string;
+  landing_page: string;
+  sessions?: number;
+  users?: number;
+  bounce_rate?: number;
+}
+
+// GSC Tables
+export interface GSCPageDaily {
+  id: number;
+  created_at: string;
   site_url: string;
-  permission_level: string;
-  created_at?: string;
-  updated_at?: string;
+  page: string;
+  date?: string;
+  clicks?: number;
+  impressions?: number;
+  ctr?: number;
+  position?: number;
+}
+
+export interface GSCSitemaps {
+  id: number;
+  created_at: string;
+  site_url: string;
+  sitemap_url?: string;
+  status?: string;
+  last_submitted?: string;
 }
 
 // Dashboard-specific aggregated types

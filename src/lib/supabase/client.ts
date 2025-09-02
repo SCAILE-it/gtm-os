@@ -7,19 +7,12 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholde
 // Create Supabase client (with fallback values to prevent build errors)
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-// Database table names (matching your schema)
-export const TABLES = {
-  GSC_METRICS: 'gsc_metrics',
-  DATA_SOURCES: 'data_sources', 
-  GSC_SITES: 'gsc_sites',
-  AUDIT_LOGS: 'audit_logs',
-  CREDENTIALS_STORE: 'credentials_store',
-  ORGANIZATION_CONFIGURATIONS: 'organization_configurations',
-  ORGANIZATION_INVITATIONS: 'organization_invitations',
-  ORGANIZATION_MEMBERS: 'organization_members',
-  ORGANIZATIONS: 'organizations',
-  USER_PROFILES: 'user_profiles'
-} as const;
+// Table names are now used directly in queries to match your actual Supabase schema:
+// - ga4_acquisition_daily
+// - ga4_events_daily  
+// - ga4_landing_page_daily
+// - gsc_page_daily
+// - gsc_sitemaps
 
 // Helper function to check if Supabase is configured
 export function isSupabaseConfigured(): boolean {
