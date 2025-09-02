@@ -7,24 +7,41 @@ interface UseKpiDataReturn {
   loading: boolean;
   error: string | null;
   refetch: () => Promise<void>;
+  retry: () => Promise<void>;
+  isRetrying: boolean;
 }
 
 export function useKpiData(): UseKpiDataReturn {
   const [data, setData] = useState<KpiData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isRetrying, setIsRetrying] = useState(false);
 
-  const fetchData = async () => {
+  const fetchData = async (isRetry = false) => {
     try {
-      setLoading(true);
+      if (isRetry) {
+        setIsRetrying(true);
+      } else {
+        setLoading(true);
+      }
       setError(null);
+      
       const kpiData = await fetchKpiData();
       setData(kpiData);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to fetch KPI data');
+      const errorMessage = err instanceof Error ? err.message : 'Failed to fetch KPI data';
+      setError(errorMessage);
+      
+      // Log error for monitoring
+      console.error('KPI Data fetch failed:', err);
     } finally {
       setLoading(false);
+      setIsRetrying(false);
     }
+  };
+
+  const retry = async () => {
+    await fetchData(true);
   };
 
   useEffect(() => {
@@ -35,7 +52,9 @@ export function useKpiData(): UseKpiDataReturn {
     data,
     loading,
     error,
-    refetch: fetchData
+    refetch: () => fetchData(),
+    retry,
+    isRetrying
   };
 }
 

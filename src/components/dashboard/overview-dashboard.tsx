@@ -6,7 +6,12 @@ import { FunnelChart } from "@/components/charts/funnel-chart";
 import { ChannelBreakdownChart } from "@/components/charts/channel-breakdown-chart";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Lightbulb, Database, BarChart3, Users, TrendingUp } from "lucide-react";
+import { DashboardSkeleton } from "@/components/ui/loading-skeleton";
+import { ErrorBoundary } from "@/components/ui/error-boundary";
+import { useKpiData } from "@/hooks/useSupabaseData";
+import { Button } from "@/components/ui/button";
+import { DataSourceType } from "@/lib/supabase/types";
+import { Lightbulb, Database, BarChart3, Users, TrendingUp, RefreshCw, AlertTriangle } from "lucide-react";
 
 // Mock data following the new specification
 const mockKpiData = {
@@ -14,27 +19,31 @@ const mockKpiData = {
     value: 2847, 
     delta: 12.3, 
     sparkline: [100, 120, 140, 135, 160, 180, 170, 190, 210, 200],
-    tooltip: "Distinct CRM contacts; sparkline = new contacts/day"
+    tooltip: "Distinct CRM contacts; sparkline = new contacts/day",
+    dataSources: ["CRM"] as DataSourceType[]
   },
   totalClosedSales: { 
     value: 485000, 
     delta: -3.2, 
     sparkline: [400000, 420000, 450000, 480000, 485000],
     tooltip: "Total Closed Sales or ARR in €",
-    badge: null
+    badge: null,
+    dataSources: ["CRM"] as DataSourceType[]
   },
   winRate: { 
     value: "34%", 
     delta: 5.1,
     tooltip: "closed-won / closed-any (CRM)",
-    badge: null
+    badge: null,
+    dataSources: ["CRM"] as DataSourceType[]
   },
   cac: { 
     value: 1850, 
     delta: -8.7, 
     badge: "ads-only" as const, 
     hidden: false,
-    tooltip: "Σ Ads spend / new customers. Hidden if no Ads or spend=0"
+    tooltip: "Σ Ads spend / new customers. Hidden if no Ads or spend=0",
+    dataSources: ["Google Ads", "CRM"] as DataSourceType[]
   },
   totalLTV: { 
     value: 45000, 
@@ -117,6 +126,44 @@ const mockChannelData = [
 
 export function OverviewDashboard() {
   const [viewMode, setViewMode] = useState<"kpis" | "funnel" | "channels">("kpis");
+  const { data: kpiData, loading, error, retry, isRetrying } = useKpiData();
+
+  // Loading state
+  if (loading) {
+    return <DashboardSkeleton />;
+  }
+
+  // Error state with retry option
+  if (error && !kpiData) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <Card className="border-destructive/50 bg-destructive/5 max-w-md">
+          <CardContent className="p-6 text-center space-y-4">
+            <AlertTriangle className="h-12 w-12 text-destructive mx-auto" />
+            <div>
+              <h3 className="font-semibold text-destructive mb-2">Failed to load dashboard</h3>
+              <p className="text-sm text-muted-foreground">{error}</p>
+            </div>
+            <Button 
+              onClick={retry}
+              disabled={isRetrying}
+              className="gap-2"
+            >
+              {isRetrying ? (
+                <RefreshCw className="h-4 w-4 animate-spin" />
+              ) : (
+                <RefreshCw className="h-4 w-4" />
+              )}
+              {isRetrying ? 'Retrying...' : 'Try Again'}
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  // Use real data if available, fallback to mock data
+  const displayData = kpiData || mockKpiData;
 
   return (
     <div className="space-y-6">
@@ -152,41 +199,44 @@ export function OverviewDashboard() {
 
         <Tabs value={viewMode} onValueChange={(value) => setViewMode(value as "kpis" | "funnel" | "channels")}>
           <TabsContent value="kpis" className="h-[600px]">
-            {/* CEO KPI Ribbon - Two Rows for Better Spacing */}
-            <div className="space-y-8">
+            <ErrorBoundary>
+              {/* CEO KPI Ribbon - Two Rows for Better Spacing */}
+              <div className="space-y-8">
               {/* Top Row - Primary Metrics */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <KpiCard
                   title="Total Contacts"
-                  value={mockKpiData.totalContacts.value}
-                  delta={mockKpiData.totalContacts.delta}
-                  sparkline={mockKpiData.totalContacts.sparkline}
-                  tooltip={mockKpiData.totalContacts.tooltip}
-                  dataSources={["CRM"]}
+                  value={displayData.totalContacts.value}
+                  delta={displayData.totalContacts.delta}
+                  sparkline={displayData.totalContacts.sparkline}
+                  tooltip={displayData.totalContacts.tooltip}
+                  dataSources={displayData.totalContacts.dataSources}
                 />
                 <KpiCard
                   title="ARR (€)"
-                  value={mockKpiData.totalClosedSales.value}
-                  delta={mockKpiData.totalClosedSales.delta}
-                  sparkline={mockKpiData.totalClosedSales.sparkline}
-                  tooltip={mockKpiData.totalClosedSales.tooltip}
-                  dataSources={["CRM"]}
+                  value={displayData.totalClosedSales.value}
+                  delta={displayData.totalClosedSales.delta}
+                  sparkline={displayData.totalClosedSales.sparkline}
+                  tooltip={displayData.totalClosedSales.tooltip}
+                  badge={displayData.totalClosedSales.badge}
+                  dataSources={displayData.totalClosedSales.dataSources}
                 />
                 <KpiCard
                   title="Win Rate"
-                  value={mockKpiData.winRate.value}
-                  delta={mockKpiData.winRate.delta}
-                  tooltip={mockKpiData.winRate.tooltip}
-                  dataSources={["CRM"]}
+                  value={displayData.winRate.value}
+                  delta={displayData.winRate.delta}
+                  tooltip={displayData.winRate.tooltip}
+                  badge={displayData.winRate.badge}
+                  dataSources={displayData.winRate.dataSources}
                 />
                 <KpiCard
                   title="CAC (ads-only)"
-                  value={mockKpiData.cac.value}
-                  delta={mockKpiData.cac.delta}
-                  badge={mockKpiData.cac.badge}
-                  hidden={mockKpiData.cac.hidden}
-                  tooltip={mockKpiData.cac.tooltip}
-                  dataSources={["Google Ads", "CRM"]}
+                  value={displayData.cac.value}
+                  delta={displayData.cac.delta}
+                  badge={displayData.cac.badge}
+                  hidden={displayData.cac.hidden}
+                  tooltip={displayData.cac.tooltip}
+                  dataSources={displayData.cac.dataSources}
                 />
               </div>
               
@@ -215,8 +265,8 @@ export function OverviewDashboard() {
                   dataSources={["CRM"]}
                 />
               </div>
-            </div>
-            
+              </div>
+            </ErrorBoundary>
 
           </TabsContent>
 

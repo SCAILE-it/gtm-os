@@ -1,10 +1,10 @@
 import { createClient } from '@supabase/supabase-js';
 
 // Supabase configuration
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key';
 
-// Create Supabase client
+// Create Supabase client (with fallback values to prevent build errors)
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // Database table names (matching your schema)
@@ -23,7 +23,10 @@ export const TABLES = {
 
 // Helper function to check if Supabase is configured
 export function isSupabaseConfigured(): boolean {
-  return !!(supabaseUrl && supabaseAnonKey && supabaseUrl !== '' && supabaseAnonKey !== '');
+  const realUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const realKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  return !!(realUrl && realKey && realUrl !== '' && realKey !== '' && 
+           !realUrl.includes('placeholder') && !realKey.includes('placeholder'));
 }
 
 // Helper function to handle Supabase errors
