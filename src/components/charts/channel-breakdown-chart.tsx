@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DataSourceBadge } from "@/components/ui/data-source-badge";
-import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts";
 import { TrendingUp, TrendingDown, PieChart as PieChartIcon, BarChart3, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -65,7 +65,7 @@ export function ChannelBreakdownChart({ data, title, valueLabel, className }: Ch
     setHiddenChannels(newHidden);
   };
 
-  const handleChartClick = (data: any) => {
+  const handleChartClick = (data: { payload?: { channel: string } }) => {
     if (data && data.payload) {
       setSelectedChannel(selectedChannel === data.payload.channel ? null : data.payload.channel);
     }
@@ -161,7 +161,7 @@ export function ChannelBreakdownChart({ data, title, valueLabel, className }: Ch
                     paddingAngle={2}
                     dataKey="value"
                     onClick={handleChartClick}
-                    onMouseEnter={(data: any) => setHoveredChannel(data?.channel)}
+                                            onMouseEnter={(data: { channel?: string }) => setHoveredChannel(data?.channel || null)}
                     onMouseLeave={() => setHoveredChannel(null)}
                   >
                     {visibleData.map((entry, index) => (
@@ -188,7 +188,7 @@ export function ChannelBreakdownChart({ data, title, valueLabel, className }: Ch
                     dataKey="value" 
                     radius={[0, 4, 4, 0]}
                     onClick={handleChartClick}
-                    onMouseEnter={(data: any) => setHoveredChannel(data?.payload?.channel)}
+                                            onMouseEnter={(data: { payload?: { channel: string } }) => setHoveredChannel(data?.payload?.channel || null)}
                     onMouseLeave={() => setHoveredChannel(null)}
                   >
                     {visibleData.map((entry, index) => (

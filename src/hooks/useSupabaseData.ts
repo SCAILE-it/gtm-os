@@ -107,7 +107,7 @@ export function useRealtimeKpiData(): UseKpiDataReturn {
     }, 30000); // 30 seconds
 
     return () => clearInterval(interval);
-  }, [kpiData.data, kpiData.refetch]);
+  }, [kpiData]);
 
   return kpiData;
 }
