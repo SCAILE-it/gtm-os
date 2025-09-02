@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { Badge } from "@/components/ui/badge";
 import { TrendingUp, TrendingDown } from "lucide-react";
 
@@ -33,15 +34,18 @@ const mockFunnelData: FunnelStageData[] = [
   { stage: "Closed", count: 50, conversionRate: 34.0, delta: 22.1, color: "#f59e0b" }
 ];
 
-export function FunnelChart({ data, className }: FunnelChartProps) {
-  // Use mock data if no data provided
-  const funnelData = data.length > 0 ? data : mockFunnelData;
+const FunnelChartComponent = React.memo(function FunnelChart({ data, className }: FunnelChartProps) {
+  // Memoize data processing
+  const funnelData = React.useMemo(() => {
+    return data.length > 0 ? data : mockFunnelData;
+  }, [data]);
   
-  const formatValue = (val: number) => {
+  // Memoize formatting function
+  const formatValue = React.useMemo(() => (val: number) => {
     if (val >= 1000000) return `${(val / 1000000).toFixed(1)}M`;
     if (val >= 1000) return `${(val / 1000).toFixed(1)}K`;
     return val.toLocaleString();
-  };
+  }, []);
 
 
 
@@ -121,4 +125,7 @@ export function FunnelChart({ data, className }: FunnelChartProps) {
       </div>
     </div>
   );
-}
+});
+
+// Export the memoized component
+export const FunnelChart = FunnelChartComponent;

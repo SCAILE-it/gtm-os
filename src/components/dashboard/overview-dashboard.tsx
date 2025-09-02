@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { KpiCard } from "@/components/ui/kpi-card";
 import { FunnelChart } from "@/components/charts/funnel-chart";
 import { ChannelBreakdownChart } from "@/components/charts/channel-breakdown-chart";
@@ -128,6 +128,16 @@ export function OverviewDashboard() {
   const [viewMode, setViewMode] = useState<"kpis" | "funnel" | "channels">("kpis");
   const { data: kpiData, loading, error, retry, isRetrying } = useKpiData();
 
+  // Memoize tab change handler to prevent unnecessary re-renders
+  const handleViewModeChange = useCallback((value: string) => {
+    setViewMode(value as "kpis" | "funnel" | "channels");
+  }, []);
+
+  // Memoize display data to prevent recalculation on every render
+  const displayData = useMemo(() => {
+    return kpiData || mockKpiData;
+  }, [kpiData]);
+
   // Loading state
   if (loading) {
     return <DashboardSkeleton />;
@@ -162,8 +172,7 @@ export function OverviewDashboard() {
     );
   }
 
-  // Use real data if available, fallback to mock data
-  const displayData = kpiData || mockKpiData;
+
 
   return (
     <div className="space-y-6">
@@ -179,7 +188,7 @@ export function OverviewDashboard() {
       <div>
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-semibold">GTM Dashboard</h2>
-          <Tabs value={viewMode} onValueChange={(value) => setViewMode(value as "kpis" | "funnel" | "channels")} className="w-auto">
+          <Tabs value={viewMode} onValueChange={handleViewModeChange} className="w-auto">
             <TabsList className="grid grid-cols-3">
               <TabsTrigger value="kpis" className="gap-2">
                 <TrendingUp className="h-4 w-4" />
@@ -197,7 +206,7 @@ export function OverviewDashboard() {
           </Tabs>
         </div>
 
-        <Tabs value={viewMode} onValueChange={(value) => setViewMode(value as "kpis" | "funnel" | "channels")}>
+        <Tabs value={viewMode} onValueChange={handleViewModeChange}>
           <TabsContent value="kpis" className="h-[600px]">
             <ErrorBoundary>
               {/* CEO KPI Ribbon - Two Rows for Better Spacing */}

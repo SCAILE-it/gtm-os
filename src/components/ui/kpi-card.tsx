@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { DataSourceBadge } from "@/components/ui/data-source-badge";
@@ -19,7 +20,7 @@ interface KpiCardProps {
   dataSources?: ("CRM" | "GA4" | "GSC" | "Google Ads" | "Email" | "LinkedIn" | "PostHog" | "Manual" | "Calculated")[];
 }
 
-export function KpiCard({
+const KpiCardComponent = React.memo(function KpiCard({
   title,
   value,
   delta,
@@ -30,9 +31,8 @@ export function KpiCard({
   className,
   dataSources = []
 }: KpiCardProps) {
-  if (hidden) return null;
-
-  const formatValue = (val: string | number | null) => {
+  // Memoize expensive formatting calculation
+  const formatValue = React.useMemo(() => (val: string | number | null) => {
     if (val === null) return "N/A";
     if (typeof val === "number") {
       if (val >= 1000000) return `${(val / 1000000).toFixed(1)}M`;
@@ -40,13 +40,21 @@ export function KpiCard({
       return val.toLocaleString();
     }
     return val;
-  };
+  }, []);
 
-  const getDeltaIcon = (delta: number) => {
-    if (delta > 0) return <TrendingUp className="h-3 w-3 text-green-600" />;
-    if (delta < 0) return <TrendingDown className="h-3 w-3 text-red-600" />;
-    return <Minus className="h-3 w-3 text-gray-400" />;
-  };
+  // Memoize delta icon calculation
+  const getDeltaIcon = React.useMemo(() => {
+    const DeltaIcon = (delta: number) => {
+      if (delta > 0) return <TrendingUp className="h-3 w-3 text-green-600" />;
+      if (delta < 0) return <TrendingDown className="h-3 w-3 text-red-600" />;
+      return <Minus className="h-3 w-3 text-gray-400" />;
+    };
+    DeltaIcon.displayName = 'DeltaIcon';
+    return DeltaIcon;
+  }, []);
+
+  // Early return after hooks
+  if (hidden) return null;
 
   const getDeltaColor = (delta: number) => {
     if (delta > 0) return "text-green-600";
@@ -131,4 +139,7 @@ export function KpiCard({
       </CardContent>
     </Card>
   );
-}
+});
+
+// Export the memoized component
+export const KpiCard = KpiCardComponent;
