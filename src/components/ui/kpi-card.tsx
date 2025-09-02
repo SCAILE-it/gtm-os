@@ -74,66 +74,76 @@ const KpiCardComponent = React.memo(function KpiCard({
 
   return (
     <Card className={cn("relative overflow-hidden transition-all duration-200 hover:shadow-md hover:border-primary/20 hover:bg-primary/5 cursor-pointer", className)}>
-      <CardContent className="p-4">
-        <div className="flex items-start justify-between">
-          <div className="space-y-1">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <p className="text-sm font-medium text-muted-foreground">{title}</p>
-                {tooltip && (
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <Info className="h-3 w-3 text-muted-foreground" />
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p className="max-w-xs">{tooltip}</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                )}
-              </div>
-              {dataSources.length > 0 && (
-                <DataSourceBadge sources={dataSources} size="sm" />
+      <CardContent className="p-3 sm:p-4">
+        <div className="space-y-3">
+          {/* Header Section */}
+          <div className="flex items-start justify-between gap-2 min-h-[20px]">
+            <div className="flex items-center gap-2 flex-1 min-w-0">
+              <p className="text-xs sm:text-sm font-medium text-muted-foreground truncate">{title}</p>
+              {tooltip && (
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger className="shrink-0">
+                      <Info className="h-3 w-3 text-muted-foreground" />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p className="max-w-xs">{tooltip}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               )}
             </div>
-            
-            <div className="flex items-baseline gap-2">
+            {dataSources.length > 0 && (
+              <div className="shrink-0">
+                <DataSourceBadge sources={dataSources} size="sm" />
+              </div>
+            )}
+          </div>
+          
+          {/* Value and Delta Section */}
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-baseline gap-2 flex-1 min-w-0">
               <p className={cn(
-                "text-2xl font-bold",
+                "text-lg sm:text-xl lg:text-2xl font-bold truncate",
                 value === null || value === "N/A" ? "text-muted-foreground" : "text-foreground"
               )}>
                 {formatValue(value)}
               </p>
               
               {delta !== null && delta !== undefined && (
-                <div className={cn("flex items-center gap-1 text-xs", getDeltaColor(delta))}>
+                <div className={cn("flex items-center gap-1 text-xs shrink-0", getDeltaColor(delta))}>
                   {getDeltaIcon(delta)}
                   <span>{Math.abs(delta).toFixed(1)}%</span>
                 </div>
               )}
             </div>
-          </div>
 
-          {badge && (
-            <Badge variant={getBadgeVariant(badge)} className="text-xs">
-              {badge === "n/a" ? "N/A" : badge.replace("-", " ")}
-            </Badge>
-          )}
+            {badge && (
+              <div className="shrink-0">
+                <Badge variant={getBadgeVariant(badge)} className="text-xs">
+                  {badge === "n/a" ? "N/A" : badge.replace("-", " ")}
+                </Badge>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Simple sparkline placeholder */}
         {sparkline && sparkline.length > 0 && (
-          <div className="mt-4 h-8 flex items-end gap-0.5">
-            {sparkline.slice(-20).map((value, index) => (
-              <div
-                key={index}
-                className="flex-1 bg-muted/60 rounded-sm min-w-[2px]"
-                style={{
-                  height: `${Math.max(2, (value / Math.max(...sparkline)) * 32)}px`
-                }}
-              />
-            ))}
+          <div className="mt-3 h-6 sm:h-8 flex items-end gap-0.5 overflow-hidden">
+            {sparkline.slice(-20).map((value, index) => {
+              const maxValue = Math.max(...sparkline);
+              const heightPercent = Math.max(8, (value / maxValue) * 100);
+              return (
+                <div
+                  key={index}
+                  className="flex-1 bg-muted/60 rounded-sm min-w-[1px] sm:min-w-[2px]"
+                  style={{
+                    height: `${heightPercent}%`
+                  }}
+                />
+              );
+            })}
           </div>
         )}
       </CardContent>

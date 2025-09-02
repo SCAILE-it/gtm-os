@@ -26,7 +26,7 @@ export function MainLayout({ children }: MainLayoutProps) {
           "flex-1 overflow-auto transition-all duration-300",
           sidebarOpen ? "lg:ml-72" : "lg:ml-16"
         )}>
-          <div className="container mx-auto p-6">
+          <div className="container mx-auto p-3 sm:p-4 md:p-6">
             {children}
           </div>
         </main>

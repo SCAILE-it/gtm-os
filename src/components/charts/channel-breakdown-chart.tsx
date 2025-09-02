@@ -146,9 +146,9 @@ export function ChannelBreakdownChart({ data, title, valueLabel, className }: Ch
       </CardHeader>
       
       <CardContent>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
           {/* Chart */}
-          <div className="h-64">
+          <div className="h-48 sm:h-56 md:h-64">
             <ResponsiveContainer width="100%" height="100%">
               {viewMode === "pie" ? (
                 <PieChart>
@@ -209,14 +209,14 @@ export function ChannelBreakdownChart({ data, title, valueLabel, className }: Ch
           
           {/* Interactive Legend & Stats */}
           <div className="space-y-2">
-            <div className="flex items-center justify-between mb-3">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2">
               <h4 className="text-sm font-medium">Channels</h4>
               <div className="flex gap-1">
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={() => setHiddenChannels(new Set())}
-                  className="h-6 px-2 text-xs"
+                  className="h-8 px-3 text-xs touch-manipulation"
                 >
                   Show All
                 </Button>
@@ -224,7 +224,7 @@ export function ChannelBreakdownChart({ data, title, valueLabel, className }: Ch
                   variant="ghost"
                   size="sm"
                   onClick={() => setHiddenChannels(new Set(chartData.map(c => c.channel)))}
-                  className="h-6 px-2 text-xs"
+                  className="h-8 px-3 text-xs touch-manipulation"
                 >
                   Hide All
                 </Button>
@@ -239,7 +239,7 @@ export function ChannelBreakdownChart({ data, title, valueLabel, className }: Ch
               return (
                 <div
                   key={channel.channel}
-                  className={`flex items-center justify-between p-3 rounded-lg border transition-all cursor-pointer ${
+                  className={`flex items-center justify-between p-3 rounded-lg border transition-all cursor-pointer touch-manipulation min-h-[56px] ${
                     isSelected ? 'border-primary bg-primary/5' :
                     isHovered ? 'border-primary/50 bg-primary/5' :
                     isHidden ? 'border-dashed border-muted bg-muted/20 opacity-50' :

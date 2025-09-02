@@ -186,33 +186,33 @@ export function OverviewDashboard() {
 
       {/* Unified GTM Dashboard */}
       <div>
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
           <h2 className="text-xl font-semibold">GTM Dashboard</h2>
           <Tabs value={viewMode} onValueChange={handleViewModeChange} className="w-auto">
-            <TabsList className="grid grid-cols-3">
-              <TabsTrigger value="kpis" className="gap-2">
+            <TabsList className="grid grid-cols-3 h-auto">
+              <TabsTrigger value="kpis" className="gap-2 h-10 px-3 touch-manipulation">
                 <TrendingUp className="h-4 w-4" />
-                KPIs
+                <span className="hidden sm:inline">KPIs</span>
               </TabsTrigger>
-              <TabsTrigger value="funnel" className="gap-2">
+              <TabsTrigger value="funnel" className="gap-2 h-10 px-3 touch-manipulation">
                 <Users className="h-4 w-4" />
-                Funnel
+                <span className="hidden sm:inline">Funnel</span>
               </TabsTrigger>
-              <TabsTrigger value="channels" className="gap-2">
+              <TabsTrigger value="channels" className="gap-2 h-10 px-3 touch-manipulation">
                 <BarChart3 className="h-4 w-4" />
-                Channels
+                <span className="hidden sm:inline">Channels</span>
               </TabsTrigger>
             </TabsList>
           </Tabs>
         </div>
 
         <Tabs value={viewMode} onValueChange={handleViewModeChange}>
-          <TabsContent value="kpis" className="h-[600px]">
+          <TabsContent value="kpis" className="min-h-[600px]">
             <ErrorBoundary>
               {/* CEO KPI Ribbon - Two Rows for Better Spacing */}
               <div className="space-y-8">
               {/* Top Row - Primary Metrics */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                 <KpiCard
                   title="Total Contacts"
                   value={displayData.totalContacts.value}
@@ -250,7 +250,7 @@ export function OverviewDashboard() {
               </div>
               
               {/* Bottom Row - Secondary Metrics */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                 <KpiCard
                   title="Customer LTV (€)"
                   value={mockKpiData.totalLTV.value}
@@ -279,7 +279,7 @@ export function OverviewDashboard() {
 
           </TabsContent>
 
-          <TabsContent value="funnel" className="h-[600px] overflow-hidden">
+          <TabsContent value="funnel" className="min-h-[400px] sm:min-h-[500px] lg:min-h-[600px] overflow-hidden">
             <FunnelChart
               data={[
                 { 
@@ -335,7 +335,7 @@ export function OverviewDashboard() {
             />
           </TabsContent>
 
-          <TabsContent value="channels" className="h-[600px] overflow-hidden">
+          <TabsContent value="channels" className="min-h-[400px] sm:min-h-[500px] lg:min-h-[600px] overflow-hidden">
             <ChannelBreakdownChart
               data={mockChannelData}
               title="Channel Performance"
@@ -346,7 +346,7 @@ export function OverviewDashboard() {
       </div>
 
       {/* Quick Actions - Minimal */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
         <Card className="cursor-pointer hover:shadow-sm transition-shadow" onClick={() => window.location.href = '/admin/recommendations'}>
           <CardContent className="p-4">
             <div className="flex items-center gap-3">

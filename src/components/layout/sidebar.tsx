@@ -128,10 +128,10 @@ export function Sidebar({ open, onClose }: SidebarProps) {
         onMouseLeave={() => !open && setIsHovered(false)}
       >
         {/* Mobile Close Button */}
-        <div className="flex h-14 items-center justify-between px-4 lg:hidden">
-          <span className="font-semibold">Navigation</span>
-          <Button variant="ghost" size="sm" onClick={onClose}>
-            <X className="h-4 w-4" />
+        <div className="flex h-14 items-center justify-between px-4 lg:hidden border-b">
+          <span className="font-semibold text-lg">Navigation</span>
+          <Button variant="ghost" size="sm" onClick={onClose} className="h-10 w-10">
+            <X className="h-5 w-5" />
           </Button>
         </div>
 
@@ -166,7 +166,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
                         <Button
                           variant={isActive ? "secondary" : "ghost"}
                           className={cn(
-                            "w-full justify-start gap-3 p-3 h-auto",
+                            "w-full justify-start gap-3 p-3 h-auto min-h-[44px] touch-manipulation",
                             !open && !isHovered && "lg:justify-center lg:px-2"
                           )}
                         >

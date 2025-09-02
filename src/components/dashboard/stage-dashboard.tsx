@@ -160,7 +160,7 @@ export function StageDashboard({ stage }: StageDashboardProps) {
       {/* KPI Grid */}
       <div>
         <h2 className="text-lg font-semibold mb-4">Stage Metrics</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           {config.metrics.map((metric, index) => (
             <KpiCard
               key={index}

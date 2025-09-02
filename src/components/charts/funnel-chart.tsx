@@ -56,7 +56,7 @@ const FunnelChartComponent = React.memo(function FunnelChart({ data, className }
     <div className={className}>
       {/* Horizontal Funnel - Clean Layout */}
       <div className="w-full h-full">
-        <div className="grid grid-cols-4 gap-4 h-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 h-full">
             {funnelData.map((stage, index) => {
               const nextStage = funnelData[index + 1];
               const conversionToNext = nextStage ? ((nextStage.count / stage.count) * 100) : 100;
