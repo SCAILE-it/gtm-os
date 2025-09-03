@@ -2,11 +2,8 @@ import { supabase, isSupabaseConfigured, handleSupabaseError } from './client';
 import { 
   KpiData, 
   DataSourceStatus, 
-  GA4AcquisitionDaily, 
-  GA4EventsDaily,
-  GA4LandingPageDaily,
-  GSCPageDaily,
-  GSCSitemaps 
+  GA4AcquisitionDaily,
+  ChannelData
 } from './types';
 
 // KPI Data Queries
@@ -79,8 +76,8 @@ async function fetchRealKpiData(): Promise<KpiData | null> {
     
     // Calculate real metrics
     const mockData = getMockKpiData();
-    const totalSessions = ga4Data?.reduce((sum: number, row: any) => 
-      sum + (row.sessions || 0), 0) || 0;
+         const totalSessions = ga4Data?.reduce((sum: number, row: GA4AcquisitionDaily) => 
+       sum + (row.sessions || 0), 0) || 0;
     
     console.log('🔢 Total sessions from real data:', totalSessions);
     
@@ -105,21 +102,7 @@ async function fetchRealKpiData(): Promise<KpiData | null> {
   }
 }
 
-// Helper function to calculate channel breakdown from GA4 data
-function calculateChannelBreakdown(ga4Data: GA4AcquisitionDaily[]) {
-  const channelTotals: Record<string, number> = {};
-  
-  ga4Data.forEach(row => {
-    const channel = row.session_source_medium || 'direct';
-    channelTotals[channel] = (channelTotals[channel] || 0) + (row.sessions || 0);
-  });
 
-  return Object.entries(channelTotals).map(([channel, sessions]) => ({
-    channel,
-    sessions,
-    share: 0 // Calculate percentage later
-  }));
-}
 
 // Data Sources Status
 export async function fetchDataSourcesStatus(): Promise<DataSourceStatus[]> {
@@ -166,28 +149,7 @@ export async function fetchDataSourcesStatus(): Promise<DataSourceStatus[]> {
   }
 }
 
-// Helper functions
-function getDataSourceName(dataSourceId: string): string {
-  const mapping: Record<string, string> = {
-    'gsc': 'Google Search Console',
-    'ga4': 'Google Analytics 4',
-    'google_ads': 'Google Ads',
-    'hubspot': 'HubSpot CRM',
-    'salesforce': 'Salesforce CRM'
-  };
-  return mapping[dataSourceId] || dataSourceId;
-}
 
-function getProviderName(dataSourceId: string): string {
-  const mapping: Record<string, string> = {
-    'gsc': 'Google',
-    'ga4': 'Google',
-    'google_ads': 'Google',
-    'hubspot': 'HubSpot',
-    'salesforce': 'Salesforce'
-  };
-  return mapping[dataSourceId] || 'Unknown';
-}
 
 // Mock data fallbacks (same as before)
 function getMockKpiData(): KpiData {
