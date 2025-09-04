@@ -150,7 +150,7 @@ export function ChannelBreakdownChart({ data, title, valueLabel, className }: Ch
       <CardContent>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
           {/* Chart */}
-          <div className="h-48 sm:h-56 md:h-64">
+          <div className="h-64 sm:h-72 md:h-80 lg:h-64 flex items-center justify-center">
             <ResponsiveContainer width="100%" height="100%">
               {viewMode === "pie" ? (
                 <PieChart>
@@ -210,15 +210,15 @@ export function ChannelBreakdownChart({ data, title, valueLabel, className }: Ch
           </div>
           
           {/* Interactive Legend & Stats */}
-          <div className="space-y-2">
+          <div className="space-y-2 overflow-hidden">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2">
               <h4 className="text-sm font-medium">Channels</h4>
-              <div className="flex gap-1">
+              <div className="flex gap-1 shrink-0">
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={() => setHiddenChannels(new Set())}
-                  className="h-8 px-3 text-xs touch-manipulation"
+                  className="h-8 px-2 sm:px-3 text-xs touch-manipulation"
                 >
                   Show All
                 </Button>
@@ -226,7 +226,7 @@ export function ChannelBreakdownChart({ data, title, valueLabel, className }: Ch
                   variant="ghost"
                   size="sm"
                   onClick={() => setHiddenChannels(new Set(chartData.map(c => c.channel)))}
-                  className="h-8 px-3 text-xs touch-manipulation"
+                  className="h-8 px-2 sm:px-3 text-xs touch-manipulation"
                 >
                   Hide All
                 </Button>
@@ -241,7 +241,7 @@ export function ChannelBreakdownChart({ data, title, valueLabel, className }: Ch
               return (
                 <div
                   key={channel.channel}
-                  className={`flex items-center justify-between p-3 rounded-lg border transition-all cursor-pointer touch-manipulation min-h-[56px] ${
+                  className={`flex items-center justify-between p-2 sm:p-3 rounded-lg border transition-all cursor-pointer touch-manipulation min-h-[48px] sm:min-h-[56px] ${
                     isSelected ? 'border-primary bg-primary/5' :
                     isHovered ? 'border-primary/50 bg-primary/5' :
                     isHidden ? 'border-dashed border-muted bg-muted/20 opacity-50' :
@@ -251,8 +251,8 @@ export function ChannelBreakdownChart({ data, title, valueLabel, className }: Ch
                   onMouseEnter={() => setHoveredChannel(channel.channel)}
                   onMouseLeave={() => setHoveredChannel(null)}
                 >
-                    <div className="flex items-center gap-3">
-                      <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
+                      <div className="flex items-center gap-2 shrink-0">
                         <div 
                           className={`w-3 h-3 rounded-full transition-all ${isHidden ? 'opacity-30' : ''}`}
                           style={{ backgroundColor: channel.color || COLORS[index % COLORS.length] }}
@@ -273,8 +273,8 @@ export function ChannelBreakdownChart({ data, title, valueLabel, className }: Ch
                           )}
                         </Button>
                       </div>
-                      <div>
-                        <p className={`font-medium text-sm transition-colors ${isHidden ? 'text-muted-foreground' : 'text-foreground'}`}>
+                      <div className="min-w-0 flex-1">
+                        <p className={`font-medium text-sm transition-colors truncate ${isHidden ? 'text-muted-foreground' : 'text-foreground'}`}>
                           {channel.channel}
                         </p>
                         <p className="text-xs text-muted-foreground">
@@ -282,18 +282,18 @@ export function ChannelBreakdownChart({ data, title, valueLabel, className }: Ch
                         </p>
                       </div>
                       {isSelected && (
-                        <Badge variant="secondary" className="text-xs">
+                        <Badge variant="secondary" className="text-xs shrink-0">
                           Selected
                         </Badge>
                       )}
                     </div>
                     
-                    <div className="text-right">
+                    <div className="text-right shrink-0">
                       <p className={`font-medium text-sm ${isHidden ? 'text-muted-foreground' : 'text-foreground'}`}>
                         {formatValue(channel.value)}
                       </p>
                       {channel.delta && (
-                        <div className={`flex items-center gap-1 text-xs ${
+                        <div className={`flex items-center justify-end gap-1 text-xs ${
                           channel.delta > 0 ? 'text-green-600' : 'text-red-600'
                         }`}>
                           <span suppressHydrationWarning>
