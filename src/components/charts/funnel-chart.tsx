@@ -54,21 +54,22 @@ const FunnelChartComponent = React.memo(function FunnelChart({ data, className }
 
   return (
     <div className={className}>
-      {/* Horizontal Funnel - Clean Layout */}
-      <div className="w-full h-full">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 h-full">
+      {/* Horizontal Funnel - Responsive Layout */}
+      <div className="w-full h-full overflow-hidden">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 h-full">
             {funnelData.map((stage, index) => {
               const nextStage = funnelData[index + 1];
               const conversionToNext = nextStage ? ((nextStage.count / stage.count) * 100) : 100;
               
               const isSelected = selectedStage === stage.stage;
               const isHovered = hoveredStage === stage.stage;
+              const isLast = index === funnelData.length - 1;
               
               return (
-                <div key={stage.stage} className="relative">
+                <div key={stage.stage} className="relative w-full">
                   {/* Stage Card - Interactive */}
                   <div 
-                    className={`p-6 border rounded-xl h-full flex flex-col justify-between cursor-pointer transition-all duration-200 ${
+                    className={`p-4 sm:p-6 border rounded-xl h-full flex flex-col justify-between cursor-pointer transition-all duration-200 ${
                       isSelected ? 'border-primary bg-primary/5 shadow-lg scale-105' :
                       isHovered ? 'border-primary/50 bg-primary/5 shadow-md' :
                       'border-border bg-background/50 hover:border-border/80 hover:bg-background/70'
@@ -78,55 +79,65 @@ const FunnelChartComponent = React.memo(function FunnelChart({ data, className }
                     onMouseLeave={() => setHoveredStage(null)}
                   >
                     {/* Stage Header */}
-                    <div className="mb-6">
-                      <div className="flex items-center gap-3 mb-3">
+                    <div className="mb-4 sm:mb-6">
+                      <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
                         <div 
-                          className="w-3 h-3 rounded-full"
+                          className="w-3 h-3 rounded-full shrink-0"
                           style={{ backgroundColor: stage.color }}
                         />
-                        <span className="font-semibold text-lg">{stage.stage}</span>
+                        <span className="font-semibold text-base sm:text-lg truncate">{stage.stage}</span>
                       </div>
-                      <div className="flex items-baseline gap-3">
-                        <div className="text-4xl font-bold">{formatValue(stage.count)}</div>
+                      <div className="flex items-baseline gap-2 sm:gap-3 flex-wrap">
+                        <div className="text-2xl sm:text-3xl lg:text-4xl font-bold">{formatValue(stage.count)}</div>
                         {stage.delta && (
-                                                    <Badge
+                          <Badge
                             variant={stage.delta > 0 ? "default" : "destructive"}
-                            className="gap-1"
+                            className="gap-1 shrink-0"
                           >
                             <span suppressHydrationWarning>
-                              {stage.delta > 0 ? <TrendingUp className="h-4 w-4" /> : <TrendingDown className="h-4 w-4" />}
+                              {stage.delta > 0 ? <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4" /> : <TrendingDown className="h-3 w-3 sm:h-4 sm:w-4" />}
                             </span>
                             {Math.abs(stage.delta).toFixed(0)}%
                           </Badge>
                         )}
                       </div>
+                      
+                      {/* Conversion Rate - Mobile Friendly */}
+                      {nextStage && (
+                        <div className="mt-2 sm:mt-3 lg:hidden">
+                          <div className="inline-flex items-center gap-1 bg-green-50 dark:bg-green-950 text-green-700 dark:text-green-400 px-2 py-1 rounded-md text-xs font-medium">
+                            <TrendingUp className="h-3 w-3" />
+                            {conversionToNext.toFixed(0)}% conversion
+                          </div>
+                        </div>
+                      )}
                     </div>
 
-                    {/* Stage Bullets - Spacious */}
+                    {/* Stage Bullets - Responsive */}
                     {stage.bullets && (
-                      <div className="space-y-4 flex-1">
+                      <div className="space-y-3 sm:space-y-4 flex-1">
                         {stage.bullets.slice(0, 3).map((bullet, bulletIndex) => (
                           <div key={bulletIndex} className="space-y-1">
-                            <div className="flex items-center justify-between">
-                              <span className="text-sm text-muted-foreground">{bullet.label}</span>
+                            <div className="flex items-start justify-between gap-2">
+                              <span className="text-xs sm:text-sm text-muted-foreground leading-tight flex-1 min-w-0">{bullet.label}</span>
                               {bullet.delta !== null && bullet.delta !== undefined && (
-                                <span className={`text-sm font-medium ${
+                                <span className={`text-xs sm:text-sm font-medium shrink-0 ${
                                   bullet.delta > 0 ? 'text-green-600' : 'text-red-600'
                                 }`}>
                                   {bullet.delta > 0 ? '↗' : '↘'}{Math.abs(bullet.delta)}%
                                 </span>
                               )}
                             </div>
-                            <div className="text-base font-semibold">{bullet.value}</div>
+                            <div className="text-sm sm:text-base font-semibold truncate">{bullet.value}</div>
                           </div>
                         ))}
                       </div>
                     )}
                   </div>
 
-                  {/* Conversion Arrow - Positioned absolutely */}
-                  {nextStage && (
-                    <div className="absolute -right-4 top-1/2 transform -translate-y-1/2 z-10">
+                  {/* Conversion Arrow - Desktop Only, Safe Positioning */}
+                  {nextStage && !isLast && (
+                    <div className="hidden lg:block absolute -right-3 top-1/2 transform -translate-y-1/2 z-10">
                       <div className="flex flex-col items-center bg-background border rounded-lg px-2 py-1 shadow-sm">
                         <TrendingUp className="h-3 w-3 text-green-600" />
                         <span className="text-xs font-medium text-green-700 dark:text-green-400">
