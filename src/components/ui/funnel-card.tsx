@@ -98,7 +98,9 @@ export function FunnelCard({
                   <span className="font-medium">{bullet.value}</span>
                   {bullet.delta !== null && bullet.delta !== undefined && (
                     <div className={cn("flex items-center gap-0.5", getDeltaColor(bullet.delta))}>
-                      {getDeltaIcon(bullet.delta)}
+                      <span suppressHydrationWarning>
+                        {getDeltaIcon(bullet.delta)}
+                      </span>
                       <span>{Math.abs(bullet.delta).toFixed(0)}%</span>
                     </div>
                   )}

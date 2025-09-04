@@ -33,11 +33,17 @@ interface TimeSeriesChartProps {
   className?: string;
 }
 
-// Generate mock data for demonstration
+// Seeded random function for consistent but realistic data
+const seededRandom = (seed: number) => {
+  const x = Math.sin(seed) * 10000;
+  return x - Math.floor(x);
+};
+
+// Generate realistic mock data that's consistent across server/client
 const generateMockData = (days: number = 30): TimeSeriesDataPoint[] => {
   const data: TimeSeriesDataPoint[] = [];
-  const startDate = new Date();
-  startDate.setDate(startDate.getDate() - days);
+  const today = new Date();
+  const startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - days);
   
   let cumulative = 0;
   
@@ -45,9 +51,9 @@ const generateMockData = (days: number = 30): TimeSeriesDataPoint[] => {
     const date = new Date(startDate);
     date.setDate(date.getDate() + i);
     
-    // Generate realistic GTM data with some trend and variance
+    // Generate realistic GTM data with seeded variance for consistency
     const baseValue = 50 + Math.sin(i / 7) * 20; // Weekly pattern
-    const variance = (Math.random() - 0.5) * 20;
+    const variance = (seededRandom(i * 1.7) - 0.5) * 20; // Seeded "random" variance
     const trend = i * 2; // Growth trend
     const value = Math.max(0, Math.round(baseValue + variance + trend));
     
@@ -103,7 +109,9 @@ export function TimeSeriesChart({
             <CardTitle className="text-lg">{title}</CardTitle>
             {deltaPercent !== 0 && (
               <Badge variant={deltaPercent > 0 ? "default" : "destructive"} className="gap-1">
-                {deltaPercent > 0 ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
+                <span suppressHydrationWarning>
+                  {deltaPercent > 0 ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
+                </span>
                 {Math.abs(deltaPercent).toFixed(1)}%
               </Badge>
             )}

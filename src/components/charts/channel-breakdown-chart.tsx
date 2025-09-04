@@ -92,11 +92,13 @@ export function ChannelBreakdownChart({ data, title, valueLabel, className }: Ch
             </p>
             {data.delta && (
               <div className="flex items-center gap-1">
-                {data.delta > 0 ? (
-                  <TrendingUp className="h-3 w-3 text-green-500" />
-                ) : (
-                  <TrendingDown className="h-3 w-3 text-red-500" />
-                )}
+                <span suppressHydrationWarning>
+                  {data.delta > 0 ? (
+                    <TrendingUp className="h-3 w-3 text-green-500" />
+                  ) : (
+                    <TrendingDown className="h-3 w-3 text-red-500" />
+                  )}
+                </span>
                 <p className={`text-sm font-medium ${data.delta > 0 ? 'text-green-600' : 'text-red-600'}`}>
                   {data.delta > 0 ? '+' : ''}{data.delta.toFixed(1)}% vs last period
                 </p>
@@ -294,7 +296,9 @@ export function ChannelBreakdownChart({ data, title, valueLabel, className }: Ch
                         <div className={`flex items-center gap-1 text-xs ${
                           channel.delta > 0 ? 'text-green-600' : 'text-red-600'
                         }`}>
-                          {channel.delta > 0 ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
+                          <span suppressHydrationWarning>
+                            {channel.delta > 0 ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
+                          </span>
                           {Math.abs(channel.delta).toFixed(1)}%
                         </div>
                       )}

@@ -89,11 +89,13 @@ const FunnelChartComponent = React.memo(function FunnelChart({ data, className }
                       <div className="flex items-baseline gap-3">
                         <div className="text-4xl font-bold">{formatValue(stage.count)}</div>
                         {stage.delta && (
-                          <Badge 
-                            variant={stage.delta > 0 ? "default" : "destructive"} 
+                                                    <Badge
+                            variant={stage.delta > 0 ? "default" : "destructive"}
                             className="gap-1"
                           >
-                            {stage.delta > 0 ? <TrendingUp className="h-4 w-4" /> : <TrendingDown className="h-4 w-4" />}
+                            <span suppressHydrationWarning>
+                              {stage.delta > 0 ? <TrendingUp className="h-4 w-4" /> : <TrendingDown className="h-4 w-4" />}
+                            </span>
                             {Math.abs(stage.delta).toFixed(0)}%
                           </Badge>
                         )}

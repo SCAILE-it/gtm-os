@@ -207,7 +207,7 @@ function getMockKpiData(): KpiData {
 }
 
 // Channel Data for Charts
-export async function fetchChannelData() {
+export async function fetchChannelData(): Promise<ChannelData[]> {
   if (!isSupabaseConfigured()) {
     return getMockChannelData();
   }

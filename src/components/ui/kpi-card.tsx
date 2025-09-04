@@ -112,7 +112,9 @@ const KpiCardComponent = React.memo(function KpiCard({
               
               {delta !== null && delta !== undefined && (
                 <div className={cn("flex items-center gap-1 text-xs shrink-0", getDeltaColor(delta))}>
-                  {getDeltaIcon(delta)}
+                  <span suppressHydrationWarning>
+                    {getDeltaIcon(delta)}
+                  </span>
                   <span>{Math.abs(delta).toFixed(1)}%</span>
                 </div>
               )}

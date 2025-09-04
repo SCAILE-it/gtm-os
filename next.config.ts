@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
     turbo: undefined, // Disable turbopack to avoid path issues
   },
   // Disable turbopack entirely
-  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+  webpack: (config) => {
     return config;
   },
 };

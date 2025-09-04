@@ -82,13 +82,26 @@ const mockExposureData = [
   }
 ];
 
-const mockChartData = Array.from({ length: 30 }, (_, i) => ({
-  date: new Date(Date.now() - (29 - i) * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-  seo_impressions: 1500 + Math.random() * 500,
-  ads_impressions: 400 + Math.random() * 200,
-  linkedin_impressions: 300 + Math.random() * 150,
-  newsletter_opens: 180 + Math.random() * 80
-}));
+// Seeded random function for consistent but realistic data
+const seededRandom = (seed: number) => {
+  const x = Math.sin(seed) * 10000;
+  return x - Math.floor(x);
+};
+
+const mockChartData = Array.from({ length: 30 }, (_, i) => {
+  // Use current date but make it deterministic by using a fixed reference
+  const today = new Date();
+  const baseDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - (29 - i));
+  
+  // Use seeded random for consistent but natural-looking variance
+  return {
+    date: baseDate.toISOString().split('T')[0],
+    seo_impressions: Math.round(1500 + seededRandom(i * 1.1) * 500),
+    ads_impressions: Math.round(400 + seededRandom(i * 2.3) * 200),
+    linkedin_impressions: Math.round(300 + seededRandom(i * 3.7) * 150),
+    newsletter_opens: Math.round(180 + seededRandom(i * 4.9) * 80)
+  };
+});
 
 export function ExposureRail({ metrics, chartData, className }: ExposureRailProps) {
   // Use mock data if no data provided
@@ -160,7 +173,9 @@ export function ExposureRail({ metrics, chartData, className }: ExposureRailProp
                           <div className={`flex items-center ${
                             metric.delta > 0 ? 'text-green-600' : 'text-red-600'
                           }`}>
-                            {metric.delta > 0 ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
+                            <span suppressHydrationWarning>
+                              {metric.delta > 0 ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
+                            </span>
                             <span className="text-xs">{Math.abs(metric.delta)}%</span>
                           </div>
                         </div>
