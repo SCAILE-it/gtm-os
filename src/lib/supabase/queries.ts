@@ -5,27 +5,39 @@ import {
   GA4AcquisitionDaily,
   ChannelData
 } from './types';
+import { 
+  fetchEdgeFunctionData, 
+  mapEdgeKpisToKpiData, 
+  mapEdgeDataSourcesToStatus,
+  mapEdgeChannelData
+} from './edge-client';
 
 // KPI Data Queries
 export async function fetchKpiData(): Promise<KpiData> {
-  if (!isSupabaseConfigured()) {
-    console.warn('Supabase not configured, using mock data');
-    return getMockKpiData();
-  }
-
   try {
-    // Try to fetch real data from Supabase
-    const kpiData = await fetchRealKpiData();
+    // First try to fetch from edge function
+    console.log('🚀 Attempting to fetch from edge function...');
+    const edgeData = await fetchEdgeFunctionData();
     
-    // If no data available yet, fall back to mock data
-    if (!kpiData) {
-      console.info('No data in Supabase yet, using mock data');
-      return getMockKpiData();
+    if (edgeData && edgeData.kpis) {
+      console.log('✅ Edge function data available, using real data');
+      return mapEdgeKpisToKpiData(edgeData.kpis);
     }
     
-    return kpiData;
+    console.log('⚠️ Edge function failed, trying direct Supabase...');
+    
+    // Fallback to direct Supabase if configured
+    if (isSupabaseConfigured()) {
+      const kpiData = await fetchRealKpiData();
+      if (kpiData) {
+        return kpiData;
+      }
+    }
+    
+    console.log('📊 Using mock data fallback');
+    return getMockKpiData();
   } catch (error) {
-    console.error('Supabase query failed:', handleSupabaseError(error));
+    console.error('❌ All data sources failed:', error);
     return getMockKpiData();
   }
 }
@@ -106,11 +118,20 @@ async function fetchRealKpiData(): Promise<KpiData | null> {
 
 // Data Sources Status
 export async function fetchDataSourcesStatus(): Promise<DataSourceStatus[]> {
-  if (!isSupabaseConfigured()) {
-    return getMockDataSources();
-  }
-
   try {
+    // First try to get status from edge function
+    const edgeData = await fetchEdgeFunctionData();
+    
+    if (edgeData && edgeData.dataSources) {
+      console.log('✅ Data sources from edge function');
+      return mapEdgeDataSourcesToStatus(edgeData.dataSources);
+    }
+    
+    // Fallback to direct Supabase check
+    if (!isSupabaseConfigured()) {
+      return getMockDataSources();
+    }
+
     // Check if we have data in our tables to determine connection status
     const [ga4Check, gscCheck] = await Promise.all([
       supabase.from('ga4_acquisition_daily').select('id').limit(1),
@@ -208,11 +229,20 @@ function getMockKpiData(): KpiData {
 
 // Channel Data for Charts
 export async function fetchChannelData(): Promise<ChannelData[]> {
-  if (!isSupabaseConfigured()) {
-    return getMockChannelData();
-  }
-
   try {
+    // First try to get channel data from edge function
+    const edgeData = await fetchEdgeFunctionData();
+    
+    if (edgeData && edgeData.charts && edgeData.charts.topLandingPages) {
+      console.log('✅ Channel data from edge function');
+      return mapEdgeChannelData(edgeData.charts.topLandingPages);
+    }
+    
+    // Fallback to direct Supabase
+    if (!isSupabaseConfigured()) {
+      return getMockChannelData();
+    }
+
     const { data: ga4Data, error } = await supabase
       .from('ga4_acquisition_daily')
       .select('session_source_medium, sessions, users')
