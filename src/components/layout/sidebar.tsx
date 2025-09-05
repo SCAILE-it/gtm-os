@@ -22,6 +22,7 @@ import {
 interface SidebarProps {
   open: boolean;
   onClose: () => void;
+  isAdminLayout?: boolean;
 }
 
 const navigationSections = [
@@ -94,7 +95,7 @@ const navigationSections = [
   }
 ];
 
-export function Sidebar({ open, onClose }: SidebarProps) {
+export function Sidebar({ open, onClose, isAdminLayout = false }: SidebarProps) {
   const pathname = usePathname();
   const [expandedSections, setExpandedSections] = useState<string[]>(["Overview", "Stages", "Admin"]);
   const [isHovered, setIsHovered] = useState(false);
@@ -112,7 +113,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
       {/* Mobile Overlay */}
       {open && (
         <div
-          className="fixed inset-0 z-40 bg-black/20 backdrop-blur-sm lg:hidden"
+          className="fixed inset-0 z-[60] bg-black/20 backdrop-blur-sm lg:hidden"
           onClick={onClose}
         />
       )}
@@ -120,7 +121,8 @@ export function Sidebar({ open, onClose }: SidebarProps) {
       {/* Sidebar */}
       <aside 
         className={cn(
-          "fixed left-0 top-16 z-50 h-[calc(100vh-4rem)] transform border-r bg-background transition-all duration-300 lg:translate-x-0 flex flex-col",
+          "fixed left-0 z-[70] transform border-r bg-background transition-all duration-300 lg:translate-x-0 flex flex-col",
+          isAdminLayout ? "top-0 h-screen" : "top-16 h-[calc(100vh-4rem)]",
           open ? "translate-x-0 w-72" : "-translate-x-full lg:translate-x-0",
           !open && "lg:w-16 lg:hover:w-72"
         )}

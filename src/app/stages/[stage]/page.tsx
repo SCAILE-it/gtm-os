@@ -1,4 +1,5 @@
 import { StageDashboard } from "@/components/dashboard/stage-dashboard";
+import { DashboardLayout } from "@/components/layout/dashboard-layout";
 import { notFound } from "next/navigation";
 
 const validStages = ["first-touch", "qualified", "opportunity", "closed"];
@@ -16,7 +17,11 @@ export default async function StagePage({ params }: StagePageProps) {
     notFound();
   }
 
-  return <StageDashboard stage={stage as "first-touch" | "qualified" | "opportunity" | "closed"} />;
+  return (
+    <DashboardLayout>
+      <StageDashboard stage={stage as "first-touch" | "qualified" | "opportunity" | "closed"} />
+    </DashboardLayout>
+  );
 }
 
 export function generateStaticParams() {
