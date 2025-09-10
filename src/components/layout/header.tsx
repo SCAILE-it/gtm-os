@@ -34,10 +34,14 @@ export function Header({ onMenuClick }: HeaderProps) {
           </Button>
           
           <div className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
-              <Activity className="h-4 w-4 text-white" />
+            <div className="h-8 w-8 flex items-center justify-center">
+              <img 
+                src="/icon-outlined-2563EB.svg" 
+                alt="GTM Dashboard Logo" 
+                className="h-8 w-8"
+              />
             </div>
-            <span className="font-semibold">Hi, {user.name}</span>
+            <span className="font-semibold">GTM Dashboard</span>
           </div>
         </div>
 

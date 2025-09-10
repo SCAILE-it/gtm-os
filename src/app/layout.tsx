@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "GTM Dashboard - Hi, Tilman",
-  description: "Personalized Go-to-Market Analytics Dashboard",
+  title: "GTM Dashboard",
+  description: "Go-to-Market Analytics Dashboard",
 };
 
 export default function RootLayout({
