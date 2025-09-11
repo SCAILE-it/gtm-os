@@ -187,7 +187,6 @@ export function OverviewDashboard() {
       {/* Unified GTM Dashboard */}
       <div>
         <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
-          <h2 className="text-xl font-semibold">GTM Dashboard</h2>
           <Tabs value={viewMode} onValueChange={handleViewModeChange} className="w-auto">
             <TabsList className="grid grid-cols-3 h-auto">
               <TabsTrigger value="kpis" className="gap-2 h-10 px-3 touch-manipulation">
