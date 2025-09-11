@@ -30,10 +30,10 @@ const stageColors = {
 };
 
 const stageBorders = {
-  "first-touch": "border-l-4 border-l-slate-400",
-  "qualified": "border-l-4 border-l-slate-500",
-  "opportunity": "border-l-4 border-l-slate-600", 
-  "closed": "border-l-4 border-l-slate-700"
+  "first-touch": "border-l-4 border-l-blue-500", // scaile blue for consistency
+  "qualified": "border-l-4 border-l-purple-500",
+  "opportunity": "border-l-4 border-l-green-500", 
+  "closed": "border-l-4 border-l-orange-500"
 };
 
 export function FunnelCard({

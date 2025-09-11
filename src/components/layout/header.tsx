@@ -41,7 +41,7 @@ export function Header({ onMenuClick }: HeaderProps) {
                 className="h-8 w-8"
               />
             </div>
-            <span className="font-semibold">GTM Dashboard</span>
+            <span className="font-heading text-lg">GTM Dashboard</span>
           </div>
         </div>
 

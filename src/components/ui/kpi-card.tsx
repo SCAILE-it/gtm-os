@@ -45,8 +45,8 @@ const KpiCardComponent = React.memo(function KpiCard({
   // Memoize delta icon calculation
   const getDeltaIcon = React.useMemo(() => {
     const DeltaIcon = (delta: number) => {
-      if (delta > 0) return <TrendingUp className="h-3 w-3 text-green-600" />;
-      if (delta < 0) return <TrendingDown className="h-3 w-3 text-red-600" />;
+      if (delta > 0) return <TrendingUp className="h-3 w-3 text-scaile-green" />;
+      if (delta < 0) return <TrendingDown className="h-3 w-3 text-scaile-pink" />;
       return <Minus className="h-3 w-3 text-gray-400" />;
     };
     DeltaIcon.displayName = 'DeltaIcon';
@@ -57,8 +57,8 @@ const KpiCardComponent = React.memo(function KpiCard({
   if (hidden) return null;
 
   const getDeltaColor = (delta: number) => {
-    if (delta > 0) return "text-green-600";
-    if (delta < 0) return "text-red-600";
+    if (delta > 0) return "text-scaile-green";
+    if (delta < 0) return "text-scaile-pink";  
     return "text-gray-400";
   };
 
