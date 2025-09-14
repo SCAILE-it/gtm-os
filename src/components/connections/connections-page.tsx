@@ -783,6 +783,7 @@ export function ConnectionsPage() {
           </div>
         </CardContent>
       </Card>
+      </div>
     </div>
   );
 }
