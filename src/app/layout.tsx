@@ -11,8 +11,40 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "SCAILE Agentic Growth Engine",
-  description: "AI-Powered Go-to-Market Analytics Dashboard",
+  title: "SCAILE GTM Operating System",
+  description: "AI-Powered Go-to-Market Operating System - Your complete GTM stack in one platform",
+  keywords: ["GTM", "Go-to-Market", "AI", "Operating System", "Analytics", "CRM", "Marketing"],
+  authors: [{ name: "SCAILE", url: "https://scaile.com" }],
+  creator: "SCAILE",
+  publisher: "SCAILE",
+  openGraph: {
+    title: "SCAILE GTM Operating System",
+    description: "AI-Powered Go-to-Market Operating System - Your complete GTM stack in one platform",
+    url: "https://gtm.scaile.com",
+    siteName: "SCAILE GTM OS",
+    images: [
+      {
+        url: "/scaile-logo.svg",
+        width: 1200,
+        height: 630,
+        alt: "SCAILE GTM Operating System",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "SCAILE GTM Operating System",
+    description: "AI-Powered Go-to-Market Operating System - Your complete GTM stack in one platform",
+    images: ["/scaile-logo.svg"],
+    creator: "@scaile_it",
+  },
+  icons: {
+    icon: "/scaile-logo.svg",
+    shortcut: "/scaile-logo.svg",
+    apple: "/scaile-logo.svg",
+  },
 };
 
 export default function RootLayout({
