@@ -11,6 +11,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://gtm-agentic-dashboard.vercel.app'),
   title: "SCAILE GTM Operating System",
   description: "AI-Powered Go-to-Market Operating System - Your complete GTM stack in one platform",
   keywords: ["GTM", "Go-to-Market", "AI", "Operating System", "Analytics", "CRM", "Marketing"],
