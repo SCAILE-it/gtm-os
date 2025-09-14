@@ -22,7 +22,10 @@ import {
   Globe,
   Users,
   MessageSquare,
-  Calendar
+  Calendar,
+  Search,
+  Filter,
+  ArrowRight
 } from "lucide-react";
 import { SourceLogo } from "@/components/ui/source-logo";
 import { cn } from "@/lib/utils";
@@ -246,6 +249,9 @@ export function ConnectionsPage() {
   ]);
 
   const [testingConnection, setTestingConnection] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedStage, setSelectedStage] = useState<string>("all");
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
   const getStatusColor = (status: DataConnection["status"]) => {
     switch (status) {
@@ -347,7 +353,29 @@ export function ConnectionsPage() {
     .filter(conn => conn.recordCount)
     .reduce((sum, conn) => sum + (conn.recordCount || 0), 0);
 
-  const groupedConnections = availableConnections.reduce((groups, connection) => {
+  // Map tools to funnel stages
+  const stageMapping = {
+    "awareness": ["Google Ads", "Facebook Ads", "LinkedIn Ads"],
+    "interest": ["Google Analytics 4", "Mixpanel", "Amplitude", "Segment"],
+    "consideration": ["Typeform", "Klaviyo", "Mailchimp"],
+    "conversion": ["HubSpot", "Salesforce", "Pipedrive", "Airtable"],
+    "retention": ["Stripe", "Shopify", "Intercom", "Zendesk", "Notion"]
+  };
+
+  // Filter tools based on search and stage
+  const filteredConnections = availableConnections.filter(conn => {
+    const matchesSearch = conn.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         conn.description.toLowerCase().includes(searchQuery.toLowerCase());
+    
+    const matchesStage = selectedStage === "all" || 
+                        stageMapping[selectedStage as keyof typeof stageMapping]?.includes(conn.name);
+    
+    const matchesCategory = selectedCategory === "all" || conn.category === selectedCategory;
+    
+    return matchesSearch && matchesStage && matchesCategory;
+  });
+
+  const groupedConnections = filteredConnections.reduce((groups, connection) => {
     const category = connection.category;
     if (!groups[category]) {
       groups[category] = [];
@@ -414,8 +442,170 @@ export function ConnectionsPage() {
         </Card>
       </div>
 
-      {/* Connection Categories */}
-      {Object.entries(groupedConnections).map(([category, connections]) => (
+      {/* Funnel Flow Visualization - Top Section */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Zap className="h-5 w-5 text-primary" />
+            GTM Funnel Flow
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center justify-between p-6 bg-gradient-to-r from-red-50 via-yellow-50 to-green-50 dark:from-red-950/20 dark:via-yellow-950/20 dark:to-green-950/20 rounded-lg">
+            {/* Awareness */}
+            <div className="text-center">
+              <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mb-2">
+                <span className="text-2xl">🎯</span>
+              </div>
+              <h3 className="font-semibold text-sm">Awareness</h3>
+              <p className="text-xs text-muted-foreground">Drive Traffic</p>
+              <div className="mt-2 text-xs font-medium">
+                {stageMapping.awareness.filter(tool => 
+                  availableConnections.find(conn => conn.name === tool)?.status === "connected"
+                ).length}/{stageMapping.awareness.length} connected
+              </div>
+            </div>
+
+            <ArrowRight className="h-6 w-6 text-muted-foreground" />
+
+            {/* Interest */}
+            <div className="text-center">
+              <div className="w-16 h-16 bg-orange-100 dark:bg-orange-900/30 rounded-full flex items-center justify-center mb-2">
+                <span className="text-2xl">👀</span>
+              </div>
+              <h3 className="font-semibold text-sm">Interest</h3>
+              <p className="text-xs text-muted-foreground">Track Behavior</p>
+              <div className="mt-2 text-xs font-medium">
+                {stageMapping.interest.filter(tool => 
+                  availableConnections.find(conn => conn.name === tool)?.status === "connected"
+                ).length}/{stageMapping.interest.length} connected
+              </div>
+            </div>
+
+            <ArrowRight className="h-6 w-6 text-muted-foreground" />
+
+            {/* Consideration */}
+            <div className="text-center">
+              <div className="w-16 h-16 bg-yellow-100 dark:bg-yellow-900/30 rounded-full flex items-center justify-center mb-2">
+                <span className="text-2xl">🤔</span>
+              </div>
+              <h3 className="font-semibold text-sm">Consideration</h3>
+              <p className="text-xs text-muted-foreground">Nurture Leads</p>
+              <div className="mt-2 text-xs font-medium">
+                {stageMapping.consideration.filter(tool => 
+                  availableConnections.find(conn => conn.name === tool)?.status === "connected"
+                ).length}/{stageMapping.consideration.length} connected
+              </div>
+            </div>
+
+            <ArrowRight className="h-6 w-6 text-muted-foreground" />
+
+            {/* Conversion */}
+            <div className="text-center">
+              <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mb-2">
+                <span className="text-2xl">💰</span>
+              </div>
+              <h3 className="font-semibold text-sm">Conversion</h3>
+              <p className="text-xs text-muted-foreground">Close Sales</p>
+              <div className="mt-2 text-xs font-medium">
+                {stageMapping.conversion.filter(tool => 
+                  availableConnections.find(conn => conn.name === tool)?.status === "connected"
+                ).length}/{stageMapping.conversion.length} connected
+              </div>
+            </div>
+
+            <ArrowRight className="h-6 w-6 text-muted-foreground" />
+
+            {/* Retention */}
+            <div className="text-center">
+              <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-2">
+                <span className="text-2xl">🔄</span>
+              </div>
+              <h3 className="font-semibold text-sm">Retention</h3>
+              <p className="text-xs text-muted-foreground">Keep Customers</p>
+              <div className="mt-2 text-xs font-medium">
+                {stageMapping.retention.filter(tool => 
+                  availableConnections.find(conn => conn.name === tool)?.status === "connected"
+                ).length}/{stageMapping.retention.length} connected
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Search and Filter Controls */}
+      <Card>
+        <CardContent className="p-4">
+          <div className="flex items-center gap-4">
+            {/* Search */}
+            <div className="flex-1 relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search tools..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10"
+              />
+            </div>
+
+            {/* Stage Filter */}
+            <Button
+              variant={selectedStage === "all" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setSelectedStage("all")}
+            >
+              All Stages
+            </Button>
+            <Button
+              variant={selectedStage === "awareness" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setSelectedStage("awareness")}
+            >
+              🎯 Awareness
+            </Button>
+            <Button
+              variant={selectedStage === "interest" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setSelectedStage("interest")}
+            >
+              👀 Interest
+            </Button>
+            <Button
+              variant={selectedStage === "consideration" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setSelectedStage("consideration")}
+            >
+              🤔 Consideration
+            </Button>
+            <Button
+              variant={selectedStage === "conversion" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setSelectedStage("conversion")}
+            >
+              💰 Conversion
+            </Button>
+            <Button
+              variant={selectedStage === "retention" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setSelectedStage("retention")}
+            >
+              🔄 Retention
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Tool Library */}
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-semibold">Available Tools Library</h2>
+          <div className="text-sm text-muted-foreground">
+            {filteredConnections.length} of {availableConnections.length} tools
+          </div>
+        </div>
+
+        {/* Connection Categories */}
+        {Object.entries(groupedConnections).map(([category, connections]) => (
         <div key={category} className="space-y-4">
           <div className="flex items-center gap-2">
             {getCategoryIcon(category as DataConnection["category"])}
@@ -552,156 +742,6 @@ export function ConnectionsPage() {
         </div>
       ))}
 
-      {/* Data Flow Visualization */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Zap className="h-5 w-5 text-primary" />
-            Data Flow & Funnel Mapping
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-6">
-            {/* Funnel Stages */}
-            <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
-              {/* Awareness Stage */}
-              <div className="space-y-3">
-                <div className="text-center p-3 bg-red-50 dark:bg-red-950/20 rounded-lg">
-                  <h3 className="text-sm font-semibold">🎯 Awareness</h3>
-                  <p className="text-xs text-muted-foreground">Drive Traffic</p>
-                </div>
-                <div className="space-y-2">
-                  {availableConnections
-                    .filter(conn => ["Google Ads", "Facebook Ads", "LinkedIn Ads"].includes(conn.name))
-                    .map(conn => (
-                      <div key={conn.id} className={cn(
-                        "flex items-center gap-2 p-2 rounded-md border transition-colors",
-                        conn.status === "connected" ? "bg-green-50 border-green-200 dark:bg-green-950/20" : "bg-gray-50 border-gray-200 dark:bg-gray-950/20"
-                      )}>
-                        <SourceLogo source={conn.icon} className="w-4 h-4" />
-                        <span className="text-xs font-medium truncate">{conn.name.replace(" Ads", "")}</span>
-                        {conn.status === "connected" && (
-                          <CheckCircle className="h-3 w-3 text-green-600 ml-auto" />
-                        )}
-                      </div>
-                    ))}
-                </div>
-              </div>
-
-              {/* Interest Stage */}
-              <div className="space-y-3">
-                <div className="text-center p-3 bg-orange-50 dark:bg-orange-950/20 rounded-lg">
-                  <h3 className="text-sm font-semibold">👀 Interest</h3>
-                  <p className="text-xs text-muted-foreground">Track Engagement</p>
-                </div>
-                <div className="space-y-2">
-                  {availableConnections
-                    .filter(conn => ["Google Analytics 4", "Mixpanel", "Amplitude"].includes(conn.name))
-                    .map(conn => (
-                      <div key={conn.id} className={cn(
-                        "flex items-center gap-2 p-2 rounded-md border transition-colors",
-                        conn.status === "connected" ? "bg-green-50 border-green-200 dark:bg-green-950/20" : "bg-gray-50 border-gray-200 dark:bg-gray-950/20"
-                      )}>
-                        <SourceLogo source={conn.icon} className="w-4 h-4" />
-                        <span className="text-xs font-medium truncate">{conn.name.replace(" 4", "").replace("Google ", "GA")}</span>
-                        {conn.status === "connected" && (
-                          <CheckCircle className="h-3 w-3 text-green-600 ml-auto" />
-                        )}
-                      </div>
-                    ))}
-                </div>
-              </div>
-
-              {/* Consideration Stage */}
-              <div className="space-y-3">
-                <div className="text-center p-3 bg-yellow-50 dark:bg-yellow-950/20 rounded-lg">
-                  <h3 className="text-sm font-semibold">🤔 Consideration</h3>
-                  <p className="text-xs text-muted-foreground">Capture Leads</p>
-                </div>
-                <div className="space-y-2">
-                  {availableConnections
-                    .filter(conn => ["Typeform", "Klaviyo", "Mailchimp"].includes(conn.name))
-                    .map(conn => (
-                      <div key={conn.id} className={cn(
-                        "flex items-center gap-2 p-2 rounded-md border transition-colors",
-                        conn.status === "connected" ? "bg-green-50 border-green-200 dark:bg-green-950/20" : "bg-gray-50 border-gray-200 dark:bg-gray-950/20"
-                      )}>
-                        <SourceLogo source={conn.icon} className="w-4 h-4" />
-                        <span className="text-xs font-medium truncate">{conn.name}</span>
-                        {conn.status === "connected" && (
-                          <CheckCircle className="h-3 w-3 text-green-600 ml-auto" />
-                        )}
-                      </div>
-                    ))}
-                </div>
-              </div>
-
-              {/* Conversion Stage */}
-              <div className="space-y-3">
-                <div className="text-center p-3 bg-blue-50 dark:bg-blue-950/20 rounded-lg">
-                  <h3 className="text-sm font-semibold">💰 Conversion</h3>
-                  <p className="text-xs text-muted-foreground">Close Deals</p>
-                </div>
-                <div className="space-y-2">
-                  {availableConnections
-                    .filter(conn => ["HubSpot", "Salesforce", "Pipedrive"].includes(conn.name))
-                    .map(conn => (
-                      <div key={conn.id} className={cn(
-                        "flex items-center gap-2 p-2 rounded-md border transition-colors",
-                        conn.status === "connected" ? "bg-green-50 border-green-200 dark:bg-green-950/20" : "bg-gray-50 border-gray-200 dark:bg-gray-950/20"
-                      )}>
-                        <SourceLogo source={conn.icon} className="w-4 h-4" />
-                        <span className="text-xs font-medium truncate">{conn.name}</span>
-                        {conn.status === "connected" && (
-                          <CheckCircle className="h-3 w-3 text-green-600 ml-auto" />
-                        )}
-                      </div>
-                    ))}
-                </div>
-              </div>
-
-              {/* Retention Stage */}
-              <div className="space-y-3">
-                <div className="text-center p-3 bg-green-50 dark:bg-green-950/20 rounded-lg">
-                  <h3 className="text-sm font-semibold">🔄 Retention</h3>
-                  <p className="text-xs text-muted-foreground">Keep Customers</p>
-                </div>
-                <div className="space-y-2">
-                  {availableConnections
-                    .filter(conn => ["Stripe", "Shopify", "Intercom", "Zendesk"].includes(conn.name))
-                    .map(conn => (
-                      <div key={conn.id} className={cn(
-                        "flex items-center gap-2 p-2 rounded-md border transition-colors",
-                        conn.status === "connected" ? "bg-green-50 border-green-200 dark:bg-green-950/20" : "bg-gray-50 border-gray-200 dark:bg-gray-950/20"
-                      )}>
-                        <SourceLogo source={conn.icon} className="w-4 h-4" />
-                        <span className="text-xs font-medium truncate">{conn.name}</span>
-                        {conn.status === "connected" && (
-                          <CheckCircle className="h-3 w-3 text-green-600 ml-auto" />
-                        )}
-                      </div>
-                    ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Flow Arrows */}
-            <div className="flex justify-center">
-              <div className="flex items-center gap-2 text-muted-foreground text-xs">
-                <span>🎯 Drive Traffic</span>
-                <div className="h-px w-6 bg-gradient-to-r from-red-400 to-orange-400"></div>
-                <span>👀 Track Behavior</span>
-                <div className="h-px w-6 bg-gradient-to-r from-orange-400 to-yellow-400"></div>
-                <span>🤔 Nurture Leads</span>
-                <div className="h-px w-6 bg-gradient-to-r from-yellow-400 to-blue-400"></div>
-                <span>💰 Close Sales</span>
-                <div className="h-px w-6 bg-gradient-to-r from-blue-400 to-green-400"></div>
-                <span>🔄 Retain & Grow</span>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
 
       {/* Data Warehouse Info */}
       <Card className="bg-primary/5 border-primary/20">
