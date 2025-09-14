@@ -442,11 +442,124 @@ export function ConnectionsPage() {
         </div>
       ))}
 
+      {/* Data Flow Visualization */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Zap className="h-5 w-5 text-primary" />
+            Data Flow & Funnel Mapping
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-6">
+            {/* Funnel Stages */}
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+              {/* Awareness Stage */}
+              <div className="space-y-3">
+                <h3 className="text-sm font-semibold text-center">Awareness</h3>
+                <div className="space-y-2">
+                  {availableConnections
+                    .filter(conn => ["Google Ads", "Facebook Ads"].includes(conn.name))
+                    .map(conn => (
+                      <div key={conn.id} className={cn(
+                        "flex items-center gap-2 p-2 rounded-md border",
+                        conn.status === "connected" ? "bg-green-50 border-green-200" : "bg-gray-50 border-gray-200"
+                      )}>
+                        <SourceLogo source={conn.icon} className="w-4 h-4" />
+                        <span className="text-xs font-medium">{conn.name}</span>
+                        {conn.status === "connected" && (
+                          <CheckCircle className="h-3 w-3 text-green-600 ml-auto" />
+                        )}
+                      </div>
+                    ))}
+                </div>
+              </div>
+
+              {/* Consideration Stage */}
+              <div className="space-y-3">
+                <h3 className="text-sm font-semibold text-center">Consideration</h3>
+                <div className="space-y-2">
+                  {availableConnections
+                    .filter(conn => ["Google Analytics 4", "Mixpanel"].includes(conn.name))
+                    .map(conn => (
+                      <div key={conn.id} className={cn(
+                        "flex items-center gap-2 p-2 rounded-md border",
+                        conn.status === "connected" ? "bg-green-50 border-green-200" : "bg-gray-50 border-gray-200"
+                      )}>
+                        <SourceLogo source={conn.icon} className="w-4 h-4" />
+                        <span className="text-xs font-medium">{conn.name}</span>
+                        {conn.status === "connected" && (
+                          <CheckCircle className="h-3 w-3 text-green-600 ml-auto" />
+                        )}
+                      </div>
+                    ))}
+                </div>
+              </div>
+
+              {/* Conversion Stage */}
+              <div className="space-y-3">
+                <h3 className="text-sm font-semibold text-center">Conversion</h3>
+                <div className="space-y-2">
+                  {availableConnections
+                    .filter(conn => ["HubSpot", "Salesforce"].includes(conn.name))
+                    .map(conn => (
+                      <div key={conn.id} className={cn(
+                        "flex items-center gap-2 p-2 rounded-md border",
+                        conn.status === "connected" ? "bg-green-50 border-green-200" : "bg-gray-50 border-gray-200"
+                      )}>
+                        <SourceLogo source={conn.icon} className="w-4 h-4" />
+                        <span className="text-xs font-medium">{conn.name}</span>
+                        {conn.status === "connected" && (
+                          <CheckCircle className="h-3 w-3 text-green-600 ml-auto" />
+                        )}
+                      </div>
+                    ))}
+                </div>
+              </div>
+
+              {/* Retention Stage */}
+              <div className="space-y-3">
+                <h3 className="text-sm font-semibold text-center">Retention</h3>
+                <div className="space-y-2">
+                  {availableConnections
+                    .filter(conn => ["Stripe", "Mailchimp"].includes(conn.name))
+                    .map(conn => (
+                      <div key={conn.id} className={cn(
+                        "flex items-center gap-2 p-2 rounded-md border",
+                        conn.status === "connected" ? "bg-green-50 border-green-200" : "bg-gray-50 border-gray-200"
+                      )}>
+                        <SourceLogo source={conn.icon} className="w-4 h-4" />
+                        <span className="text-xs font-medium">{conn.name}</span>
+                        {conn.status === "connected" && (
+                          <CheckCircle className="h-3 w-3 text-green-600 ml-auto" />
+                        )}
+                      </div>
+                    ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Flow Arrows */}
+            <div className="flex justify-center">
+              <div className="flex items-center gap-4 text-muted-foreground">
+                <span className="text-sm">Traffic</span>
+                <div className="h-px w-8 bg-primary"></div>
+                <span className="text-sm">Engagement</span>
+                <div className="h-px w-8 bg-primary"></div>
+                <span className="text-sm">Leads</span>
+                <div className="h-px w-8 bg-primary"></div>
+                <span className="text-sm">Revenue</span>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Data Warehouse Info */}
       <Card className="bg-primary/5 border-primary/20">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Zap className="h-5 w-5 text-primary" />
+            <Database className="h-5 w-5 text-primary" />
             Automated Data Warehouse
           </CardTitle>
         </CardHeader>
