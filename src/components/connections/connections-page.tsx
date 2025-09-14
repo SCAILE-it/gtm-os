@@ -613,30 +613,30 @@ export function ConnectionsPage() {
             <Badge variant="secondary">{connections.length} sources</Badge>
           </div>
           
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
             {connections.map((connection) => (
-              <Card key={connection.id} className="hover:shadow-md transition-shadow">
-                <CardContent className="p-6">
+              <Card key={connection.id} className="hover:shadow-lg transition-all duration-200 border-0 shadow-sm bg-card/50 backdrop-blur-sm">
+                <CardContent className="p-8">
                   <div className="space-y-4">
                     {/* Header */}
-                    <div className="flex items-start justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 bg-muted/50 rounded-lg flex items-center justify-center p-2">
-                          <SourceLogo source={connection.icon} className="w-8 h-8" />
+                    <div className="flex items-start justify-between mb-6">
+                      <div className="flex items-center gap-4">
+                        <div className="w-16 h-16 bg-gradient-to-br from-primary/10 to-primary/5 rounded-2xl flex items-center justify-center p-3 shadow-sm">
+                          <SourceLogo source={connection.icon} className="w-10 h-10" />
                         </div>
                         <div>
-                          <h3 className="font-semibold">{connection.name}</h3>
-                          <p className="text-sm text-muted-foreground">{connection.description}</p>
+                          <h3 className="font-semibold text-lg">{connection.name}</h3>
+                          <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">{connection.description}</p>
                         </div>
                       </div>
                       
-                      <Badge 
-                        variant="outline" 
-                        className={getStatusColor(connection.status)}
-                      >
+                      <div className={cn(
+                        "flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium",
+                        getStatusColor(connection.status)
+                      )}>
                         {getStatusIcon(connection.status)}
-                        <span className="ml-1 capitalize">{connection.status}</span>
-                      </Badge>
+                        <span className="capitalize">{connection.status}</span>
+                      </div>
                     </div>
 
                     {/* Connection Details */}

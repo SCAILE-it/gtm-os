@@ -44,28 +44,28 @@
 }
 
 :root {
-  --radius: 0.5rem;
+  --radius: 0.75rem;
   
   /* Minimal color palette inspired by langdock.com */
-  --background: #ffffff;
-  --foreground: #0a0a0a;
+  --background: #fafbfc;
+  --foreground: #1a1a1a;
   --card: #ffffff;
-  --card-foreground: #0a0a0a;
+  --card-foreground: #1a1a1a;
   --popover: #ffffff;
-  --popover-foreground: #0a0a0a;
-  --primary: #2563eb;
+  --popover-foreground: #1a1a1a;
+  --primary: #4f46e5;
   --primary-foreground: #ffffff;
-  --secondary: #f8f9fa;
-  --secondary-foreground: #0a0a0a;
-  --muted: #f8f9fa;
-  --muted-foreground: #6b7280;
-  --accent: #f8f9fa;
-  --accent-foreground: #0a0a0a;
+  --secondary: #f1f5f9;
+  --secondary-foreground: #1a1a1a;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --accent: #f1f5f9;
+  --accent-foreground: #1a1a1a;
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
-  --border: #e5e7eb;
-  --input: #e5e7eb;
-  --ring: #2563eb;
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --ring: #4f46e5;
   --chart-1: #2563eb;
   --chart-2: #10b981;
   --chart-3: #f59e0b;
@@ -82,25 +82,25 @@
 }
 
 .dark {
-  --background: #0a0a0a;
-  --foreground: #ffffff;
-  --card: #1a1a1a;
-  --card-foreground: #ffffff;
-  --popover: #1a1a1a;
-  --popover-foreground: #ffffff;
-  --primary: #3b82f6;
+  --background: #0f172a;
+  --foreground: #f1f5f9;
+  --card: #1e293b;
+  --card-foreground: #f1f5f9;
+  --popover: #1e293b;
+  --popover-foreground: #f1f5f9;
+  --primary: #6366f1;
   --primary-foreground: #ffffff;
-  --secondary: #262626;
-  --secondary-foreground: #ffffff;
-  --muted: #262626;
-  --muted-foreground: #9ca3af;
-  --accent: #262626;
-  --accent-foreground: #ffffff;
+  --secondary: #334155;
+  --secondary-foreground: #f1f5f9;
+  --muted: #334155;
+  --muted-foreground: #94a3b8;
+  --accent: #334155;
+  --accent-foreground: #f1f5f9;
   --destructive: #f87171;
   --destructive-foreground: #ffffff;
-  --border: #374151;
-  --input: #374151;
-  --ring: #3b82f6;
+  --border: #475569;
+  --input: #475569;
+  --ring: #6366f1;
   --chart-1: #3b82f6;
   --chart-2: #34d399;
   --chart-3: #fbbf24;
