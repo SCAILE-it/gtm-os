@@ -10,10 +10,9 @@ import { FullDailyDigest } from "@/components/dashboard/full-daily-digest";
 
 interface AgenticLayoutProps {
   children?: React.ReactNode;
-  selectedMetric?: string | null;
 }
 
-export function AgenticLayout({ children, selectedMetric }: AgenticLayoutProps) {
+export function AgenticLayout({ children }: AgenticLayoutProps) {
   const pathname = usePathname();
   const isDashboardPage = pathname === "/dashboard";
   const isAgenticPage = pathname === "/" || pathname === "/agentic";
@@ -47,10 +46,7 @@ export function AgenticLayout({ children, selectedMetric }: AgenticLayoutProps) 
             {/* Main Content Area */}
             {!rightSidebarFullscreen && (
               <main className="flex-1 overflow-hidden">
-                <AgenticInterface 
-                  className="h-full" 
-                  initialMetric={selectedMetric}
-                />
+                <AgenticInterface className="h-full" />
               </main>
             )}
 
