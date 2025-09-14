@@ -105,15 +105,25 @@ export function AgenticHeader({}: AgenticHeaderProps) {
                 </div>
               </div>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => router.push('/profile')}>
                 <User className="mr-2 h-4 w-4" />
                 <span>Profile</span>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => router.push('/connections')}>
+              <DropdownMenuItem 
+                onClick={(e) => {
+                  e.preventDefault();
+                  router.push('/connections');
+                }}
+              >
                 <Database className="mr-2 h-4 w-4" />
                 <span>Data Connections</span>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => router.push('/settings')}>
+              <DropdownMenuItem 
+                onClick={(e) => {
+                  e.preventDefault();
+                  router.push('/settings');
+                }}
+              >
                 <Settings className="mr-2 h-4 w-4" />
                 <span>Settings</span>
               </DropdownMenuItem>

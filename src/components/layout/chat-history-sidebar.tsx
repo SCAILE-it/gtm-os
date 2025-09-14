@@ -659,20 +659,9 @@ Always segment mobile data by:
             )}
           </div>
         ) : (
-          /* Collapsed view - just visual indicators */
-          <div className="p-1 space-y-1">
-            {chatSessions.slice(0, 8).map((session) => {
-              const CategoryIcon = getCategoryIcon(session.category);
-              return (
-                <div
-                  key={session.id}
-                  className="w-full h-10 p-1 flex flex-col items-center justify-center"
-                >
-                  <CategoryIcon className="h-3 w-3 text-muted-foreground" />
-                  <div className="w-1 h-1 bg-muted-foreground rounded-full mt-0.5" />
-                </div>
-              );
-            })}
+          /* Collapsed view - clean */
+          <div className="p-1">
+            {/* Empty when collapsed - just the brain icon in header is enough */}
           </div>
         )}
       </ScrollArea>
