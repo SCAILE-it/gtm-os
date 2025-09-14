@@ -132,6 +132,116 @@ export function ConnectionsPage() {
       icon: "Google Ads",
       requiresOAuth: true,
       setupComplexity: "easy"
+    },
+    {
+      id: "linkedin-ads",
+      name: "LinkedIn Ads", 
+      description: "B2B advertising campaigns, lead generation, professional targeting",
+      category: "Marketing",
+      status: "disconnected",
+      icon: "LinkedIn",
+      requiresOAuth: true,
+      setupComplexity: "easy"
+    },
+    {
+      id: "klaviyo",
+      name: "Klaviyo",
+      description: "Email marketing automation, customer segmentation, revenue tracking", 
+      category: "Marketing",
+      status: "disconnected",
+      icon: "Klaviyo",
+      requiresOAuth: true,
+      setupComplexity: "easy"
+    },
+    {
+      id: "intercom",
+      name: "Intercom",
+      description: "Customer messaging, support tickets, user engagement data",
+      category: "Support", 
+      status: "disconnected",
+      icon: "Intercom",
+      requiresOAuth: true,
+      setupComplexity: "medium"
+    },
+    {
+      id: "amplitude",
+      name: "Amplitude", 
+      description: "Product analytics, user behavior, retention analysis",
+      category: "Analytics",
+      status: "disconnected",
+      icon: "Amplitude",
+      requiresOAuth: true,
+      setupComplexity: "medium"
+    },
+    {
+      id: "pipedrive",
+      name: "Pipedrive",
+      description: "Sales pipeline management, deal tracking, activity logging",
+      category: "CRM",
+      status: "disconnected", 
+      icon: "Pipedrive",
+      requiresOAuth: true,
+      setupComplexity: "easy"
+    },
+    {
+      id: "zendesk",
+      name: "Zendesk",
+      description: "Customer support tickets, satisfaction scores, agent performance",
+      category: "Support",
+      status: "disconnected",
+      icon: "Zendesk", 
+      requiresOAuth: true,
+      setupComplexity: "easy"
+    },
+    {
+      id: "shopify",
+      name: "Shopify",
+      description: "E-commerce sales, product performance, customer orders",
+      category: "E-commerce",
+      status: "disconnected",
+      icon: "Shopify",
+      requiresOAuth: true,
+      setupComplexity: "easy"
+    },
+    {
+      id: "segment",
+      name: "Segment",
+      description: "Customer data platform, event tracking, audience building",
+      category: "Analytics",
+      status: "disconnected",
+      icon: "Segment",
+      requiresOAuth: true,
+      setupComplexity: "medium"
+    },
+    {
+      id: "typeform",
+      name: "Typeform", 
+      description: "Form responses, survey data, lead capture metrics",
+      category: "Marketing",
+      status: "disconnected",
+      icon: "Typeform",
+      requiresOAuth: true,
+      setupComplexity: "easy"
+    },
+    {
+      id: "airtable",
+      name: "Airtable",
+      description: "Database records, project tracking, team collaboration data",
+      category: "CRM",
+      status: "disconnected",
+      icon: "Airtable",
+      requiresOAuth: true,
+      setupComplexity: "easy"
+    },
+    {
+      id: "notion",
+      name: "Notion",
+      description: "Documentation, project data, team knowledge base",
+      category: "CRM", 
+      status: "disconnected",
+      icon: "Notion",
+      requiresOAuth: true,
+      setupComplexity: "medium"
     }
   ]);
 
@@ -247,7 +357,7 @@ export function ConnectionsPage() {
   }, {} as Record<string, DataConnection[]>);
 
   return (
-    <div className="p-6 max-w-6xl mx-auto space-y-6">
+    <div className="p-6 max-w-6xl mx-auto space-y-6 overflow-auto h-full">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -453,20 +563,47 @@ export function ConnectionsPage() {
         <CardContent>
           <div className="space-y-6">
             {/* Funnel Stages */}
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
               {/* Awareness Stage */}
               <div className="space-y-3">
-                <h3 className="text-sm font-semibold text-center">Awareness</h3>
+                <div className="text-center p-3 bg-red-50 dark:bg-red-950/20 rounded-lg">
+                  <h3 className="text-sm font-semibold">🎯 Awareness</h3>
+                  <p className="text-xs text-muted-foreground">Drive Traffic</p>
+                </div>
                 <div className="space-y-2">
                   {availableConnections
-                    .filter(conn => ["Google Ads", "Facebook Ads"].includes(conn.name))
+                    .filter(conn => ["Google Ads", "Facebook Ads", "LinkedIn Ads"].includes(conn.name))
                     .map(conn => (
                       <div key={conn.id} className={cn(
-                        "flex items-center gap-2 p-2 rounded-md border",
-                        conn.status === "connected" ? "bg-green-50 border-green-200" : "bg-gray-50 border-gray-200"
+                        "flex items-center gap-2 p-2 rounded-md border transition-colors",
+                        conn.status === "connected" ? "bg-green-50 border-green-200 dark:bg-green-950/20" : "bg-gray-50 border-gray-200 dark:bg-gray-950/20"
                       )}>
                         <SourceLogo source={conn.icon} className="w-4 h-4" />
-                        <span className="text-xs font-medium">{conn.name}</span>
+                        <span className="text-xs font-medium truncate">{conn.name.replace(" Ads", "")}</span>
+                        {conn.status === "connected" && (
+                          <CheckCircle className="h-3 w-3 text-green-600 ml-auto" />
+                        )}
+                      </div>
+                    ))}
+                </div>
+              </div>
+
+              {/* Interest Stage */}
+              <div className="space-y-3">
+                <div className="text-center p-3 bg-orange-50 dark:bg-orange-950/20 rounded-lg">
+                  <h3 className="text-sm font-semibold">👀 Interest</h3>
+                  <p className="text-xs text-muted-foreground">Track Engagement</p>
+                </div>
+                <div className="space-y-2">
+                  {availableConnections
+                    .filter(conn => ["Google Analytics 4", "Mixpanel", "Amplitude"].includes(conn.name))
+                    .map(conn => (
+                      <div key={conn.id} className={cn(
+                        "flex items-center gap-2 p-2 rounded-md border transition-colors",
+                        conn.status === "connected" ? "bg-green-50 border-green-200 dark:bg-green-950/20" : "bg-gray-50 border-gray-200 dark:bg-gray-950/20"
+                      )}>
+                        <SourceLogo source={conn.icon} className="w-4 h-4" />
+                        <span className="text-xs font-medium truncate">{conn.name.replace(" 4", "").replace("Google ", "GA")}</span>
                         {conn.status === "connected" && (
                           <CheckCircle className="h-3 w-3 text-green-600 ml-auto" />
                         )}
@@ -477,17 +614,20 @@ export function ConnectionsPage() {
 
               {/* Consideration Stage */}
               <div className="space-y-3">
-                <h3 className="text-sm font-semibold text-center">Consideration</h3>
+                <div className="text-center p-3 bg-yellow-50 dark:bg-yellow-950/20 rounded-lg">
+                  <h3 className="text-sm font-semibold">🤔 Consideration</h3>
+                  <p className="text-xs text-muted-foreground">Capture Leads</p>
+                </div>
                 <div className="space-y-2">
                   {availableConnections
-                    .filter(conn => ["Google Analytics 4", "Mixpanel"].includes(conn.name))
+                    .filter(conn => ["Typeform", "Klaviyo", "Mailchimp"].includes(conn.name))
                     .map(conn => (
                       <div key={conn.id} className={cn(
-                        "flex items-center gap-2 p-2 rounded-md border",
-                        conn.status === "connected" ? "bg-green-50 border-green-200" : "bg-gray-50 border-gray-200"
+                        "flex items-center gap-2 p-2 rounded-md border transition-colors",
+                        conn.status === "connected" ? "bg-green-50 border-green-200 dark:bg-green-950/20" : "bg-gray-50 border-gray-200 dark:bg-gray-950/20"
                       )}>
                         <SourceLogo source={conn.icon} className="w-4 h-4" />
-                        <span className="text-xs font-medium">{conn.name}</span>
+                        <span className="text-xs font-medium truncate">{conn.name}</span>
                         {conn.status === "connected" && (
                           <CheckCircle className="h-3 w-3 text-green-600 ml-auto" />
                         )}
@@ -498,17 +638,20 @@ export function ConnectionsPage() {
 
               {/* Conversion Stage */}
               <div className="space-y-3">
-                <h3 className="text-sm font-semibold text-center">Conversion</h3>
+                <div className="text-center p-3 bg-blue-50 dark:bg-blue-950/20 rounded-lg">
+                  <h3 className="text-sm font-semibold">💰 Conversion</h3>
+                  <p className="text-xs text-muted-foreground">Close Deals</p>
+                </div>
                 <div className="space-y-2">
                   {availableConnections
-                    .filter(conn => ["HubSpot", "Salesforce"].includes(conn.name))
+                    .filter(conn => ["HubSpot", "Salesforce", "Pipedrive"].includes(conn.name))
                     .map(conn => (
                       <div key={conn.id} className={cn(
-                        "flex items-center gap-2 p-2 rounded-md border",
-                        conn.status === "connected" ? "bg-green-50 border-green-200" : "bg-gray-50 border-gray-200"
+                        "flex items-center gap-2 p-2 rounded-md border transition-colors",
+                        conn.status === "connected" ? "bg-green-50 border-green-200 dark:bg-green-950/20" : "bg-gray-50 border-gray-200 dark:bg-gray-950/20"
                       )}>
                         <SourceLogo source={conn.icon} className="w-4 h-4" />
-                        <span className="text-xs font-medium">{conn.name}</span>
+                        <span className="text-xs font-medium truncate">{conn.name}</span>
                         {conn.status === "connected" && (
                           <CheckCircle className="h-3 w-3 text-green-600 ml-auto" />
                         )}
@@ -519,17 +662,20 @@ export function ConnectionsPage() {
 
               {/* Retention Stage */}
               <div className="space-y-3">
-                <h3 className="text-sm font-semibold text-center">Retention</h3>
+                <div className="text-center p-3 bg-green-50 dark:bg-green-950/20 rounded-lg">
+                  <h3 className="text-sm font-semibold">🔄 Retention</h3>
+                  <p className="text-xs text-muted-foreground">Keep Customers</p>
+                </div>
                 <div className="space-y-2">
                   {availableConnections
-                    .filter(conn => ["Stripe", "Mailchimp"].includes(conn.name))
+                    .filter(conn => ["Stripe", "Shopify", "Intercom", "Zendesk"].includes(conn.name))
                     .map(conn => (
                       <div key={conn.id} className={cn(
-                        "flex items-center gap-2 p-2 rounded-md border",
-                        conn.status === "connected" ? "bg-green-50 border-green-200" : "bg-gray-50 border-gray-200"
+                        "flex items-center gap-2 p-2 rounded-md border transition-colors",
+                        conn.status === "connected" ? "bg-green-50 border-green-200 dark:bg-green-950/20" : "bg-gray-50 border-gray-200 dark:bg-gray-950/20"
                       )}>
                         <SourceLogo source={conn.icon} className="w-4 h-4" />
-                        <span className="text-xs font-medium">{conn.name}</span>
+                        <span className="text-xs font-medium truncate">{conn.name}</span>
                         {conn.status === "connected" && (
                           <CheckCircle className="h-3 w-3 text-green-600 ml-auto" />
                         )}
@@ -541,14 +687,16 @@ export function ConnectionsPage() {
 
             {/* Flow Arrows */}
             <div className="flex justify-center">
-              <div className="flex items-center gap-4 text-muted-foreground">
-                <span className="text-sm">Traffic</span>
-                <div className="h-px w-8 bg-primary"></div>
-                <span className="text-sm">Engagement</span>
-                <div className="h-px w-8 bg-primary"></div>
-                <span className="text-sm">Leads</span>
-                <div className="h-px w-8 bg-primary"></div>
-                <span className="text-sm">Revenue</span>
+              <div className="flex items-center gap-2 text-muted-foreground text-xs">
+                <span>🎯 Drive Traffic</span>
+                <div className="h-px w-6 bg-gradient-to-r from-red-400 to-orange-400"></div>
+                <span>👀 Track Behavior</span>
+                <div className="h-px w-6 bg-gradient-to-r from-orange-400 to-yellow-400"></div>
+                <span>🤔 Nurture Leads</span>
+                <div className="h-px w-6 bg-gradient-to-r from-yellow-400 to-blue-400"></div>
+                <span>💰 Close Sales</span>
+                <div className="h-px w-6 bg-gradient-to-r from-blue-400 to-green-400"></div>
+                <span>🔄 Retain & Grow</span>
               </div>
             </div>
           </div>
