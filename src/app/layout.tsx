@@ -11,8 +11,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "GTM Dashboard",
-  description: "Go-to-Market Analytics Dashboard",
+  title: "SCAILE Agentic Growth Engine",
+  description: "AI-Powered Go-to-Market Analytics Dashboard",
 };
 
 export default function RootLayout({
