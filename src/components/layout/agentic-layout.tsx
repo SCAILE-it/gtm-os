@@ -15,6 +15,8 @@ interface AgenticLayoutProps {
 export function AgenticLayout({ children }: AgenticLayoutProps) {
   const pathname = usePathname();
   const isDashboardPage = pathname === "/dashboard";
+  const isAgenticPage = pathname === "/" || pathname === "/agentic";
+  const hasCustomContent = children !== undefined;
   const [leftSidebarExpanded, setLeftSidebarExpanded] = useState(true);
   const [rightSidebarExpanded, setRightSidebarExpanded] = useState(true);
   const [rightSidebarFullscreen, setRightSidebarFullscreen] = useState(false);
@@ -25,8 +27,8 @@ export function AgenticLayout({ children }: AgenticLayoutProps) {
       <AgenticHeader />
       
       <div className="flex h-[calc(100vh-4rem)]">
-        {isDashboardPage ? (
-          /* Dashboard View - Clean layout with optional agent */
+        {isDashboardPage || (hasCustomContent && !isAgenticPage) ? (
+          /* Dashboard/Settings/Connections View - Clean layout */
           <main className="flex-1 overflow-hidden">
             {children}
           </main>
