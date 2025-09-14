@@ -24,8 +24,11 @@ export function AgenticHeader({}: AgenticHeaderProps) {
       <div className="flex h-16 items-center justify-between px-4">
         {/* Left side - Logo, Title */}
         <div className="flex items-center gap-4">
-          {/* SCAILE Logo */}
-          <div className="flex items-center gap-3">
+          {/* SCAILE Logo - Clickable */}
+          <button 
+            onClick={() => router.push('/')}
+            className="flex items-center gap-3 hover:opacity-80 transition-opacity"
+          >
             <div className="h-8 w-8 flex items-center justify-center">
               <Image 
                 src="/scaile-logo.svg" 
@@ -43,7 +46,7 @@ export function AgenticHeader({}: AgenticHeaderProps) {
                 Beta
               </span>
             </div>
-          </div>
+          </button>
         </div>
 
         {/* Center - Navigation Tabs */}
