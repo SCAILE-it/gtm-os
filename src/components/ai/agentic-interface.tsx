@@ -400,10 +400,10 @@ print(df)`,
               )}
               
               <Card className={cn(
-                "max-w-[85%] transition-all duration-300 hover:shadow-lg",
+                "max-w-[85%] transition-all duration-200",
                 message.type === "user" 
-                  ? "bg-gradient-to-r from-primary to-primary/90 text-primary-foreground ml-auto border-primary/20" 
-                  : "bg-gradient-to-r from-muted to-muted/80 border-l-4 border-l-primary"
+                  ? "bg-primary text-primary-foreground ml-auto" 
+                  : "bg-card border border-border"
               )}>
                 <CardContent className="p-4 space-y-3">
                   <div className="whitespace-pre-wrap text-sm leading-relaxed">
@@ -603,12 +603,10 @@ print(df)`,
           messages.length <= 1 ? "p-4" : "p-2"
         )}>
           {messages.length <= 1 && (
-            <div className="flex items-center gap-2 mb-3">
-              <div className="h-1 w-8 bg-gradient-to-r from-primary to-primary/50 rounded-full"></div>
-              <p className="text-xs text-muted-foreground">
-                Here are some questions you might ask:
+            <div className="mb-3">
+              <p className="text-sm text-muted-foreground">
+                Ask me anything about your GTM performance:
               </p>
-              <div className="h-1 flex-1 bg-gradient-to-r from-primary/50 to-transparent rounded-full"></div>
             </div>
           )}
           
@@ -679,7 +677,7 @@ print(df)`,
             onClick={handleSendMessage} 
             disabled={!inputValue.trim() || isLoading}
             size="default"
-            className="px-4 py-3 bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary shadow-lg hover:shadow-xl transition-all duration-200"
+            className="px-4 py-3 bg-primary hover:bg-primary/90 transition-colors"
           >
             <Send className="h-4 w-4" />
           </Button>

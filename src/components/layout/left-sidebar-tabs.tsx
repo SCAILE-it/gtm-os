@@ -47,6 +47,20 @@ type TabType = "history" | "digest" | "tasks" | "agents" | "prompt" | "datalake"
 
 export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse }: LeftSidebarTabsProps) {
   const [activeTab, setActiveTab] = useState<TabType>("digest");
+  
+  // Arc browser-style tab switching with keyboard
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.metaKey || e.ctrlKey) {
+      const currentIndex = tabs.findIndex(tab => tab.id === activeTab);
+      if (e.key === 'ArrowLeft' && currentIndex > 0) {
+        setActiveTab(tabs[currentIndex - 1].id);
+        e.preventDefault();
+      } else if (e.key === 'ArrowRight' && currentIndex < tabs.length - 1) {
+        setActiveTab(tabs[currentIndex + 1].id);
+        e.preventDefault();
+      }
+    }
+  };
 
   const tabs = [
     { id: "history" as TabType, label: "History", icon: History },
@@ -101,24 +115,25 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse }: Le
             ].map((flow, index) => (
               <Card key={index} className={`p-2 rounded-lg border cursor-pointer transition-all ${
                 flow.status === 'active' 
-                  ? 'border-primary/40 bg-primary/5 hover:bg-primary/10' 
+                  ? 'border-blue-200 dark:border-blue-700 bg-blue-50 dark:bg-blue-950/20 hover:bg-blue-100 dark:hover:bg-blue-950/30' 
                   : flow.status === 'done'
-                  ? 'border-border/40 bg-white/60 dark:bg-slate-800/60 hover:bg-white/80 dark:hover:bg-slate-800/80'
-                  : 'border-border/20 bg-white/40 dark:bg-slate-800/40 hover:bg-white/60 dark:hover:bg-slate-800/60'
+                  ? 'border-gray-200 dark:border-gray-600 bg-white dark:bg-[#363A4A] hover:bg-gray-50 dark:hover:bg-[#3A3E4E]'
+                  : 'border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-[#323643] hover:bg-gray-100 dark:hover:bg-[#363A4A]'
               }`}>
-                <div className="flex items-center justify-between mb-1">
-                  <div className="font-medium text-sm text-slate-800 dark:text-slate-200 truncate">{flow.name}</div>
-                  <div className={`w-2 h-2 rounded-full ${
-                    flow.status === 'active' ? 'bg-primary animate-pulse' :
-                    flow.status === 'done' ? 'bg-green-500' : 'bg-slate-400'
-                  }`} />
-                </div>
-                <div className="text-xs text-slate-600 dark:text-slate-400 mb-1">{flow.task}</div>
                 <div className="flex items-center justify-between">
-                  <div className="text-xs text-muted-foreground">{flow.time}</div>
-                  {flow.status === 'active' && (
-                    <div className="text-xs text-slate-600 dark:text-slate-400">{flow.progress}%</div>
-                  )}
+                  <div className="flex-1 min-w-0">
+                    <div className="font-medium text-sm text-gray-800 dark:text-gray-200 truncate">{flow.name}</div>
+                    <div className="text-xs text-gray-600 dark:text-gray-400">{flow.task}</div>
+                  </div>
+                  <div className="flex items-center gap-2 ml-2">
+                    {flow.status === 'active' && (
+                      <div className="text-xs text-blue-600 dark:text-blue-400">{flow.progress}%</div>
+                    )}
+                    <div className={`w-2 h-2 rounded-full ${
+                      flow.status === 'active' ? 'bg-blue-500 animate-pulse' :
+                      flow.status === 'done' ? 'bg-green-500' : 'bg-gray-400'
+                    }`} />
+                  </div>
                 </div>
               </Card>
             ))}
@@ -363,33 +378,44 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse }: Le
   }
 
   return (
-    <div className="w-80 border-r border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-[#2A2D3A] flex flex-col transition-all duration-300">
-      {/* Tab Navigation */}
-      <div className="border-b border-border">
-        <div className="flex items-center justify-between p-2">
-          <div className="grid grid-cols-3 gap-1 flex-1">
-            {tabs.map((tab) => {
-              const Icon = tab.icon;
-              return (
-                <Button
-                  key={tab.id}
-                  variant={activeTab === tab.id ? "default" : "ghost"}
-                  size="sm"
-                  className="rounded-lg border-0 h-8 w-8 p-0"
-                  onClick={() => setActiveTab(tab.id)}
-                  title={tab.label}
-                >
-                  <Icon className="h-4 w-4" />
-                </Button>
-              );
-            })}
+    <div 
+      className="w-80 border-r border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-[#2A2D3A] flex flex-col transition-all duration-300"
+      onKeyDown={handleKeyDown}
+      tabIndex={0}
+    >
+      {/* Arc-style Tab Navigation */}
+      <div className="border-b border-gray-200 dark:border-gray-700 p-2">
+        <div className="flex items-center justify-between">
+          {/* Horizontal scrollable tabs */}
+          <div className="flex-1 overflow-x-auto">
+            <div className="flex items-center gap-1 min-w-fit">
+              {tabs.map((tab) => {
+                const Icon = tab.icon;
+                return (
+                  <Button
+                    key={tab.id}
+                    variant={activeTab === tab.id ? "default" : "ghost"}
+                    size="sm"
+                    className={`rounded-lg h-8 w-8 p-0 flex-shrink-0 ${
+                      activeTab === tab.id 
+                        ? 'bg-blue-500 hover:bg-blue-600 text-white' 
+                        : 'hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400'
+                    }`}
+                    onClick={() => setActiveTab(tab.id)}
+                    title={tab.label}
+                  >
+                    <Icon className="h-4 w-4" />
+                  </Button>
+                );
+              })}
+            </div>
           </div>
           
           {/* Collapse Button */}
           <Button
             variant="ghost"
             size="sm"
-            className="h-8 w-8 p-0"
+            className="h-8 w-8 p-0 ml-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
             onClick={onToggleCollapse}
             title="Collapse sidebar"
           >
