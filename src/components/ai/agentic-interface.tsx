@@ -78,17 +78,30 @@ interface TaskProgress {
 
 interface AgenticInterfaceProps {
   className?: string;
+  initialMetric?: string | null;
 }
 
-export function AgenticInterface({ className }: AgenticInterfaceProps) {
+export function AgenticInterface({ className, initialMetric }: AgenticInterfaceProps) {
   // TODO: Replace with API call to /api/chat/history
   // Should load previous conversation or generate welcome message from current data
   // Expected response: Message[]
+  const getInitialMessage = () => {
+    if (initialMetric === 'revenue') {
+      return "I see you want to dive deeper into your Revenue performance! 📈\n\nHere's what I found:\n\n• **€847K total revenue** (+12.5% vs last month)\n• **Top performing channel**: LinkedIn Ads (€312K)\n• **Growth driver**: Enterprise deals increased 18%\n• **Opportunity**: SMB segment underperforming (-3%)\n\nWhat specific aspect of revenue would you like to analyze?";
+    } else if (initialMetric === 'cac') {
+      return "Let's analyze your Customer Acquisition Cost trends! 💰\n\n**Current CAC: €245** (-8.2% improvement!)\n\n• **Best performing**: Organic search (€89 CAC)\n• **Most expensive**: Display ads (€421 CAC)\n• **Trending down**: LinkedIn optimization working\n• **Watch out**: Google Ads CAC rising (+15%)\n\nHow can I help optimize your acquisition costs further?";
+    } else if (initialMetric === 'conversion') {
+      return "Excellent choice! Let's dive into your Conversion Rate performance! 🎯\n\n**Current rate: 3.4%** (+0.7% improvement)\n\n• **Top converter**: Product demo page (8.2%)\n• **Needs work**: Email campaigns (1.8%)\n• **Seasonal trend**: 23% better than Q3\n• **Mobile gap**: Desktop converts 2x better\n\nWhat conversion funnel would you like to optimize?";
+    }
+    
+    return "Welcome to your GTM Analyst! 🚀\n\nI've analyzed your latest data and I'm ready to help you:\n\n• **Deep dive** into any metric or campaign\n• **Identify opportunities** for optimization\n• **Create actionable tasks** for your team\n• **Monitor real-time** performance changes\n\nWhat would you like to explore first?";
+  };
+
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
       type: "agent",
-      content: "Good morning! I've analyzed your daily digest and here's what stands out:\n\n• Revenue is up 12.3% - Great momentum!\n• Email campaigns performing 23% better - Your Q4 strategy is working\n• Mobile conversion needs attention - 12% drop detected\n\nWhat would you like to explore first?",
+      content: getInitialMessage(),
       timestamp: new Date(),
     }
   ]);
