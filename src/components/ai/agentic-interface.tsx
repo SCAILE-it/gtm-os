@@ -261,7 +261,7 @@ ORDER BY total_revenue DESC;`,
             ]
           }
         ],
-        finalContent: "Based on my analysis:\n\n📈 **Key Insight**: Email campaigns are driving 45% of your revenue ($64.1K) with 23% growth - this is your golden channel.\n\n⚠️ **Action Required**: Mobile conversion dropped 12% this week, potentially costing you $8-12K in lost revenue.\n\n💡 **Opportunity**: Social media shows 40% higher ROAS than average - scaling this could add $15-20K monthly.\n\n**Recommended Actions:**\n1. Double down on successful email campaigns\n2. Urgent mobile UX audit needed\n3. Increase social media budget by 25%\n\nWould you like me to create a detailed action plan?"
+        finalContent: "Based on my analysis:\n\n**📈 Key Insight**: Email campaigns are driving 45% of your revenue ($64.1K) with 23% growth - this is your golden channel.\n\n**⚠️ Action Required**: Mobile conversion dropped 12% this week, potentially costing you $8-12K in lost revenue.\n\n**💡 Opportunity**: Social media shows 40% higher ROAS than average - scaling this could add $15-20K monthly.\n\n**Recommended Actions:**\n1. Double down on successful email campaigns\n2. Urgent mobile UX audit needed\n3. Increase social media budget by 25%\n\nWould you like me to create a detailed action plan?"
       },
       {
         content: "Let me create a conversion funnel visualization:",
@@ -301,7 +301,7 @@ print(df)`,
             ]
           }
         ],
-        finalContent: "Here's your conversion funnel analysis:\n\n📊 **Funnel Health**: You're losing 68.6% of visitors before they become leads - this is your biggest leak.\n\n💰 **Revenue Impact**: If you improve visitor→lead conversion by just 5%, you'd gain ~500 more leads monthly.\n\n🎯 **Critical Issue**: Only 3.2% of leads convert to customers. Industry benchmark is 5-8%.\n\n**Immediate Actions:**\n1. A/B test your lead magnets (could gain 200+ leads)\n2. Audit lead nurturing emails (potential 2x conversion)\n3. Review mobile experience (12% conversion gap)\n\nShould I create a conversion optimization roadmap?"
+        finalContent: "Here's your conversion funnel analysis:\n\n**📊 Funnel Health**: You're losing 68.6% of visitors before they become leads - this is your biggest leak.\n\n**💰 Revenue Impact**: If you improve visitor→lead conversion by just 5%, you'd gain ~500 more leads monthly.\n\n**🎯 Critical Issue**: Only 3.2% of leads convert to customers. Industry benchmark is 5-8%.\n\n**Immediate Actions:**\n1. A/B test your lead magnets (could gain 200+ leads)\n2. Audit lead nurturing emails (potential 2x conversion)\n3. Review mobile experience (12% conversion gap)\n\nShould I create a conversion optimization roadmap?"
       }
     ];
 
