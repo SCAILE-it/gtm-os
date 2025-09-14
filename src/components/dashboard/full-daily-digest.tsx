@@ -523,13 +523,13 @@ export function FullDailyDigest({ onClose }: FullDailyDigestProps) {
               <h4 className="text-xs font-medium text-muted-foreground uppercase">Ask Agent</h4>
               <div className="space-y-1">
                 <Button variant="ghost" size="sm" className="w-full justify-start text-xs h-auto p-2">
-                  "Add conversion funnel chart"
+                  &quot;Add conversion funnel chart&quot;
                 </Button>
                 <Button variant="ghost" size="sm" className="w-full justify-start text-xs h-auto p-2">
-                  "Show cohort analysis"
+                  &quot;Show cohort analysis&quot;
                 </Button>
                 <Button variant="ghost" size="sm" className="w-full justify-start text-xs h-auto p-2">
-                  "Create custom KPI for LTV"
+                  &quot;Create custom KPI for LTV&quot;
                 </Button>
               </div>
             </div>

@@ -7,7 +7,7 @@ interface InlineChartProps {
     id: string;
     type: "line" | "bar" | "pie";
     title: string;
-    data: any[];
+    data: Array<Record<string, any>>;
   };
 }
 

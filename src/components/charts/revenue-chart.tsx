@@ -21,7 +21,7 @@ interface RevenueChartProps {
 }
 
 export function RevenueChart({ height = 200, showTooltip = true }: RevenueChartProps) {
-  const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?: Array<{ payload: any; value: number }>; label?: string }) => {
+  const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?: Array<{ payload: Record<string, any>; value: number }>; label?: string }) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       return (
