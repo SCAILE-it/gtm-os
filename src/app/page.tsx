@@ -1,5 +1,5 @@
-import { SplitScreenLayout } from "@/components/layout/split-screen-layout";
+import { OperatingSystemLayout } from "@/components/layout/operating-system-layout";
 
 export default function HomePage() {
-  return <SplitScreenLayout />;
+  return <OperatingSystemLayout />;
 }

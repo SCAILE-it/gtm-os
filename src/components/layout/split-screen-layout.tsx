@@ -1,42 +1,39 @@
 "use client";
 
 import { useState } from "react";
-import { AgenticHeader } from "./agentic-header";
-import { AgenticInterface } from "@/components/ai/agentic-interface";
-import { DashboardContent } from "@/components/dashboard/dashboard-content";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { 
-  MessageSquare, 
-  BarChart3, 
   Maximize2, 
   Minimize2,
-  ArrowLeftRight
+  MessageSquare,
+  BarChart3,
+  ExternalLink
 } from "lucide-react";
+import Link from "next/link";
+import { AgenticInterface } from "@/components/ai/agentic-interface";
+import { DashboardContent } from "@/components/dashboard/dashboard-content";
+import { AgenticHeader } from "@/components/layout/agentic-header";
 
 export function SplitScreenLayout() {
   const [leftExpanded, setLeftExpanded] = useState(false);
   const [rightExpanded, setRightExpanded] = useState(false);
 
-  // If either side is expanded, show only that side
   if (leftExpanded) {
     return (
       <div className="min-h-screen bg-background">
         <AgenticHeader />
         <div className="h-[calc(100vh-4rem)] relative">
-          <div className="absolute top-4 right-4 z-10">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setLeftExpanded(false)}
-              className="bg-background/80 backdrop-blur-sm"
-            >
-              <Minimize2 className="h-4 w-4 mr-2" />
-              Split View
-            </Button>
-          </div>
           <AgenticInterface className="h-full" />
+          <Button
+            onClick={() => setLeftExpanded(false)}
+            className="absolute top-4 right-4 z-50"
+            size="sm"
+            variant="outline"
+          >
+            <Minimize2 className="h-4 w-4 mr-2" />
+            Split View
+          </Button>
         </div>
       </div>
     );
@@ -47,118 +44,102 @@ export function SplitScreenLayout() {
       <div className="min-h-screen bg-background">
         <AgenticHeader />
         <div className="h-[calc(100vh-4rem)] relative">
-          <div className="absolute top-4 left-4 z-10">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setRightExpanded(false)}
-              className="bg-background/80 backdrop-blur-sm"
-            >
-              <Minimize2 className="h-4 w-4 mr-2" />
-              Split View
-            </Button>
-          </div>
           <DashboardContent />
+          <Button
+            onClick={() => setRightExpanded(false)}
+            className="absolute top-4 right-4 z-50"
+            size="sm"
+            variant="outline"
+          >
+            <Minimize2 className="h-4 w-4 mr-2" />
+            Split View
+          </Button>
         </div>
       </div>
     );
   }
 
-  // Split screen view (default)
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
       <AgenticHeader />
       
-      <div className="h-[calc(100vh-4rem)] flex">
+      {/* Split Screen Container */}
+      <div className="flex h-[calc(100vh-4rem)]">
         {/* Left Side - Agentic Chat */}
-        <div className="flex-1 flex flex-col border-r border-border">
-          {/* Left Header */}
-          <div className="flex items-center justify-between p-4 border-b border-border bg-muted/20">
+        <div className="flex-1 border-r border-border relative">
+          {/* Header */}
+          <div className="flex items-center justify-between p-4 border-b border-border bg-muted/30">
             <div className="flex items-center gap-2">
-              <div className="p-2 rounded-lg bg-primary/10 text-primary">
-                <MessageSquare className="h-4 w-4" />
-              </div>
-              <div>
-                <h2 className="text-sm font-semibold">AI Analyst</h2>
-                <p className="text-xs text-muted-foreground">Ask questions, get insights</p>
-              </div>
+              <MessageSquare className="h-5 w-5 text-primary" />
+              <h2 className="font-semibold">AI Analyst</h2>
+              <Badge variant="secondary" className="text-xs">Chat</Badge>
             </div>
             <div className="flex items-center gap-2">
-              <Badge variant="secondary" className="text-xs">
-                Live Analysis
-              </Badge>
+              <Link href="/agentic">
+                <Button size="sm" variant="ghost" className="text-xs">
+                  <ExternalLink className="h-3 w-3 mr-1" />
+                  Full Screen
+                </Button>
+              </Link>
               <Button
-                variant="ghost"
-                size="sm"
                 onClick={() => setLeftExpanded(true)}
-                className="h-8 w-8 p-0"
+                size="sm"
+                variant="ghost"
               >
-                <Maximize2 className="h-3 w-3" />
+                <Maximize2 className="h-4 w-4" />
               </Button>
             </div>
           </div>
           
           {/* Chat Interface */}
-          <div className="flex-1 overflow-hidden">
+          <div className="h-[calc(100%-5rem)]">
             <AgenticInterface className="h-full" />
           </div>
         </div>
 
-        {/* Separator */}
-        <div className="w-1 bg-border relative group cursor-col-resize">
-          <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-4 flex items-center justify-center">
-            <div className="w-1 h-8 bg-muted-foreground/20 rounded-full group-hover:bg-primary/50 transition-colors" />
-          </div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
-            <div className="bg-background border border-border rounded-md p-1 shadow-sm">
-              <ArrowLeftRight className="h-3 w-3 text-muted-foreground" />
-            </div>
-          </div>
-        </div>
-
         {/* Right Side - Dashboard */}
-        <div className="flex-1 flex flex-col">
-          {/* Right Header */}
-          <div className="flex items-center justify-between p-4 border-b border-border bg-muted/20">
+        <div className="flex-1 relative">
+          {/* Header */}
+          <div className="flex items-center justify-between p-4 border-b border-border bg-blue-50/30 dark:bg-blue-950/30">
             <div className="flex items-center gap-2">
-              <div className="p-2 rounded-lg bg-blue-500/10 text-blue-600">
-                <BarChart3 className="h-4 w-4" />
-              </div>
-              <div>
-                <h2 className="text-sm font-semibold">Executive Dashboard</h2>
-                <p className="text-xs text-muted-foreground">Performance overview</p>
-              </div>
+              <BarChart3 className="h-5 w-5 text-blue-600" />
+              <h2 className="font-semibold">Executive Dashboard</h2>
+              <Badge variant="secondary" className="text-xs">Metrics</Badge>
             </div>
             <div className="flex items-center gap-2">
-              <Badge variant="outline" className="text-xs">
-                Real-time
-              </Badge>
+              <Link href="/dashboard">
+                <Button size="sm" variant="ghost" className="text-xs">
+                  <ExternalLink className="h-3 w-3 mr-1" />
+                  Full Screen
+                </Button>
+              </Link>
               <Button
-                variant="ghost"
-                size="sm"
                 onClick={() => setRightExpanded(true)}
-                className="h-8 w-8 p-0"
+                size="sm"
+                variant="ghost"
               >
-                <Maximize2 className="h-3 w-3" />
+                <Maximize2 className="h-4 w-4" />
               </Button>
             </div>
           </div>
           
           {/* Dashboard Content */}
-          <div className="flex-1 overflow-hidden">
+          <div className="h-[calc(100%-5rem)] overflow-y-auto">
             <DashboardContent />
           </div>
         </div>
       </div>
 
-      {/* Footer Hint */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10">
-        <div className="bg-background/80 backdrop-blur-sm border border-border rounded-full px-4 py-2 shadow-sm">
-          <p className="text-xs text-muted-foreground flex items-center gap-2">
-            <ArrowLeftRight className="h-3 w-3" />
-            Drag separator to resize • Click maximize to focus
-          </p>
+      {/* Bottom Hint Bar */}
+      <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50">
+        <div className="bg-background/95 backdrop-blur-sm border border-border rounded-full px-4 py-2 shadow-lg">
+          <div className="flex items-center gap-4 text-sm text-muted-foreground">
+            <span>💡 Click any metric for detailed breakdown</span>
+            <span>•</span>
+            <span>🔗 Chat with your data on the left</span>
+            <span>•</span>
+            <span>📊 Executive view on the right</span>
+          </div>
         </div>
       </div>
     </div>

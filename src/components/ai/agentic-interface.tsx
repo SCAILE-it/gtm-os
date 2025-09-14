@@ -78,9 +78,16 @@ interface TaskProgress {
 
 interface AgenticInterfaceProps {
   className?: string;
+  onSaveToWorkspace?: (item: {
+    id: string;
+    type: "chart" | "spreadsheet" | "table";
+    title: string;
+    timestamp: Date;
+    data?: any;
+  }) => void;
 }
 
-export function AgenticInterface({ className }: AgenticInterfaceProps) {
+export function AgenticInterface({ className, onSaveToWorkspace }: AgenticInterfaceProps) {
   // TODO: Replace with API call to /api/chat/history
   // Should load previous conversation or generate welcome message from current data
   // Expected response: Message[]
@@ -465,7 +472,27 @@ print(df)`,
 
                   {/* Generated Charts */}
                   {message.charts && message.charts.map((chart) => (
-                    <InlineChart key={chart.id} chart={chart} />
+                    <div key={chart.id} className="space-y-2">
+                      <InlineChart chart={chart} />
+                      {onSaveToWorkspace && (
+                        <div className="flex justify-end">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="text-xs"
+                            onClick={() => onSaveToWorkspace({
+                              id: `chart-${chart.id}-${Date.now()}`,
+                              type: "chart",
+                              title: chart.title,
+                              timestamp: new Date(),
+                              data: chart
+                            })}
+                          >
+                            📊 Save to Canvas
+                          </Button>
+                        </div>
+                      )}
+                    </div>
                   ))}
 
                   <div className={cn(

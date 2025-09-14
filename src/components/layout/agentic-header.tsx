@@ -50,26 +50,8 @@ export function AgenticHeader({}: AgenticHeaderProps) {
         </div>
 
         {/* Center - Navigation Tabs */}
-        <div className="flex items-center gap-1 bg-muted p-1 rounded-lg">
-          <Button
-            variant={!isDashboardView ? "default" : "ghost"}
-            size="sm"
-            onClick={() => router.push("/")}
-            className="h-7 text-xs"
-          >
-            <MessageSquare className="h-3 w-3 mr-1" />
-            Agentic
-          </Button>
-          <Button
-            variant={isDashboardView ? "default" : "ghost"}
-            size="sm"
-            onClick={() => router.push("/dashboard")}
-            className="h-7 text-xs"
-          >
-            <BarChart3 className="h-3 w-3 mr-1" />
-            Analytics
-          </Button>
-        </div>
+        {/* Center - Clean design, no mode toggle */}
+        <div></div>
 
         {/* Right side - Settings and Profile */}
         <div className="flex items-center gap-2">
