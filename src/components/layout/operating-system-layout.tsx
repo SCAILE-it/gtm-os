@@ -19,7 +19,6 @@ import {
   Share2,
   Download,
   ChevronRight,
-  ChevronLeft,
   Edit3,
   RefreshCw,
   Copy
@@ -49,7 +48,6 @@ interface AgentTask {
 
 export function OperatingSystemLayout() {
   const [leftSidebarCollapsed, setLeftSidebarCollapsed] = useState(false);
-  const [rightPanelCollapsed, setRightPanelCollapsed] = useState(false);
   const [leftPanelWidth, setLeftPanelWidth] = useState(320); // 80 * 4 = 320px
   const [rightPanelWidth, setRightPanelWidth] = useState(320); // Match left panel width
   const [workspaceItems, setWorkspaceItems] = useState<WorkspaceItem[]>([]);
@@ -150,21 +148,11 @@ export function OperatingSystemLayout() {
 
           {/* Canvas Section - Bottom Half */}
           <div className="flex-1 flex flex-col">
-            <div className="flex items-center justify-between p-3 border-b border-gray-200 dark:border-gray-700">
+            <div className="p-3 border-b border-gray-200 dark:border-gray-700">
               <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">Canvas</h3>
-              <Button
-                size="sm"
-                variant="ghost"
-                onClick={() => setRightPanelCollapsed(!rightPanelCollapsed)}
-                className="h-6 w-6 p-0 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-                title="Toggle canvas"
-              >
-                <ChevronLeft className={`h-3 w-3 transition-transform ${rightPanelCollapsed ? 'rotate-180' : ''}`} />
-              </Button>
             </div>
 
-            {!rightPanelCollapsed && (
-              <ScrollArea className="flex-1 p-3">
+            <ScrollArea className="flex-1 p-3">
                          {/* Enhanced Empty State */}
                          {workspaceItems.length === 0 && (
                            <div className="text-center py-6">
@@ -251,7 +239,6 @@ export function OperatingSystemLayout() {
                     </div>
                   )}
               </ScrollArea>
-            )}
           </div>
         </div>
       </div>
