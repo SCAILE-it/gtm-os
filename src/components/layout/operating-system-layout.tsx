@@ -23,6 +23,7 @@ import { AgenticInterface } from "@/components/ai/agentic-interface";
 import { AgenticHeader } from "@/components/layout/agentic-header";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { LeftSidebarTabs } from "@/components/layout/left-sidebar-tabs";
+import { InlineChart } from "@/components/charts/inline-chart";
 
 interface WorkspaceItem {
   id: string;
@@ -101,21 +102,27 @@ export function OperatingSystemLayout() {
           </div>
         </div>
 
-        {/* Right Side - Canvas (Dynamic) */}
-        {(workspaceOpen && (workspaceItems.length > 0 || agentTasks.length > 0)) && (
-          <div className="w-96 border-l border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-[#2A2D3A] flex flex-col">
-            <div className="flex items-center justify-between p-4 border-b border-border">
-              <h2 className="font-semibold text-slate-800 dark:text-slate-200">Canvas</h2>
-              <Button
-                size="sm"
-                variant="ghost"
-                onClick={() => setWorkspaceOpen(false)}
-              >
-                <X className="h-4 w-4" />
-              </Button>
+        {/* Right Side - Canvas (Always Visible) */}
+        <div className="w-96 border-l border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-[#2A2D3A] flex flex-col">
+            <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Canvas</h2>
+              <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">Save charts and collaborate on tasks</p>
             </div>
 
             <ScrollArea className="flex-1 p-4">
+              {/* Empty State */}
+              {workspaceItems.length === 0 && agentTasks.length === 0 && (
+                <div className="flex flex-col items-center justify-center h-full text-center">
+                  <div className="w-16 h-16 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center mb-4">
+                    <BarChart3 className="h-8 w-8 text-gray-400" />
+                  </div>
+                  <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Canvas is empty</h3>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 max-w-48">
+                    Save charts from your flows or start a task with an agent to see them here
+                  </p>
+                </div>
+              )}
+
               {/* Active Tasks */}
               {agentTasks.length > 0 && (
                 <div className="mb-6">
@@ -159,23 +166,31 @@ export function OperatingSystemLayout() {
                   </h3>
                   <div className="space-y-3">
                     {workspaceItems.map((item) => (
-                      <Card key={item.id} className="p-3">
-                        <div className="flex items-start justify-between mb-2">
+                      <Card key={item.id} className="p-3 bg-white dark:bg-[#363A4A] border border-gray-200 dark:border-gray-600">
+                        <div className="flex items-start justify-between mb-3">
                           <div className="flex items-center gap-2">
                             {item.type === 'chart' && <BarChart3 className="h-4 w-4 text-blue-600" />}
                             {item.type === 'spreadsheet' && <FileSpreadsheet className="h-4 w-4 text-green-600" />}
-                            <h4 className="text-sm font-medium">{item.title}</h4>
+                            <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100">{item.title}</h4>
                           </div>
                           <Button
                             size="sm"
                             variant="ghost"
                             onClick={() => removeFromWorkspace(item.id)}
+                            className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
                           >
                             <X className="h-3 w-3" />
                           </Button>
                         </div>
                         
-                        <div className="flex items-center gap-2 mt-3">
+                        {/* Render the exact saved chart */}
+                        {item.data && item.type === 'chart' && (
+                          <div className="mb-3 bg-gray-100 dark:bg-gray-700 rounded-lg p-3">
+                            <InlineChart chart={item.data} />
+                          </div>
+                        )}
+                        
+                        <div className="flex items-center gap-2">
                           <Button size="sm" variant="outline" className="text-xs">
                             <Mail className="h-3 w-3 mr-1" />
                             Email
@@ -196,7 +211,6 @@ export function OperatingSystemLayout() {
               )}
             </ScrollArea>
           </div>
-        )}
       </div>
     </div>
   );

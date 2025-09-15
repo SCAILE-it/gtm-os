@@ -95,8 +95,21 @@ export function AgenticInterface({ className, onSaveToWorkspace }: AgenticInterf
     {
       id: "1",
       type: "agent",
-      content: "Good morning! I've analyzed your daily digest and here's what stands out:\n\n• Revenue is up 12.3% - Great momentum!\n• Email campaigns performing 23% better - Your Q4 strategy is working\n• Mobile conversion needs attention - 12% drop detected\n\nWhat would you like to explore first?",
+      content: "📋 **Daily Briefing - Sep 14**\n\nRevenue: **$142.5K** (+12.3%) | CAC: **$85** (-8.2%) | Conversion: **3.2%** (+0.5%)\n\n🟢 **Email driving 45% of revenue** - scale opportunity\n🔴 **Mobile conversion down 12%** - losing $8-12K weekly\n🔵 **Social ROAS +40%** - increase budget 25%\n\n**Decision needed:** Mobile fix vs Email scaling?",
       timestamp: new Date(),
+      charts: [
+        {
+          id: "channel-breakdown",
+          type: "pie",
+          title: "Chart of the Day",
+          data: [
+            { name: "Email", value: 64100, percentage: 45 },
+            { name: "Social", value: 42800, percentage: 30 },
+            { name: "Organic", value: 21400, percentage: 15 },
+            { name: "Paid", value: 14200, percentage: 10 }
+          ]
+        }
+      ]
     }
   ]);
   const [inputValue, setInputValue] = useState("");
@@ -268,7 +281,7 @@ ORDER BY total_revenue DESC;`,
             ]
           }
         ],
-        finalContent: "Based on my analysis:\n\n**📈 Key Insight**: Email campaigns are driving 45% of your revenue ($64.1K) with 23% growth - this is your golden channel.\n\n**⚠️ Action Required**: Mobile conversion dropped 12% this week, potentially costing you $8-12K in lost revenue.\n\n**💡 Opportunity**: Social media shows 40% higher ROAS than average - scaling this could add $15-20K monthly.\n\n**Recommended Actions:**\n1. Double down on successful email campaigns\n2. Urgent mobile UX audit needed\n3. Increase social media budget by 25%\n\nWould you like me to create a detailed action plan?"
+        finalContent: "Based on my analysis:\n\n📈 **Key Insight**: Email campaigns are driving 45% of your revenue ($64.1K) with 23% growth - this is your golden channel.\n\n⚠️ **Action Required**: Mobile conversion dropped 12% this week, potentially costing you $8-12K in lost revenue.\n\n💡 **Opportunity**: Social media shows 40% higher ROAS than average - scaling this could add $15-20K monthly.\n\n**Recommended Actions:**\n1. Double down on successful email campaigns\n2. Urgent mobile UX audit needed\n3. Increase social media budget by 25%\n\nWould you like me to create a detailed action plan?"
       },
       {
         content: "Let me create a conversion funnel visualization:",
@@ -308,7 +321,7 @@ print(df)`,
             ]
           }
         ],
-        finalContent: "Here's your conversion funnel analysis:\n\n**📊 Funnel Health**: You're losing 68.6% of visitors before they become leads - this is your biggest leak.\n\n**💰 Revenue Impact**: If you improve visitor→lead conversion by just 5%, you'd gain ~500 more leads monthly.\n\n**🎯 Critical Issue**: Only 3.2% of leads convert to customers. Industry benchmark is 5-8%.\n\n**Immediate Actions:**\n1. A/B test your lead magnets (could gain 200+ leads)\n2. Audit lead nurturing emails (potential 2x conversion)\n3. Review mobile experience (12% conversion gap)\n\nShould I create a conversion optimization roadmap?"
+        finalContent: "Here's your conversion funnel analysis:\n\n📊 **Funnel Health**: You're losing 68.6% of visitors before they become leads - this is your biggest leak.\n\n💰 **Revenue Impact**: If you improve visitor→lead conversion by just 5%, you'd gain ~500 more leads monthly.\n\n🎯 **Critical Issue**: Only 3.2% of leads convert to customers. Industry benchmark is 5-8%.\n\n**Immediate Actions:**\n1. A/B test your lead magnets (could gain 200+ leads)\n2. Audit lead nurturing emails (potential 2x conversion)\n3. Review mobile experience (12% conversion gap)\n\nShould I create a conversion optimization roadmap?"
       }
     ];
 
@@ -399,16 +412,22 @@ print(df)`,
                 </Avatar>
               )}
               
-              <Card className={cn(
+              <div className={cn(
                 "max-w-[85%] transition-all duration-200",
                 message.type === "user" 
-                  ? "bg-primary text-primary-foreground ml-auto" 
-                  : "bg-card border border-border"
+                  ? "bg-primary text-primary-foreground ml-auto rounded-2xl rounded-br-md px-4 py-3" 
+                  : "bg-card border border-border rounded-2xl rounded-bl-md px-4 py-3"
               )}>
-                <CardContent className="p-4 space-y-3">
-                  <div className="whitespace-pre-wrap text-sm leading-relaxed">
-                    {message.content}
-                  </div>
+                <div className="space-y-3">
+                  <div 
+                    className="text-sm leading-relaxed prose prose-sm dark:prose-invert max-w-none"
+                    dangerouslySetInnerHTML={{
+                      __html: message.content
+                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                        .replace(/\n/g, '<br>')
+                        .replace(/• /g, '• ')
+                    }}
+                  />
 
                   {/* Data Sources - Just logos */}
                   {message.sources && message.sources.length > 0 && (
@@ -470,28 +489,40 @@ print(df)`,
                     </div>
                   ))}
 
-                  {/* Generated Charts */}
+                  {/* Generated Charts - Clean & Clickable */}
                   {message.charts && message.charts.map((chart) => (
-                    <div key={chart.id} className="space-y-2">
-                      <InlineChart chart={chart} />
-                      {onSaveToWorkspace && (
-                        <div className="flex justify-end">
+                    <div key={chart.id} className="my-4">
+                      <div 
+                        className="bg-gray-50 dark:bg-gray-800 rounded-xl p-4 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors border border-gray-200 dark:border-gray-600 relative group"
+                        onClick={() => {
+                          // TODO: Open chart in detailed view
+                          console.log('Chart clicked:', chart.title);
+                        }}
+                      >
+                        <div className="mb-3">
+                          <h4 className="font-medium text-gray-900 dark:text-gray-100">{chart.title}</h4>
+                        </div>
+                        <InlineChart chart={chart} />
+                        {onSaveToWorkspace && (
                           <Button
                             size="sm"
                             variant="outline"
-                            className="text-xs"
-                            onClick={() => onSaveToWorkspace({
-                              id: `chart-${chart.id}-${Date.now()}`,
-                              type: "chart",
-                              title: chart.title,
-                              timestamp: new Date(),
-                              data: chart
-                            })}
+                            className="absolute top-2 right-2 text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onSaveToWorkspace({
+                                id: `chart-${chart.id}-${Date.now()}`,
+                                type: "chart",
+                                title: chart.title,
+                                timestamp: new Date(),
+                                data: chart
+                              });
+                            }}
                           >
-                            📊 Save to Canvas
+                            📊 Save
                           </Button>
-                        </div>
-                      )}
+                        )}
+                      </div>
                     </div>
                   ))}
 
@@ -507,8 +538,8 @@ print(df)`,
                       minute: '2-digit' 
                     })}
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
 
               {message.type === "user" && (
                 <Avatar className="h-8 w-8">
@@ -616,7 +647,7 @@ print(df)`,
               ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2" 
               : "grid-cols-2 lg:grid-cols-4 gap-1"
           )}>
-            {(messages.length <= 1 ? suggestedQuestions : suggestedQuestions.slice(0, 4)).map((question, index) => (
+            {(messages.length <= 1 ? suggestedQuestions.slice(0, 3) : suggestedQuestions.slice(0, 2)).map((question, index) => (
               <Button
                 key={index}
                 variant="outline"
@@ -627,15 +658,7 @@ print(df)`,
                 )}
                 onClick={() => handleSuggestedQuestion(question.text)}
               >
-                <div className={cn(
-                  "rounded bg-primary/10 mr-2 group-hover:bg-primary/20 transition-colors flex-shrink-0",
-                  messages.length <= 1 ? "p-1" : "p-0.5"
-                )}>
-                  <question.icon className={cn(
-                    "text-primary",
-                    messages.length <= 1 ? "h-3 w-3" : "h-2.5 w-2.5"
-                  )} />
-                </div>
+                <question.icon className="h-4 w-4 text-primary mr-2 flex-shrink-0" />
                 <div className="flex-1 min-w-0 overflow-hidden">
                   <div className={cn(
                     "font-medium leading-tight text-wrap hyphens-auto",
@@ -643,9 +666,6 @@ print(df)`,
                   )}>
                     {question.text}
                   </div>
-                  {messages.length <= 1 && (
-                    <div className="text-xs text-muted-foreground mt-0.5">{question.category}</div>
-                  )}
                 </div>
               </Button>
             ))}
