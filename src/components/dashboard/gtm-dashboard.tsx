@@ -31,10 +31,9 @@ interface FunnelMetric {
     month: number;
   };
   benchmark: {
-    industry: number;
-    top25: number;
-    bottom25: number;
+    target: number;
     status: "above" | "below" | "at";
+    editable: boolean;
   };
   dataSources: string[];
   calculation?: string;
@@ -72,7 +71,7 @@ export function GTMDashboard() {
         label: "Organic Traffic",
         value: "12.4K",
         change: { day: 8.3, week: 12.1, month: 18.7 },
-        benchmark: { industry: 10000, top25: 15000, bottom25: 5000, status: "above" as const },
+        benchmark: { target: 10000, status: "above" as const, editable: true },
         dataSources: ["Google Search Console", "GA4"],
         calculation: "Organic search sessions from GSC + GA4"
       },
@@ -81,7 +80,7 @@ export function GTMDashboard() {
         label: "Paid Leads", 
         value: "847",
         change: { day: -3.2, week: 5.8, month: 12.4 },
-        benchmark: { industry: 750, top25: 1200, bottom25: 400, status: "above" as const },
+        benchmark: { target: 750, status: "above" as const, editable: true },
         dataSources: ["Google Ads", "GA4"],
         calculation: "Conversions from Google Ads campaigns"
       },
@@ -90,7 +89,7 @@ export function GTMDashboard() {
         label: "Outbound Replies",
         value: "156",
         change: { day: 15.2, week: 8.9, month: 22.1 },
-        benchmark: { industry: 120, top25: 200, bottom25: 60, status: "above" as const },
+        benchmark: { target: 120, status: "above" as const, editable: true },
         dataSources: ["Phantombuster", "Instantly", "Apollo"],
         calculation: "Positive replies from outbound campaigns"
       },
@@ -99,7 +98,7 @@ export function GTMDashboard() {
         label: "Content Reach",
         value: "45.2K",
         change: { day: 6.7, week: 14.3, month: 28.9 },
-        benchmark: { industry: 35000, top25: 55000, bottom25: 18000, status: "above" as const },
+        benchmark: { target: 35000, status: "above" as const, editable: true },
         dataSources: ["Peek AI", "Teamfluence"],
         calculation: "Total content impressions and engagement"
       },
@@ -108,7 +107,7 @@ export function GTMDashboard() {
         label: "Blended CAC",
         value: "$42",
         change: { day: -8.1, week: -5.3, month: -12.1 },
-        benchmark: { industry: 55, top25: 35, bottom25: 85, status: "above" as const },
+        benchmark: { target: 55, status: "above" as const, editable: true },
         dataSources: ["Google Ads", "Phantombuster", "Apollo"],
         calculation: "Total marketing spend / Total leads acquired"
       }
@@ -117,18 +116,16 @@ export function GTMDashboard() {
       qualified: {
         label: "Interested Leads",
         value: "847",
-        change: 15.7,
-        period: selectedTimeframe,
-        benchmark: { industry: 650, status: "above" as const },
+        change: { day: 15.7, week: 12.3, month: 18.9 },
+        benchmark: { target: 650, status: "above" as const, editable: true },
         dataSources: ["HubSpot", "Pipedrive"],
         calculation: "Leads with engagement score > 70 or replied to outreach"
       },
       rate: {
         label: "Interest Rate",
         value: "29.8%",
-        change: 2.1,
-        period: selectedTimeframe,
-        benchmark: { industry: 25, status: "above" as const },
+        change: { day: 2.1, week: 1.8, month: 4.2 },
+        benchmark: { target: 25, status: "above" as const, editable: true },
         dataSources: ["HubSpot", "Pipedrive"],
         calculation: "Interested leads / Total leads * 100"
       }
@@ -137,18 +134,16 @@ export function GTMDashboard() {
       opportunities: {
         label: "Real Opportunities",
         value: "127",
-        change: 8.9,
-        period: selectedTimeframe,
-        benchmark: { industry: 95, status: "above" as const },
+        change: { day: 8.9, week: 6.7, month: 12.4 },
+        benchmark: { target: 95, status: "above" as const, editable: true },
         dataSources: ["HubSpot", "Pipedrive"],
         calculation: "Qualified leads with budget + authority + timeline"
       },
       revenue: {
         label: "Revenue",
         value: "$142.5K",
-        change: 18.2,
-        period: selectedTimeframe,
-        benchmark: { industry: 120000, status: "above" as const },
+        change: { day: 18.2, week: 15.6, month: 22.8 },
+        benchmark: { target: 120000, status: "above" as const, editable: true },
         dataSources: ["HubSpot", "Stripe"],
         calculation: "Closed deals * Average deal value"
       }
@@ -269,23 +264,19 @@ export function GTMDashboard() {
                 </span>
               </div>
               
-              {/* Clean Benchmark Bar */}
+              {/* Simple Target Comparison */}
+              <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
+                <span>Target: {metric.benchmark.target.toLocaleString()}</span>
+                <button className="text-gray-400 hover:text-gray-600" title="Edit target">
+                  ✏️
+                </button>
+              </div>
               <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 relative">
-                {/* Bottom 25% */}
-                <div className="absolute left-0 w-1/4 h-1.5 bg-gray-300 dark:bg-gray-600 rounded-l-full" />
-                {/* Middle 50% (Industry Average) */}
-                <div className="absolute left-1/4 w-1/2 h-1.5 bg-gray-400 dark:bg-gray-500" />
-                {/* Top 25% */}
-                <div className="absolute right-0 w-1/4 h-1.5 bg-gray-500 dark:bg-gray-400 rounded-r-full" />
-                
-                {/* Your Performance Indicator */}
+                {/* Progress towards target */}
                 <div 
-                  className="absolute top-0 w-0.5 h-1.5 bg-gray-900 dark:bg-gray-100 transition-all duration-300"
+                  className="bg-gray-600 dark:bg-gray-400 h-1.5 rounded-full transition-all duration-300"
                   style={{ 
-                    left: `${Math.min(95, Math.max(5, 
-                      ((parseInt(metric.value.replace(/[^0-9.]/g, '')) - metric.benchmark.bottom25) / 
-                       (metric.benchmark.top25 - metric.benchmark.bottom25)) * 100
-                    ))}%` 
+                    width: `${Math.min(100, (parseInt(metric.value.replace(/[^0-9.]/g, '')) / metric.benchmark.target) * 100)}%` 
                   }}
                 />
               </div>
