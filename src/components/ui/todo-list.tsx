@@ -37,7 +37,7 @@ export function TodoList({ onTaskUpdate, onOpenLeftPanel }: TodoListProps) {
       id: "1",
       title: "Mobile UX Audit",
       status: "in-progress",
-      priority: "urgent",
+      priority: "high",
       description: "Analyze mobile conversion drop",
       createdAt: new Date(),
       updatedAt: new Date()
@@ -135,12 +135,11 @@ export function TodoList({ onTaskUpdate, onOpenLeftPanel }: TodoListProps) {
   return (
     <div className="mb-6">
       <div className="flex items-center justify-between mb-3">
-        <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">Tasks</h3>
         <Button
           size="sm"
           variant="ghost"
           onClick={() => setShowAddInput(true)}
-          className="h-6 w-6 p-0"
+          className="h-6 w-6 p-0 ml-auto"
         >
           <Plus className="h-4 w-4" />
         </Button>
@@ -230,12 +229,8 @@ export function TodoList({ onTaskUpdate, onOpenLeftPanel }: TodoListProps) {
                     <Edit3 className="h-3 w-3" />
                   </Button>
                 </>
-              )}
-            </div>
-            
-            {task.priority === 'urgent' && (
-              <div className="w-2 h-2 bg-red-500 rounded-full" />
-            )}
+                   )}
+                   </div>
           </div>
         ))}
         
