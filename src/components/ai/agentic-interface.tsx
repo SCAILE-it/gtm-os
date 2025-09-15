@@ -385,19 +385,17 @@ print(df)`,
                 message.type === "user" ? "justify-end" : "justify-start"
               )}
             >
-              {message.type === "agent" && (
-                <Avatar className="h-8 w-8 bg-primary/10">
-                  <AvatarFallback className="bg-primary/10">
-                    <Image 
-                      src="/scaile-logo.svg" 
-                      alt="SCAILE AI" 
-                      width={16} 
-                      height={16}
-                      className="h-4 w-4"
-                    />
-                  </AvatarFallback>
-                </Avatar>
-              )}
+                     {message.type === "agent" && (
+                       <div className="h-8 w-8 flex items-center justify-center">
+                         <Image 
+                           src="/scaile-logo.svg" 
+                           alt="SCAILE AI" 
+                           width={16} 
+                           height={16}
+                           className="h-4 w-4 opacity-60"
+                         />
+                       </div>
+                     )}
               
                      <div className={cn(
                        "w-full max-w-[85%] transition-all duration-200",
@@ -552,19 +550,17 @@ print(df)`,
           ))}
 
           {/* Loading indicator with multi-task progress */}
-          {isLoading && (
-            <div className="flex gap-3 justify-start">
-              <Avatar className="h-8 w-8 bg-primary/10">
-                <AvatarFallback className="bg-primary/10">
-                  <Image 
-                    src="/scaile-logo.svg" 
-                    alt="SCAILE AI" 
-                    width={16} 
-                    height={16}
-                    className="h-4 w-4"
-                  />
-                </AvatarFallback>
-              </Avatar>
+                 {isLoading && (
+                   <div className="flex gap-3 justify-start">
+                     <div className="h-8 w-8 flex items-center justify-center">
+                       <Image 
+                         src="/scaile-logo.svg" 
+                         alt="SCAILE AI" 
+                         width={16} 
+                         height={16}
+                         className="h-4 w-4 opacity-60"
+                       />
+                     </div>
               <Card className="bg-muted max-w-[80%] min-w-[300px]">
                 <CardContent className="p-3">
                   <div className="space-y-3">
