@@ -213,7 +213,7 @@ export function GTMDashboard() {
     color: string,
     onClick: () => void
   ) => (
-    <Card className="cursor-pointer hover:shadow-md transition-all duration-200 group" onClick={onClick}>
+    <Card className="cursor-pointer hover:shadow-md transition-all duration-200 group bg-white dark:bg-[#262626] border border-gray-200 dark:border-gray-600" onClick={onClick}>
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <div>
@@ -391,7 +391,7 @@ export function GTMDashboard() {
       {/* Dashboard Boxes */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Daily Tasks for Improvements */}
-        <Card className="cursor-pointer hover:shadow-md transition-all duration-200">
+        <Card className="cursor-pointer hover:shadow-md transition-all duration-200 bg-white dark:bg-[#262626] border border-gray-200 dark:border-gray-600">
           <CardHeader className="pb-3">
             <CardTitle className="text-sm font-semibold text-gray-900 dark:text-gray-100 flex items-center gap-2">
               <CheckCircle2 className="h-5 w-5" />
@@ -427,7 +427,7 @@ export function GTMDashboard() {
         </Card>
 
         {/* Agent Runs of the Day */}
-        <Card className="cursor-pointer hover:shadow-md transition-all duration-200">
+        <Card className="cursor-pointer hover:shadow-md transition-all duration-200 bg-white dark:bg-[#262626] border border-gray-200 dark:border-gray-600">
           <CardHeader className="pb-3">
             <CardTitle className="text-sm font-semibold text-gray-900 dark:text-gray-100 flex items-center gap-2">
               <Bot className="h-5 w-5" />
@@ -482,7 +482,7 @@ export function GTMDashboard() {
         </Card>
 
         {/* Market Sentiment Insights */}
-        <Card className="cursor-pointer hover:shadow-md transition-all duration-200">
+        <Card className="cursor-pointer hover:shadow-md transition-all duration-200 bg-white dark:bg-[#262626] border border-gray-200 dark:border-gray-600">
           <CardHeader className="pb-3">
             <CardTitle className="text-sm font-semibold text-gray-900 dark:text-gray-100 flex items-center gap-2">
               <BarChart3 className="h-5 w-5" />
