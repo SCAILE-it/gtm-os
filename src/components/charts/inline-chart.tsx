@@ -58,31 +58,56 @@ export function InlineChart({ chart }: InlineChartProps) {
       
       case "pie":
         return (
-          <div className="w-full h-[100px] flex items-center justify-center p-2">
-            <PieChart width={120} height={80}>
-              <Pie
-                data={chart.data}
-                cx={60}
-                cy={40}
-                innerRadius={12}
-                outerRadius={30}
-                paddingAngle={1}
-                dataKey="value"
-              >
+          <div className="w-full h-[140px] p-2">
+            <div className="flex items-center gap-3">
+              {/* Chart */}
+              <div className="flex-shrink-0">
+                <PieChart width={100} height={80}>
+                  <Pie
+                    data={chart.data}
+                    cx={50}
+                    cy={40}
+                    innerRadius={12}
+                    outerRadius={28}
+                    paddingAngle={1}
+                    dataKey="value"
+                  >
+                    {chart.data.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip 
+                    formatter={(value: number) => [`$${(value / 1000).toFixed(1)}K`, 'Revenue']}
+                    contentStyle={{
+                      backgroundColor: 'white',
+                      border: '1px solid #e5e7eb',
+                      borderRadius: '4px',
+                      fontSize: '10px'
+                    }}
+                  />
+                </PieChart>
+              </div>
+              
+              {/* Legend */}
+              <div className="flex-1 space-y-1">
                 {chart.data.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  <div key={index} className="flex items-center gap-2">
+                    <div 
+                      className="w-2 h-2 rounded-full flex-shrink-0"
+                      style={{ backgroundColor: COLORS[index % COLORS.length] }}
+                    />
+                    <div className="flex-1 min-w-0">
+                      <div className="text-xs font-medium text-gray-900 dark:text-gray-100 truncate">
+                        {entry.name}
+                      </div>
+                      <div className="text-xs text-gray-600 dark:text-gray-400">
+                        {entry.percentage || Math.round((entry.value / chart.data.reduce((sum, item) => sum + item.value, 0)) * 100)}%
+                      </div>
+                    </div>
+                  </div>
                 ))}
-              </Pie>
-              <Tooltip 
-                formatter={(value: number) => [`$${(value / 1000).toFixed(1)}K`, 'Revenue']}
-                contentStyle={{
-                  backgroundColor: 'white',
-                  border: '1px solid #e5e7eb',
-                  borderRadius: '4px',
-                  fontSize: '10px'
-                }}
-              />
-            </PieChart>
+              </div>
+            </div>
           </div>
         );
       
