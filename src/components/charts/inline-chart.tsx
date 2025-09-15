@@ -44,7 +44,7 @@ export function InlineChart({ chart }: InlineChartProps) {
               />
               <Bar 
                 dataKey="count" 
-                fill="#2563eb"
+                fill="#6b7280"
                 radius={[4, 4, 0, 0]}
               />
             </BarChart>

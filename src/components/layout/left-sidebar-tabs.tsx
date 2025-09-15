@@ -112,11 +112,11 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
             ].map((flow, index) => (
               <div 
                 key={index} 
-                className={`p-2 rounded border cursor-pointer transition-colors ${
-                  flow.status === 'active' 
-                    ? 'border-blue-200 dark:border-blue-700 bg-blue-50 dark:bg-blue-950/20 hover:bg-blue-100 dark:hover:bg-blue-950/30' 
-                    : 'border-gray-200 dark:border-gray-600 bg-white dark:bg-[#262626] hover:bg-gray-50 dark:hover:bg-[#3A3E4E]'
-                }`}
+                       className={`p-2 rounded border cursor-pointer transition-colors ${
+                         flow.status === 'active' 
+                           ? 'border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-[#404040] hover:bg-gray-200 dark:hover:bg-[#525252]' 
+                           : 'border-gray-200 dark:border-gray-600 bg-white dark:bg-[#262626] hover:bg-gray-50 dark:hover:bg-[#3A3E4E]'
+                       }`}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex-1 min-w-0 mr-2">
@@ -129,17 +129,17 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
                   </div>
                   
                   <div className="flex items-center gap-1 flex-shrink-0">
-                    {flow.status === 'active' && (
-                      <div className="text-xs text-blue-600 dark:text-blue-400 font-medium">{flow.progress}%</div>
-                    )}
-                    
-                    {flow.status === 'active' ? (
-                      <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
-                    ) : !flow.read ? (
-                      <div className="w-2 h-2 bg-blue-600 rounded-full" />
-                    ) : (
-                      <div className="w-2 h-2 bg-gray-400 rounded-full" />
-                    )}
+                           {flow.status === 'active' && (
+                             <div className="text-xs text-gray-600 dark:text-gray-400 font-medium">{flow.progress}%</div>
+                           )}
+                           
+                           {flow.status === 'active' ? (
+                             <div className="w-2 h-2 bg-gray-600 rounded-full animate-pulse" />
+                           ) : !flow.read ? (
+                             <div className="w-2 h-2 bg-gray-800 dark:bg-gray-300 rounded-full" />
+                           ) : (
+                             <div className="w-2 h-2 bg-gray-400 rounded-full" />
+                           )}
                   </div>
                 </div>
               </div>
@@ -221,8 +221,8 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
                 ].map((task, index) => (
                   <div key={index} className="flex items-center gap-2 p-2 bg-white dark:bg-[#262626] rounded border border-gray-200 dark:border-gray-600">
                     <div className={`w-2 h-2 rounded-full ${
-                      task.status === 'completed' ? 'bg-green-500' :
-                      task.status === 'pending' ? 'bg-blue-500' : 'bg-gray-400'
+                      task.status === 'completed' ? 'bg-gray-600' :
+                      task.status === 'pending' ? 'bg-gray-400' : 'bg-gray-300'
                     }`} />
                     <div className="flex-1">
                       <div className="text-sm font-medium text-gray-800 dark:text-gray-200">{task.title}</div>
@@ -682,11 +682,11 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
                     key={tab.id}
                     variant={activeTab === tab.id ? "default" : "ghost"}
                     size="sm"
-                    className={`rounded-lg h-8 w-8 p-0 flex-shrink-0 ${
-                      activeTab === tab.id 
-                        ? 'bg-blue-500 hover:bg-blue-600 text-white' 
-                        : 'hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400'
-                    }`}
+                           className={`rounded-lg h-8 w-8 p-0 flex-shrink-0 ${
+                             activeTab === tab.id 
+                               ? 'bg-gray-800 dark:bg-gray-200 text-white dark:text-gray-900' 
+                               : 'hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400'
+                           }`}
                     onClick={() => setActiveTab(tab.id)}
                     title={tab.label}
                   >
