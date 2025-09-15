@@ -399,91 +399,73 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
               />
             </div>
 
-            {/* Inbound Agents */}
+            {/* Agent Library - Individual Cards */}
             <div>
-              <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">Inbound</h4>
+              <div className="grid grid-cols-1 gap-2">
+                {[
+                  // Inbound - Website
+                  { name: "Keywords Research", category: "Inbound • Website", active: false },
+                  { name: "SEMrush Analysis", category: "Inbound • Website", active: true },
+                  { name: "Peek AI Optimization", category: "Inbound • Website", active: false },
+                  { name: "Website Health Check", category: "Inbound • Website", active: false },
+                  { name: "Conversion Optimization", category: "Inbound • Website", active: true },
+                  { name: "Google Ads Audit", category: "Inbound • Website", active: false },
+                  
+                  // Inbound - Content & Social
+                  { name: "LinkedIn Content Writer", category: "Inbound • Content", active: false },
+                  { name: "YouTube Snippet Creator", category: "Inbound • Content", active: false },
+                  { name: "Newsletter Writer", category: "Inbound • Content", active: true },
+                  { name: "Webinar Content", category: "Inbound • Content", active: false },
+                  
+                  // Outbound
+                  { name: "Lead Crawler", category: "Outbound", active: false },
+                  { name: "Lead Enrichment", category: "Outbound", active: false },
+                  { name: "Message Writer", category: "Outbound", active: false },
+                  { name: "Campaign Setup", category: "Outbound", active: false },
+                  { name: "Campaign Runner", category: "Outbound", active: false },
+                  
+                  // CRM
+                  { name: "Data Cleanup", category: "CRM", active: true },
+                  { name: "Issue Escalation", category: "CRM", active: false },
+                  { name: "Sales Rep Alerts", category: "CRM", active: false },
+                  { name: "Pipeline Management", category: "CRM", active: false }
+                ].map((agent, index) => (
+                  <div 
+                    key={index} 
+                    className={`p-2 rounded border cursor-pointer transition-colors ${
+                      agent.active 
+                        ? 'border-2 border-gray-400 dark:border-gray-500 bg-white dark:bg-[#262626]' 
+                        : 'border-2 border-dashed border-gray-300 dark:border-gray-600 bg-gray-50/50 dark:bg-[#171717]/50'
+                    } hover:bg-gray-50 dark:hover:bg-[#404040]`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1 min-w-0">
+                        <div className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
+                          {agent.name}
+                        </div>
+                        <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                          {agent.category}
+                        </div>
+                      </div>
+                      <div className="flex-shrink-0 ml-2">
+                        {agent.active ? (
+                          <div className="text-xs text-gray-600 dark:text-gray-400">Active</div>
+                        ) : (
+                          <Button size="sm" variant="ghost" className="text-xs h-4 w-4 p-0 text-gray-400 hover:text-gray-600" title="Activate">
+                            +
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
               
-              {/* Website */}
-              <div className="mb-3">
-                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Website</div>
-                <div className="space-y-1">
-                  {[
-                    "Keywords Research",
-                    "SEMrush Analysis", 
-                    "Peek AI Optimization",
-                    "Website Health Check",
-                    "Conversion Optimization",
-                    "Google Ads Audit"
-                  ].map((agent, index) => (
-                    <div key={index} className="flex items-center justify-between p-1 hover:bg-gray-50 dark:hover:bg-[#404040] rounded transition-colors cursor-pointer">
-                      <div className="text-sm text-gray-900 dark:text-gray-100">{agent}</div>
-                      <Button size="sm" variant="ghost" className="text-xs h-4 w-4 p-0 text-gray-400 hover:text-gray-600" title="Activate">
-                        +
-                      </Button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Content & Social */}
-              <div className="mb-3">
-                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Content & Social</div>
-                <div className="space-y-1">
-                  {[
-                    "LinkedIn Content Writer",
-                    "YouTube Snippet Creator",
-                    "Newsletter Writer",
-                    "Webinar Content"
-                  ].map((agent, index) => (
-                    <div key={index} className="flex items-center justify-between p-1 hover:bg-gray-50 dark:hover:bg-[#404040] rounded transition-colors cursor-pointer">
-                      <div className="text-sm text-gray-900 dark:text-gray-100">{agent}</div>
-                      <Button size="sm" variant="ghost" className="text-xs h-4 w-4 p-0 text-gray-400 hover:text-gray-600" title="Activate">
-                        +
-                      </Button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Outbound Agents */}
-            <div>
-              <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">Outbound</h4>
-              <div className="space-y-1">
-                {[
-                  "Lead Crawler",
-                  "Lead Enrichment", 
-                  "Message Writer",
-                  "Campaign Setup",
-                  "Campaign Runner"
-                ].map((agent, index) => (
-                  <div key={index} className="flex items-center justify-between p-1 hover:bg-gray-50 dark:hover:bg-[#404040] rounded transition-colors cursor-pointer">
-                    <div className="text-sm text-gray-900 dark:text-gray-100">{agent}</div>
-                    <Button size="sm" variant="ghost" className="text-xs h-4 w-4 p-0 text-gray-400 hover:text-gray-600" title="Activate">
-                      +
-                    </Button>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* CRM Agents */}
-            <div>
-              <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">CRM</h4>
-              <div className="space-y-1">
-                {[
-                  "Data Cleanup",
-                  "Issue Escalation",
-                  "Sales Rep Alerts",
-                  "Pipeline Management"
-                ].map((agent, index) => (
-                  <div key={index} className="flex items-center justify-between p-1 hover:bg-gray-50 dark:hover:bg-[#404040] rounded transition-colors cursor-pointer">
-                    <div className="text-sm text-gray-900 dark:text-gray-100">{agent}</div>
-                    <Button size="sm" variant="ghost" className="text-xs h-4 w-4 p-0 text-gray-400 hover:text-gray-600" title="Activate">
-                      +
-                    </Button>
-                  </div>
-                ))}
+              {/* Show More */}
+              <div className="text-center pt-2">
+                <Button variant="ghost" size="sm" className="text-xs text-gray-500 hover:text-gray-700">
+                  Show all 30+ agents
+                </Button>
               </div>
             </div>
           </div>
