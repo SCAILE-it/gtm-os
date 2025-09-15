@@ -51,7 +51,7 @@ export function OperatingSystemLayout() {
   const [leftSidebarCollapsed, setLeftSidebarCollapsed] = useState(false);
   const [rightPanelCollapsed, setRightPanelCollapsed] = useState(false);
   const [leftPanelWidth, setLeftPanelWidth] = useState(320); // 80 * 4 = 320px
-  const [rightPanelWidth, setRightPanelWidth] = useState(384); // 96 * 4 = 384px
+  const [rightPanelWidth, setRightPanelWidth] = useState(320); // Match left panel width
   const [workspaceItems, setWorkspaceItems] = useState<WorkspaceItem[]>([]);
   const [agentTasks, setAgentTasks] = useState<AgentTask[]>([
     {
@@ -165,17 +165,26 @@ export function OperatingSystemLayout() {
 
             {!rightPanelCollapsed && (
               <ScrollArea className="flex-1 p-3">
-                {/* Empty State */}
-                {workspaceItems.length === 0 && (
-                  <div className="text-center py-6">
-                    <div className="w-12 h-12 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-2">
-                      <BarChart3 className="h-6 w-6 text-gray-400" />
-                    </div>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">
-                      Save charts to canvas
-                    </p>
-                  </div>
-                )}
+                         {/* Enhanced Empty State */}
+                         {workspaceItems.length === 0 && (
+                           <div className="text-center py-6">
+                             <div className="w-12 h-12 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-3">
+                               <BarChart3 className="h-6 w-6 text-gray-400" />
+                             </div>
+                             <p className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-1">
+                               Your Canvas
+                             </p>
+                             <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">
+                               Save charts, tables, and insights here
+                             </p>
+                             <div className="text-xs text-gray-500 dark:text-gray-400 space-y-1">
+                               <div>• Email reports to stakeholders</div>
+                               <div>• Export to PDF/PowerPoint</div>
+                               <div>• Create executive dashboards</div>
+                               <div>• Share with team members</div>
+                             </div>
+                           </div>
+                         )}
 
                   {/* Canvas Items - Full Collaboration */}
                   {workspaceItems.length > 0 && (
@@ -231,16 +240,19 @@ export function OperatingSystemLayout() {
                               </Button>
                             </div>
                             
-                            {/* Share Row */}
+                            {/* Communication Row */}
                             <div className="flex gap-1">
-                              <Button size="sm" variant="outline" className="h-6 w-6 p-0" title="Email (Gmail required)">
+                              <Button size="sm" variant="outline" className="h-6 w-6 p-0" title="Email report (Gmail)">
                                 <Mail className="h-3 w-3" />
                               </Button>
-                              <Button size="sm" variant="outline" className="h-6 w-6 p-0" title="Copy">
+                              <Button size="sm" variant="outline" className="h-6 w-6 p-0" title="Copy to clipboard">
                                 <Copy className="h-3 w-3" />
                               </Button>
-                              <Button size="sm" variant="outline" className="h-6 w-6 p-0" title="Share">
+                              <Button size="sm" variant="outline" className="h-6 w-6 p-0" title="Share link">
                                 <Share2 className="h-3 w-3" />
+                              </Button>
+                              <Button size="sm" variant="outline" className="h-6 w-6 p-0" title="Download PDF">
+                                <Download className="h-3 w-3" />
                               </Button>
                             </div>
                           </div>
