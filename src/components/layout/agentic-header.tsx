@@ -39,8 +39,8 @@ export function AgenticHeader({}: AgenticHeaderProps) {
               />
             </div>
             <div className="flex items-center gap-2">
-              <h1 className="text-lg font-semibold text-foreground">
-                GTM Operating System
+              <h1 className="text-base font-medium text-foreground">
+                gtm-os
               </h1>
               <span className="px-2 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full">
                 Beta

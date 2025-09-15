@@ -95,27 +95,15 @@ export function AgenticInterface({ className, onSaveToWorkspace }: AgenticInterf
     {
       id: "1",
       type: "agent",
-      content: "📋 **Daily Briefing - Sep 14**\n\nRevenue: **$142.5K** (+12.3%) | CAC: **$85** (-8.2%) | Conversion: **3.2%** (+0.5%)\n\n🟢 **Email driving 45% of revenue** - scale opportunity\n🔴 **Mobile conversion down 12%** - losing $8-12K weekly\n🔵 **Social ROAS +40%** - increase budget 25%\n\n**Decision needed:** Mobile fix vs Email scaling?",
-      timestamp: new Date(),
-      charts: [
-        {
-          id: "channel-breakdown",
-          type: "pie",
-          title: "Chart of the Day",
-          data: [
-            { name: "Email", value: 64100, percentage: 45 },
-            { name: "Social", value: 42800, percentage: 30 },
-            { name: "Organic", value: 21400, percentage: 15 },
-            { name: "Paid", value: 14200, percentage: 10 }
-          ]
-        }
-      ]
+      content: "**Daily Brief**\n\nRevenue $142.5K (+12.3%) • CAC $85 (-8.2%) • Conv 3.2% (+0.5%) • Users 2.1K (+15.7%)\n\nEmail 45% revenue (+23% performance) → Scale +$30K/month\nMobile conv -12% → Fix saves $60K/month\nSocial ROAS +40% → Double budget\nCustomer LTV up 8% → Retention improving\nPaid ads CPC down 15% → Efficiency gains\n\nTop priority: Mobile conversion fix"
     }
   ]);
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [overallProgress, setOverallProgress] = useState(0);
   const [currentTasks, setCurrentTasks] = useState<TaskProgress[]>([]);
+  const [promptQueue, setPromptQueue] = useState<string[]>([]);
+  const [processingQueue, setProcessingQueue] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -353,7 +341,7 @@ print(df)`,
   };
 
   const handleSendMessage = async () => {
-    if (!inputValue.trim()) return;
+    if (!inputValue.trim() || isLoading) return;
 
     const userMessage = {
       id: Date.now().toString(),
@@ -365,14 +353,13 @@ print(df)`,
     setMessages(prev => [...prev, userMessage]);
     setInputValue("");
     
-    // TODO: Replace simulateAgentResponse with real API call
-    // POST /api/chat/completions
-    // Body: { message: inputValue, context: contextFiles, systemPrompt }
-    // Response: { content, sources?, codeBlocks?, charts?, finalContent? }
-    await simulateAgentResponse(inputValue);
+    // Simple direct processing - no queue for now
+    await simulateAgentResponse(userMessage.content);
   };
 
   const handleSuggestedQuestion = async (question: string) => {
+    if (isLoading) return;
+    
     const userMessage = {
       id: Date.now().toString(),
       type: "user" as const,
@@ -413,14 +400,14 @@ print(df)`,
               )}
               
               <div className={cn(
-                "max-w-[85%] transition-all duration-200",
+                "w-full max-w-[85%] transition-all duration-200",
                 message.type === "user" 
-                  ? "bg-primary text-primary-foreground ml-auto rounded-2xl rounded-br-md px-4 py-3" 
-                  : "bg-card border border-border rounded-2xl rounded-bl-md px-4 py-3"
+                  ? "bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 ml-auto rounded-lg px-3 py-2" 
+                  : "bg-gray-100 dark:bg-gray-800 border-0 rounded-lg px-3 py-2"
               )}>
                 <div className="space-y-3">
                   <div 
-                    className="text-sm leading-relaxed prose prose-sm dark:prose-invert max-w-none"
+                    className="text-xs leading-relaxed prose prose-xs dark:prose-invert max-w-none"
                     dangerouslySetInnerHTML={{
                       __html: message.content
                         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
@@ -450,12 +437,28 @@ print(df)`,
                     <div key={codeBlock.id} className="space-y-2">
                       {/* Output - Always visible */}
                       {codeBlock.output && (
-                        <div className="bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-800 rounded-md p-3">
+                        <div className="bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-800 rounded-md p-3 relative group">
                           <div className="flex items-center gap-2 mb-1">
                             <Play className="h-3 w-3 text-green-600" />
                             <span className="text-xs font-medium text-green-600">Result</span>
                             {codeBlock.status === "completed" && (
                               <CheckCircle className="h-3 w-3 text-green-600" />
+                            )}
+                            {onSaveToWorkspace && (
+                              <Button
+                                size="sm"
+                                variant="ghost"
+                                className="text-xs h-5 px-1 ml-auto opacity-0 group-hover:opacity-100 transition-opacity"
+                                onClick={() => onSaveToWorkspace({
+                                  id: `table-${codeBlock.id}-${Date.now()}`,
+                                  type: "table",
+                                  title: `${codeBlock.language.toUpperCase()} Result`,
+                                  timestamp: new Date(),
+                                  data: { output: codeBlock.output, code: codeBlock.code }
+                                })}
+                              >
+                                Save
+                              </Button>
                             )}
                           </div>
                           <pre className="text-xs font-mono whitespace-pre-wrap text-green-800 dark:text-green-200">
@@ -493,21 +496,17 @@ print(df)`,
                   {message.charts && message.charts.map((chart) => (
                     <div key={chart.id} className="my-4">
                       <div 
-                        className="bg-gray-50 dark:bg-gray-800 rounded-xl p-4 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors border border-gray-200 dark:border-gray-600 relative group"
+                        className="bg-gray-50 dark:bg-gray-800 rounded p-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors border border-gray-200 dark:border-gray-600 relative group"
                         onClick={() => {
                           // TODO: Open chart in detailed view
                           console.log('Chart clicked:', chart.title);
                         }}
                       >
-                        <div className="mb-3">
-                          <h4 className="font-medium text-gray-900 dark:text-gray-100">{chart.title}</h4>
-                        </div>
-                        <InlineChart chart={chart} />
                         {onSaveToWorkspace && (
                           <Button
                             size="sm"
-                            variant="outline"
-                            className="absolute top-2 right-2 text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                            variant="ghost"
+                            className="absolute top-1 right-1 text-xs h-5 px-1 opacity-0 group-hover:opacity-100 transition-opacity"
                             onClick={(e) => {
                               e.stopPropagation();
                               onSaveToWorkspace({
@@ -519,9 +518,12 @@ print(df)`,
                               });
                             }}
                           >
-                            📊 Save
+                            Save
                           </Button>
                         )}
+                        <div className="w-full h-32 overflow-hidden">
+                          <InlineChart chart={chart} />
+                        </div>
                       </div>
                     </div>
                   ))}
@@ -533,10 +535,10 @@ print(df)`,
                     {message.type === "agent" && (
                       <Sparkles className="h-3 w-3 animate-pulse" />
                     )}
-                    {message.timestamp.toLocaleTimeString([], { 
+                    {message.timestamp?.toLocaleTimeString([], { 
                       hour: '2-digit', 
                       minute: '2-digit' 
-                    })}
+                    }) || 'Now'}
                   </div>
                 </div>
               </div>
@@ -673,6 +675,7 @@ print(df)`,
         </div>
       )}
 
+
       {/* Input */}
       <div className="p-4 border-t border-border">
         <div className="flex gap-2">
@@ -689,7 +692,7 @@ print(df)`,
                   handleSendMessage();
                 }
               }}
-              className="w-full px-4 py-3 text-base border border-border rounded-lg bg-background/50 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-200 placeholder:text-muted-foreground/60"
+              className="w-full px-3 py-2 text-sm border border-border rounded-lg bg-background/50 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-200 placeholder:text-muted-foreground/60"
               disabled={isLoading}
             />
           </div>
@@ -697,7 +700,7 @@ print(df)`,
             onClick={handleSendMessage} 
             disabled={!inputValue.trim() || isLoading}
             size="default"
-            className="px-4 py-3 bg-primary hover:bg-primary/90 transition-colors"
+            className="px-3 py-2 bg-primary hover:bg-primary/90 transition-colors"
           >
             <Send className="h-4 w-4" />
           </Button>
