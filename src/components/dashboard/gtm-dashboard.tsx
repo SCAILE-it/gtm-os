@@ -32,6 +32,8 @@ interface FunnelMetric {
   };
   benchmark: {
     industry: number;
+    top25: number;
+    bottom25: number;
     status: "above" | "below" | "at";
   };
   dataSources: string[];
@@ -62,40 +64,53 @@ export function GTMDashboard() {
   const [selectedBusinessUnit, setSelectedBusinessUnit] = useState("All");
   const [selectedTimeframe, setSelectedTimeframe] = useState<"day" | "week" | "month">("day");
 
-  // Enhanced Funnel Metrics with More Detail
+  // Tool-Specific KPIs Based on Integrations
   const funnelMetrics = {
     attract: {
-      leads: {
-        label: "All Leads",
-        value: "2,847",
-        change: { day: 12.3, week: 8.7, month: 15.2 },
-        benchmark: { industry: 2500, status: "above" as const },
-        dataSources: ["Google Analytics", "Google Ads", "LinkedIn"],
-        calculation: "Website visits + Form submissions + Outreach replies"
+      // GSC + GA4 Metrics
+      organicTraffic: {
+        label: "Organic Traffic",
+        value: "12.4K",
+        change: { day: 8.3, week: 12.1, month: 18.7 },
+        benchmark: { industry: 10000, top25: 15000, bottom25: 5000, status: "above" as const },
+        dataSources: ["Google Search Console", "GA4"],
+        calculation: "Organic search sessions from GSC + GA4"
       },
-      cost: {
-        label: "Cost per Lead", 
+      // Google Ads Metrics
+      paidLeads: {
+        label: "Paid Leads", 
+        value: "847",
+        change: { day: -3.2, week: 5.8, month: 12.4 },
+        benchmark: { industry: 750, top25: 1200, bottom25: 400, status: "above" as const },
+        dataSources: ["Google Ads", "GA4"],
+        calculation: "Conversions from Google Ads campaigns"
+      },
+      // Phantombuster + Apollo Outbound
+      outboundReplies: {
+        label: "Outbound Replies",
+        value: "156",
+        change: { day: 15.2, week: 8.9, month: 22.1 },
+        benchmark: { industry: 120, top25: 200, bottom25: 60, status: "above" as const },
+        dataSources: ["Phantombuster", "Instantly", "Apollo"],
+        calculation: "Positive replies from outbound campaigns"
+      },
+      // Peek AI + Teamfluence
+      contentPerformance: {
+        label: "Content Reach",
+        value: "45.2K",
+        change: { day: 6.7, week: 14.3, month: 28.9 },
+        benchmark: { industry: 35000, top25: 55000, bottom25: 18000, status: "above" as const },
+        dataSources: ["Peek AI", "Teamfluence"],
+        calculation: "Total content impressions and engagement"
+      },
+      // Combined Cost Efficiency
+      costPerLead: {
+        label: "Blended CAC",
         value: "$42",
         change: { day: -8.1, week: -5.3, month: -12.1 },
-        benchmark: { industry: 55, status: "above" as const },
-        dataSources: ["Google Ads", "LinkedIn Ads", "Phantombuster"],
-        calculation: "Total ad spend / Total leads generated"
-      },
-      traffic: {
-        label: "Website Traffic",
-        value: "18.2K",
-        change: { day: 5.4, week: 12.1, month: 23.7 },
-        benchmark: { industry: 15000, status: "above" as const },
-        dataSources: ["Google Analytics", "Google Search Console"],
-        calculation: "Unique visitors from all channels"
-      },
-      conversion: {
-        label: "Traffic to Lead",
-        value: "15.6%",
-        change: { day: 2.1, week: -1.2, month: 4.8 },
-        benchmark: { industry: 12, status: "above" as const },
-        dataSources: ["Google Analytics", "HubSpot"],
-        calculation: "Form submissions / Website visitors * 100"
+        benchmark: { industry: 55, top25: 35, bottom25: 85, status: "above" as const },
+        dataSources: ["Google Ads", "Phantombuster", "Apollo"],
+        calculation: "Total marketing spend / Total leads acquired"
       }
     },
     convert: {
@@ -203,20 +218,20 @@ export function GTMDashboard() {
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+            <CardTitle className="text-sm font-semibold text-gray-900 dark:text-gray-100">
               {title}
             </CardTitle>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">{subtitle}</p>
+            <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">{subtitle}</p>
           </div>
-          <ArrowRight className="h-5 w-5 text-gray-400 group-hover:text-gray-600 transition-colors" />
+          <ArrowRight className="h-4 w-4 text-gray-400 group-hover:text-gray-600 transition-colors" />
         </div>
       </CardHeader>
       <CardContent className="space-y-4">
         {Object.entries(metrics).map(([key, metric]) => (
-          <div key={key} className="group/metric">
+          <div key={key} className="group/metric relative">
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2">
-                <span className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                <span className="text-xs font-medium text-gray-900 dark:text-gray-100">
                   {metric.label}
                 </span>
                 <Info className="h-3 w-3 text-gray-400 opacity-0 group-hover/metric:opacity-100 transition-opacity" />
@@ -227,16 +242,16 @@ export function GTMDashboard() {
             </div>
             
               <div className="flex items-center justify-between">
-                <span className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                <span className="text-lg font-bold text-gray-900 dark:text-gray-100">
                   {metric.value}
                 </span>
                 <div className="flex items-center gap-1">
                   {metric.change[selectedTimeframe] > 0 ? (
-                    <TrendingUp className="h-4 w-4 text-gray-600" />
+                    <TrendingUp className="h-3 w-3 text-gray-600" />
                   ) : (
-                    <TrendingDown className="h-4 w-4 text-gray-600" />
+                    <TrendingDown className="h-3 w-3 text-gray-600" />
                   )}
-                  <span className="text-sm font-medium text-gray-600">
+                  <span className="text-xs font-medium text-gray-600">
                     {metric.change[selectedTimeframe] > 0 ? '+' : ''}{metric.change[selectedTimeframe]}%
                   </span>
                   <span className="text-xs text-gray-500">
@@ -245,16 +260,52 @@ export function GTMDashboard() {
                 </div>
               </div>
             
-            {/* Data Sources & Calculation on Hover */}
-            <div className="opacity-0 group-hover/metric:opacity-100 transition-opacity mt-2 p-2 bg-gray-50 dark:bg-gray-800 rounded text-xs">
-              <div className="text-gray-600 dark:text-gray-400 mb-1">
-                Sources: {metric.dataSources.join(", ")}
+            {/* Industry Benchmark Visualization */}
+            <div className="mt-2">
+              <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 mb-1">
+                <span>Industry Benchmark</span>
+                <span>{metric.benchmark.industry.toLocaleString()} avg</span>
               </div>
-              {metric.calculation && (
-                <div className="text-gray-500 dark:text-gray-500">
-                  Calculation: {metric.calculation}
+              
+              {/* Benchmark Bar with Percentiles */}
+              <div className="relative">
+                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 relative">
+                  {/* Bottom 25% */}
+                  <div className="absolute left-0 w-1/4 h-2 bg-gray-300 dark:bg-gray-600 rounded-l-full" />
+                  {/* Middle 50% (Industry Average) */}
+                  <div className="absolute left-1/4 w-1/2 h-2 bg-gray-400 dark:bg-gray-500" />
+                  {/* Top 25% */}
+                  <div className="absolute right-0 w-1/4 h-2 bg-gray-500 dark:bg-gray-400 rounded-r-full" />
+                  
+                  {/* Your Performance Indicator */}
+                  <div 
+                    className="absolute top-0 w-1 h-2 bg-gray-900 dark:bg-gray-100 rounded-full transition-all duration-300"
+                    style={{ 
+                      left: `${Math.min(95, Math.max(5, 
+                        ((parseInt(metric.value.replace(/[^0-9.]/g, '')) - metric.benchmark.bottom25) / 
+                         (metric.benchmark.top25 - metric.benchmark.bottom25)) * 100
+                      ))}%` 
+                    }}
+                  />
                 </div>
-              )}
+                
+                {/* Labels */}
+                <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
+                  <span>Bottom 25%</span>
+                  <span>Average</span>
+                  <span>Top 25%</span>
+                </div>
+              </div>
+            </div>
+            
+            {/* Tooltip on Hover */}
+            <div className="absolute inset-0 opacity-0 group-hover/metric:opacity-100 transition-opacity pointer-events-none">
+              <div className="absolute top-0 left-0 right-0 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-xs p-2 rounded shadow-lg z-10">
+                <div className="mb-1">Sources: {metric.dataSources.join(", ")}</div>
+                {metric.calculation && (
+                  <div>Calculation: {metric.calculation}</div>
+                )}
+              </div>
             </div>
           </div>
         ))}
@@ -266,9 +317,9 @@ export function GTMDashboard() {
     <div className="p-6 space-y-6 bg-background min-h-screen">
       {/* Filters */}
       <div className="flex items-center justify-between">
-        <div className="flex gap-2">
+        <div className="flex gap-1">
           {/* Location Filter */}
-          <select className="text-sm border border-gray-200 dark:border-gray-600 rounded px-3 py-1 bg-white dark:bg-gray-800">
+          <select className="text-xs border border-gray-200 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-gray-800">
             <option>All Locations</option>
             <option>North America</option>
             <option>Europe</option>
@@ -276,7 +327,7 @@ export function GTMDashboard() {
           </select>
           
           {/* Channel Filter */}
-          <select className="text-sm border border-gray-200 dark:border-gray-600 rounded px-3 py-1 bg-white dark:bg-gray-800">
+          <select className="text-xs border border-gray-200 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-gray-800">
             <option>All Channels</option>
             <option>Inbound</option>
             <option>Outbound</option>
@@ -284,7 +335,7 @@ export function GTMDashboard() {
           </select>
           
           {/* Business Unit Filter */}
-          <select className="text-sm border border-gray-200 dark:border-gray-600 rounded px-3 py-1 bg-white dark:bg-gray-800">
+          <select className="text-xs border border-gray-200 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-gray-800">
             <option>All Units</option>
             <option>Enterprise</option>
             <option>SMB</option>
@@ -293,17 +344,15 @@ export function GTMDashboard() {
         </div>
         
         <div className="flex gap-1">
-          {(["day", "week", "month"] as const).map((period) => (
-            <Button
-              key={period}
-              variant={selectedTimeframe === period ? "default" : "outline"}
-              size="sm"
-              onClick={() => setSelectedTimeframe(period)}
-              className="text-xs"
-            >
-              {period === "day" ? "Daily" : period === "week" ? "Weekly" : "Monthly"}
-            </Button>
-          ))}
+          <select className="text-xs border border-gray-200 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-gray-800">
+            <option>Last 7 days</option>
+            <option>Last 30 days</option>
+            <option>Last 90 days</option>
+            <option>This month</option>
+            <option>Last month</option>
+            <option>This quarter</option>
+            <option>Custom range...</option>
+          </select>
         </div>
       </div>
 
@@ -339,7 +388,7 @@ export function GTMDashboard() {
         {/* Daily Tasks for Improvements */}
         <Card className="cursor-pointer hover:shadow-md transition-all duration-200">
           <CardHeader className="pb-3">
-            <CardTitle className="text-lg font-semibold text-gray-900 dark:text-gray-100 flex items-center gap-2">
+            <CardTitle className="text-sm font-semibold text-gray-900 dark:text-gray-100 flex items-center gap-2">
               <CheckCircle2 className="h-5 w-5" />
               Daily Tasks
             </CardTitle>
@@ -352,7 +401,7 @@ export function GTMDashboard() {
                 onClick={() => console.log(`Open ${task.category} tab for task:`, task.title)}
               >
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                  <span className="text-xs font-medium text-gray-900 dark:text-gray-100">
                     {task.title}
                   </span>
                   <Badge variant={task.urgency === "high" ? "default" : "secondary"} className="text-xs">
@@ -375,7 +424,7 @@ export function GTMDashboard() {
         {/* Agent Runs of the Day */}
         <Card className="cursor-pointer hover:shadow-md transition-all duration-200">
           <CardHeader className="pb-3">
-            <CardTitle className="text-lg font-semibold text-gray-900 dark:text-gray-100 flex items-center gap-2">
+            <CardTitle className="text-sm font-semibold text-gray-900 dark:text-gray-100 flex items-center gap-2">
               <Bot className="h-5 w-5" />
               Agent Runs
             </CardTitle>
@@ -388,7 +437,7 @@ export function GTMDashboard() {
                 onClick={() => console.log("Open agent details:", agent.name)}
               >
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                  <span className="text-xs font-medium text-gray-900 dark:text-gray-100">
                     {agent.name}
                   </span>
                   <div className="flex items-center gap-1">
@@ -430,7 +479,7 @@ export function GTMDashboard() {
         {/* Market Sentiment Insights */}
         <Card className="cursor-pointer hover:shadow-md transition-all duration-200">
           <CardHeader className="pb-3">
-            <CardTitle className="text-lg font-semibold text-gray-900 dark:text-gray-100 flex items-center gap-2">
+            <CardTitle className="text-sm font-semibold text-gray-900 dark:text-gray-100 flex items-center gap-2">
               <BarChart3 className="h-5 w-5" />
               Market Sentiment
             </CardTitle>

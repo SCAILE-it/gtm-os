@@ -93,7 +93,14 @@ export function AgenticInterface({ className, onSaveToWorkspace, context }: Agen
   // TODO: Replace with API call to /api/chat/history
   // Should load previous conversation or generate welcome message from current data
   // Expected response: Message[]
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      id: "welcome",
+      type: "agent",
+      content: "Welcome to your GTM Operating System! I can help you analyze your funnel, optimize campaigns, and provide insights from your connected data sources.",
+      timestamp: new Date()
+    }
+  ]);
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [overallProgress, setOverallProgress] = useState(0);
