@@ -240,18 +240,25 @@ export function GTMDashboard() {
                 <span className="text-lg font-bold text-gray-900 dark:text-gray-100">
                   {metric.value}
                 </span>
-                <div className="flex items-center gap-1">
-                  {metric.change[selectedTimeframe] > 0 ? (
-                    <TrendingUp className="h-3 w-3 text-gray-600" />
-                  ) : (
-                    <TrendingDown className="h-3 w-3 text-gray-600" />
-                  )}
-                  <span className="text-xs font-medium text-gray-600">
-                    {metric.change[selectedTimeframe] > 0 ? '+' : ''}{metric.change[selectedTimeframe]}%
-                  </span>
-                  <span className="text-xs text-gray-500">
-                    {selectedTimeframe === 'day' ? 'DoD' : selectedTimeframe === 'week' ? 'WoW' : 'MoM'}
-                  </span>
+                <div className="text-xs text-gray-500 space-y-0.5">
+                  <div className="flex items-center gap-0.5">
+                    <span className="text-xs">DoD</span>
+                    <span className={metric.change.day > 0 ? 'text-gray-600' : 'text-gray-600'}>
+                      {metric.change.day > 0 ? '+' : ''}{metric.change.day}%
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-0.5">
+                    <span className="text-xs">WoW</span>
+                    <span className={metric.change.week > 0 ? 'text-gray-600' : 'text-gray-600'}>
+                      {metric.change.week > 0 ? '+' : ''}{metric.change.week}%
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-0.5">
+                    <span className="text-xs">MoM</span>
+                    <span className={metric.change.month > 0 ? 'text-gray-600' : 'text-gray-600'}>
+                      {metric.change.month > 0 ? '+' : ''}{metric.change.month}%
+                    </span>
+                  </div>
                 </div>
               </div>
             
