@@ -271,8 +271,8 @@ export function GTMDashboard() {
               {/* Simple Target Comparison */}
               <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
                 <span>Target: {metric.benchmark.target.toLocaleString()}</span>
-                <button className="text-gray-400 hover:text-gray-600" title="Edit target">
-                  ✏️
+                <button className="text-gray-400 hover:text-gray-600 text-xs" title="Edit target">
+                  edit
                 </button>
               </div>
               <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 relative">
@@ -403,6 +403,7 @@ export function GTMDashboard() {
               <div 
                 key={task.id} 
                 className="p-3 bg-white dark:bg-[#262626] rounded border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#404040] cursor-pointer transition-colors group"
+                style={{ backgroundColor: 'var(--card)' }}
                 onClick={() => console.log(`Open ${task.category} tab for task:`, task.title)}
               >
                 <div className="flex items-center justify-between mb-1">
@@ -516,6 +517,7 @@ export function GTMDashboard() {
               <div 
                 key={index}
                 className="p-3 bg-white dark:bg-[#262626] rounded border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#404040] cursor-pointer transition-colors group"
+                style={{ backgroundColor: 'var(--card)' }}
                 onClick={() => console.log("Open market sentiment details for:", item.topic)}
               >
                 <div className="flex items-center justify-between mb-1">
