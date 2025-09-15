@@ -229,41 +229,47 @@ export function GTMDashboard() {
       <CardContent className="space-y-4">
         {Object.entries(metrics).map(([key, metric]) => (
           <div key={key} className="group/metric relative">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-xs font-medium text-gray-900 dark:text-gray-100">
-                {metric.label}
-              </span>
-              <Info className="h-3 w-3 text-gray-400 opacity-0 group-hover/metric:opacity-100 transition-opacity" />
-            </div>
-            
+            <div className="space-y-2">
+              {/* Metric Header */}
               <div className="flex items-center justify-between">
-                <span className="text-lg font-bold text-gray-900 dark:text-gray-100">
-                  {metric.value}
-                </span>
+                <div className="flex items-center gap-1">
+                  <span className="text-xs font-medium text-gray-900 dark:text-gray-100">
+                    {metric.label}
+                  </span>
+                  <div className="text-xs text-gray-400">
+                    {metric.dataSources.map(source => source.split(' ')[0]).join('+')}
+                  </div>
+                </div>
                 <div className="text-xs text-gray-500 space-y-0.5">
                   <div className="flex items-center gap-0.5">
-                    <span className="text-xs">DoD</span>
+                    <span>DoD</span>
                     <span className={metric.change.day > 0 ? 'text-gray-600' : 'text-gray-600'}>
                       {metric.change.day > 0 ? '+' : ''}{metric.change.day}%
                     </span>
                   </div>
                   <div className="flex items-center gap-0.5">
-                    <span className="text-xs">WoW</span>
+                    <span>WoW</span>
                     <span className={metric.change.week > 0 ? 'text-gray-600' : 'text-gray-600'}>
                       {metric.change.week > 0 ? '+' : ''}{metric.change.week}%
                     </span>
                   </div>
                   <div className="flex items-center gap-0.5">
-                    <span className="text-xs">MoM</span>
+                    <span>MoM</span>
                     <span className={metric.change.month > 0 ? 'text-gray-600' : 'text-gray-600'}>
                       {metric.change.month > 0 ? '+' : ''}{metric.change.month}%
                     </span>
                   </div>
                 </div>
               </div>
-            
-            {/* Clean Benchmark Bar */}
-            <div className="mt-2">
+              
+              {/* Main Value */}
+              <div>
+                <span className="text-lg font-bold text-gray-900 dark:text-gray-100">
+                  {metric.value}
+                </span>
+              </div>
+              
+              {/* Clean Benchmark Bar */}
               <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 relative">
                 {/* Bottom 25% */}
                 <div className="absolute left-0 w-1/4 h-1.5 bg-gray-300 dark:bg-gray-600 rounded-l-full" />
@@ -284,16 +290,6 @@ export function GTMDashboard() {
                 />
               </div>
             </div>
-            
-            {/* Tooltip on Hover */}
-            <div className="absolute inset-0 opacity-0 group-hover/metric:opacity-100 transition-opacity pointer-events-none">
-              <div className="absolute top-0 left-0 right-0 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-xs p-2 rounded shadow-lg z-10">
-                <div className="mb-1">Sources: {metric.dataSources.join(", ")}</div>
-                {metric.calculation && (
-                  <div>Calculation: {metric.calculation}</div>
-                )}
-              </div>
-            </div>
           </div>
         ))}
       </CardContent>
@@ -302,6 +298,36 @@ export function GTMDashboard() {
 
   return (
     <div className="p-6 space-y-6 bg-background min-h-screen">
+      {/* Daily TL;DR */}
+      <div className="bg-white dark:bg-[#262626] rounded border border-gray-200 dark:border-gray-600 p-4">
+        <h2 className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">Daily Brief</h2>
+        <div className="grid grid-cols-4 gap-4 text-xs">
+          <div>
+            <div className="text-gray-500 dark:text-gray-400">Revenue</div>
+            <div className="font-semibold text-gray-900 dark:text-gray-100">$142.5K</div>
+            <div className="text-gray-600 dark:text-gray-400">+12.3%</div>
+          </div>
+          <div>
+            <div className="text-gray-500 dark:text-gray-400">Leads</div>
+            <div className="font-semibold text-gray-900 dark:text-gray-100">2,847</div>
+            <div className="text-gray-600 dark:text-gray-400">+8.7%</div>
+          </div>
+          <div>
+            <div className="text-gray-500 dark:text-gray-400">CAC</div>
+            <div className="font-semibold text-gray-900 dark:text-gray-100">$42</div>
+            <div className="text-gray-600 dark:text-gray-400">-8.1%</div>
+          </div>
+          <div>
+            <div className="text-gray-500 dark:text-gray-400">Conversion</div>
+            <div className="font-semibold text-gray-900 dark:text-gray-100">15.6%</div>
+            <div className="text-gray-600 dark:text-gray-400">+2.1%</div>
+          </div>
+        </div>
+        <div className="mt-3 text-xs text-gray-600 dark:text-gray-400">
+          <span className="font-medium">Priority:</span> Mobile conversion optimization could save $60K monthly
+        </div>
+      </div>
+
       {/* Filters */}
       <div className="flex items-center gap-2">
         {/* Location Filter */}
@@ -381,7 +407,7 @@ export function GTMDashboard() {
             {dailyTasks.map((task) => (
               <div 
                 key={task.id} 
-                className="p-3 bg-gray-50 dark:bg-gray-800 rounded border hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer transition-colors group"
+                className="p-3 bg-white dark:bg-[#262626] rounded border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#404040] cursor-pointer transition-colors group"
                 onClick={() => console.log(`Open ${task.category} tab for task:`, task.title)}
               >
                 <div className="flex items-center justify-between mb-1">
@@ -494,7 +520,7 @@ export function GTMDashboard() {
             ].map((item, index) => (
               <div 
                 key={index}
-                className="p-3 bg-gray-50 dark:bg-gray-800 rounded border hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer transition-colors group"
+                className="p-3 bg-white dark:bg-[#262626] rounded border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#404040] cursor-pointer transition-colors group"
                 onClick={() => console.log("Open market sentiment details for:", item.topic)}
               >
                 <div className="flex items-center justify-between mb-1">
