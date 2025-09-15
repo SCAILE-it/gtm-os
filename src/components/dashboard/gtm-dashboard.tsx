@@ -25,8 +25,11 @@ import {
 interface FunnelMetric {
   label: string;
   value: string;
-  change: number;
-  period: "day" | "week" | "month";
+  change: {
+    day: number;
+    week: number;
+    month: number;
+  };
   benchmark: {
     industry: number;
     status: "above" | "below" | "at";
@@ -54,28 +57,45 @@ interface DailyTask {
 }
 
 export function GTMDashboard() {
-  const [selectedPeriod, setSelectedPeriod] = useState<"day" | "week" | "month">("day");
+  const [selectedLocation, setSelectedLocation] = useState("All");
+  const [selectedChannel, setSelectedChannel] = useState("All");
+  const [selectedBusinessUnit, setSelectedBusinessUnit] = useState("All");
+  const [selectedTimeframe, setSelectedTimeframe] = useState<"day" | "week" | "month">("day");
 
-  // Funnel Metrics with Industry Benchmarks
+  // Enhanced Funnel Metrics with More Detail
   const funnelMetrics = {
     attract: {
       leads: {
         label: "All Leads",
         value: "2,847",
-        change: 12.3,
-        period: selectedPeriod,
+        change: { day: 12.3, week: 8.7, month: 15.2 },
         benchmark: { industry: 2500, status: "above" as const },
         dataSources: ["Google Analytics", "Google Ads", "LinkedIn"],
         calculation: "Website visits + Form submissions + Outreach replies"
       },
       cost: {
-        label: "Cost per Lead",
+        label: "Cost per Lead", 
         value: "$42",
-        change: -8.1,
-        period: selectedPeriod,
+        change: { day: -8.1, week: -5.3, month: -12.1 },
         benchmark: { industry: 55, status: "above" as const },
         dataSources: ["Google Ads", "LinkedIn Ads", "Phantombuster"],
         calculation: "Total ad spend / Total leads generated"
+      },
+      traffic: {
+        label: "Website Traffic",
+        value: "18.2K",
+        change: { day: 5.4, week: 12.1, month: 23.7 },
+        benchmark: { industry: 15000, status: "above" as const },
+        dataSources: ["Google Analytics", "Google Search Console"],
+        calculation: "Unique visitors from all channels"
+      },
+      conversion: {
+        label: "Traffic to Lead",
+        value: "15.6%",
+        change: { day: 2.1, week: -1.2, month: 4.8 },
+        benchmark: { industry: 12, status: "above" as const },
+        dataSources: ["Google Analytics", "HubSpot"],
+        calculation: "Form submissions / Website visitors * 100"
       }
     },
     convert: {
@@ -83,7 +103,7 @@ export function GTMDashboard() {
         label: "Interested Leads",
         value: "847",
         change: 15.7,
-        period: selectedPeriod,
+        period: selectedTimeframe,
         benchmark: { industry: 650, status: "above" as const },
         dataSources: ["HubSpot", "Pipedrive"],
         calculation: "Leads with engagement score > 70 or replied to outreach"
@@ -92,7 +112,7 @@ export function GTMDashboard() {
         label: "Interest Rate",
         value: "29.8%",
         change: 2.1,
-        period: selectedPeriod,
+        period: selectedTimeframe,
         benchmark: { industry: 25, status: "above" as const },
         dataSources: ["HubSpot", "Pipedrive"],
         calculation: "Interested leads / Total leads * 100"
@@ -103,7 +123,7 @@ export function GTMDashboard() {
         label: "Real Opportunities",
         value: "127",
         change: 8.9,
-        period: selectedPeriod,
+        period: selectedTimeframe,
         benchmark: { industry: 95, status: "above" as const },
         dataSources: ["HubSpot", "Pipedrive"],
         calculation: "Qualified leads with budget + authority + timeline"
@@ -112,7 +132,7 @@ export function GTMDashboard() {
         label: "Revenue",
         value: "$142.5K",
         change: 18.2,
-        period: selectedPeriod,
+        period: selectedTimeframe,
         benchmark: { industry: 120000, status: "above" as const },
         dataSources: ["HubSpot", "Stripe"],
         calculation: "Closed deals * Average deal value"
@@ -206,21 +226,24 @@ export function GTMDashboard() {
               </Badge>
             </div>
             
-            <div className="flex items-center justify-between">
-              <span className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                {metric.value}
-              </span>
-              <div className="flex items-center gap-1">
-                {metric.change > 0 ? (
-                  <TrendingUp className="h-4 w-4 text-gray-600" />
-                ) : (
-                  <TrendingDown className="h-4 w-4 text-gray-600" />
-                )}
-                <span className="text-sm font-medium text-gray-600">
-                  {metric.change > 0 ? '+' : ''}{metric.change}%
+              <div className="flex items-center justify-between">
+                <span className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                  {metric.value}
                 </span>
+                <div className="flex items-center gap-1">
+                  {metric.change[selectedTimeframe] > 0 ? (
+                    <TrendingUp className="h-4 w-4 text-gray-600" />
+                  ) : (
+                    <TrendingDown className="h-4 w-4 text-gray-600" />
+                  )}
+                  <span className="text-sm font-medium text-gray-600">
+                    {metric.change[selectedTimeframe] > 0 ? '+' : ''}{metric.change[selectedTimeframe]}%
+                  </span>
+                  <span className="text-xs text-gray-500">
+                    {selectedTimeframe === 'day' ? 'DoD' : selectedTimeframe === 'week' ? 'WoW' : 'MoM'}
+                  </span>
+                </div>
               </div>
-            </div>
             
             {/* Data Sources & Calculation on Hover */}
             <div className="opacity-0 group-hover/metric:opacity-100 transition-opacity mt-2 p-2 bg-gray-50 dark:bg-gray-800 rounded text-xs">
@@ -241,16 +264,41 @@ export function GTMDashboard() {
 
   return (
     <div className="p-6 space-y-6 bg-background min-h-screen">
-      {/* Period Selector */}
+      {/* Filters */}
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">GTM Operating System</h1>
+        <div className="flex gap-2">
+          {/* Location Filter */}
+          <select className="text-sm border border-gray-200 dark:border-gray-600 rounded px-3 py-1 bg-white dark:bg-gray-800">
+            <option>All Locations</option>
+            <option>North America</option>
+            <option>Europe</option>
+            <option>Asia Pacific</option>
+          </select>
+          
+          {/* Channel Filter */}
+          <select className="text-sm border border-gray-200 dark:border-gray-600 rounded px-3 py-1 bg-white dark:bg-gray-800">
+            <option>All Channels</option>
+            <option>Inbound</option>
+            <option>Outbound</option>
+            <option>Referral</option>
+          </select>
+          
+          {/* Business Unit Filter */}
+          <select className="text-sm border border-gray-200 dark:border-gray-600 rounded px-3 py-1 bg-white dark:bg-gray-800">
+            <option>All Units</option>
+            <option>Enterprise</option>
+            <option>SMB</option>
+            <option>Startup</option>
+          </select>
+        </div>
+        
         <div className="flex gap-1">
           {(["day", "week", "month"] as const).map((period) => (
             <Button
               key={period}
-              variant={selectedPeriod === period ? "default" : "outline"}
+              variant={selectedTimeframe === period ? "default" : "outline"}
               size="sm"
-              onClick={() => setSelectedPeriod(period)}
+              onClick={() => setSelectedTimeframe(period)}
               className="text-xs"
             >
               {period === "day" ? "Daily" : period === "week" ? "Weekly" : "Monthly"}
@@ -265,7 +313,7 @@ export function GTMDashboard() {
           "Attract",
           "Inbound: SEO, AEO, SEA, LinkedIn, Newsletter, Webinars + Outbound: Email & LinkedIn Outreach",
           funnelMetrics.attract,
-          "blue",
+          "gray",
           () => console.log("Open Attract tab")
         )}
         
@@ -273,7 +321,7 @@ export function GTMDashboard() {
           "Convert", 
           "CRM Data: Leads registered through inbound or replied to outbound",
           funnelMetrics.convert,
-          "green",
+          "gray",
           () => console.log("Open Convert tab")
         )}
         
@@ -281,7 +329,7 @@ export function GTMDashboard() {
           "Close",
           "CRM Data: Qualified leads, closed deals",
           funnelMetrics.close,
-          "purple", 
+          "gray", 
           () => console.log("Open Close tab")
         )}
       </div>

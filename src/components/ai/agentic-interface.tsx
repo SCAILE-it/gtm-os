@@ -93,13 +93,7 @@ export function AgenticInterface({ className, onSaveToWorkspace, context }: Agen
   // TODO: Replace with API call to /api/chat/history
   // Should load previous conversation or generate welcome message from current data
   // Expected response: Message[]
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: "1",
-      type: "agent",
-      content: "**Daily Brief**\n\n**Revenue: $142.5K** ↗ +12.3%\n**CAC: $85** ↘ -8.2%\n**Conversion: 3.2%** ↗ +0.5%\n**Users: 2.1K** ↗ +15.7%\n\n**Top Opportunity**\nEmail campaigns driving 45% of revenue\n→ Scale for +$30K monthly\n\n**Urgent Issue**\nMobile conversion dropped 12%\n→ Fix saves $60K monthly\n\n**Action**: Mobile optimization priority"
-    }
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [overallProgress, setOverallProgress] = useState(0);
@@ -679,10 +673,10 @@ print(df)`,
       <div className="p-4 border-t border-border">
         <div className="flex gap-2">
           <div className="flex-1 relative">
-            <input
-              ref={inputRef}
-              type="text"
-              placeholder="Ask me anything about your GTM performance..."
+                    <input
+                     ref={inputRef}
+                     type="text"
+                     placeholder="Ask me anything..."
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={(e) => {
