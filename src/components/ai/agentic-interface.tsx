@@ -28,7 +28,8 @@ import {
   BarChart,
   LineChart,
   PieChart,
-  ChevronRight
+  ChevronRight,
+  Save
 } from "lucide-react";
 import Image from "next/image";
 import { SourceLogo } from "@/components/ui/source-logo";
@@ -454,8 +455,9 @@ print(df)`,
                                   timestamp: new Date(),
                                   data: { output: codeBlock.output, code: codeBlock.code }
                                 })}
+                                title="Save to clipboard"
                               >
-                                Save
+                                <Save className="h-3 w-3" />
                               </Button>
                             )}
                           </div>

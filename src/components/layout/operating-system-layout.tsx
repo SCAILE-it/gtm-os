@@ -21,7 +21,9 @@ import {
   ChevronRight,
   Edit3,
   RefreshCw,
-  Copy
+  Copy,
+  ClipboardList,
+  Save
 } from "lucide-react";
 import { AgenticInterface } from "@/components/ai/agentic-interface";
 import { AgenticHeader } from "@/components/layout/agentic-header";
@@ -149,27 +151,27 @@ export function OperatingSystemLayout() {
           {/* Canvas Section - Bottom Half */}
           <div className="flex-1 flex flex-col">
             <div className="p-3 border-b border-gray-200 dark:border-gray-700">
-              <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">Canvas</h3>
+              <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">Clipboard</h3>
             </div>
 
             <ScrollArea className="flex-1 p-3">
-                         {/* Enhanced Empty State */}
+                         {/* Clipboard Empty State */}
                          {workspaceItems.length === 0 && (
                            <div className="text-center py-6">
-                             <div className="w-12 h-12 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-3">
-                               <BarChart3 className="h-6 w-6 text-gray-400" />
+                             <div className="w-12 h-12 bg-gray-200 dark:bg-gray-700 rounded flex items-center justify-center mx-auto mb-3">
+                               <ClipboardList className="h-6 w-6 text-gray-400" />
                              </div>
                              <p className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-1">
-                               Your Canvas
+                               Your Clipboard
                              </p>
                              <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">
-                               Save charts, tables, and insights here
+                               Temporary storage for charts and insights
                              </p>
                              <div className="text-xs text-gray-500 dark:text-gray-400 space-y-1">
-                               <div>• Email reports to stakeholders</div>
-                               <div>• Export to PDF/PowerPoint</div>
-                               <div>• Create executive dashboards</div>
-                               <div>• Share with team members</div>
+                               <div>• Quick access to saved items</div>
+                               <div>• Edit and refine insights</div>
+                               <div>• Share with team instantly</div>
+                               <div>• Export when ready</div>
                              </div>
                            </div>
                          )}

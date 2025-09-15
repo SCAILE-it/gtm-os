@@ -571,13 +571,28 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
             <div>
               <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3">API Configuration</h4>
               <div className="space-y-2">
-                <div className="flex items-center justify-between p-2 hover:bg-gray-50 dark:hover:bg-[#404040] rounded">
-                  <span className="text-sm text-gray-900 dark:text-gray-100">OpenAI API</span>
-                  <span className="text-xs text-gray-500 dark:text-gray-400">Connected</span>
+                <div className="p-3 bg-white dark:bg-[#262626] rounded border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#404040] cursor-pointer">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="text-sm font-medium text-gray-900 dark:text-gray-100">OpenAI API</div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400">GPT-4 Turbo</div>
+                    </div>
+                    <div className="text-xs text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-[#404040] px-2 py-1 rounded">
+                      Connected
+                    </div>
+                  </div>
                 </div>
-                <div className="flex items-center justify-between p-2 hover:bg-gray-50 dark:hover:bg-[#404040] rounded">
-                  <span className="text-sm text-gray-900 dark:text-gray-100">Anthropic Claude</span>
-                  <span className="text-xs text-gray-500 dark:text-gray-400">Available</span>
+                
+                <div className="p-3 bg-white dark:bg-[#262626] rounded border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#404040] cursor-pointer">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="text-sm font-medium text-gray-900 dark:text-gray-100">Anthropic Claude</div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400">Claude 3.5 Sonnet</div>
+                    </div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-[#171717] px-2 py-1 rounded border border-dashed border-gray-300 dark:border-gray-600">
+                      Available
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -586,17 +601,34 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
             <div>
               <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3">Settings</h4>
               <div className="space-y-2">
-                <div className="flex items-center justify-between p-2 hover:bg-gray-50 dark:hover:bg-[#404040] rounded cursor-pointer">
-                  <span className="text-sm text-gray-900 dark:text-gray-100">Response Length</span>
-                  <span className="text-xs text-gray-500 dark:text-gray-400">Detailed</span>
+                <div className="p-3 bg-white dark:bg-[#262626] rounded border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#404040] cursor-pointer">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="text-sm font-medium text-gray-900 dark:text-gray-100">Response Length</div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400">How detailed should responses be</div>
+                    </div>
+                    <div className="text-xs text-gray-600 dark:text-gray-400">Detailed</div>
+                  </div>
                 </div>
-                <div className="flex items-center justify-between p-2 hover:bg-gray-50 dark:hover:bg-[#404040] rounded cursor-pointer">
-                  <span className="text-sm text-gray-900 dark:text-gray-100">Auto-save Charts</span>
-                  <span className="text-xs text-gray-500 dark:text-gray-400">Enabled</span>
+                
+                <div className="p-3 bg-white dark:bg-[#262626] rounded border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#404040] cursor-pointer">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="text-sm font-medium text-gray-900 dark:text-gray-100">Auto-save Charts</div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400">Automatically save charts to Canvas</div>
+                    </div>
+                    <div className="text-xs text-gray-600 dark:text-gray-400">Enabled</div>
+                  </div>
                 </div>
-                <div className="flex items-center justify-between p-2 hover:bg-gray-50 dark:hover:bg-[#404040] rounded cursor-pointer">
-                  <span className="text-sm text-gray-900 dark:text-gray-100">Data Retention</span>
-                  <span className="text-xs text-gray-500 dark:text-gray-400">30 days</span>
+                
+                <div className="p-3 bg-white dark:bg-[#262626] rounded border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#404040] cursor-pointer">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="text-sm font-medium text-gray-900 dark:text-gray-100">Data Retention</div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400">How long to keep analysis history</div>
+                    </div>
+                    <div className="text-xs text-gray-600 dark:text-gray-400">30 days</div>
+                  </div>
                 </div>
               </div>
             </div>
