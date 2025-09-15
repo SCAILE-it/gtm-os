@@ -318,8 +318,9 @@ export function GTMDashboard() {
             <div className="text-gray-600 dark:text-gray-400">+2.1%</div>
           </div>
         </div>
-        <div className="mt-3 text-xs text-gray-600 dark:text-gray-400">
-          <span className="font-medium">Priority:</span> Mobile conversion optimization could save $60K monthly
+        <div className="mt-3 text-xs text-gray-500 dark:text-gray-500 space-y-1">
+          <div>• Mobile conversion fix → $60K monthly</div>
+          <div>• Email campaigns scaling → $30K monthly</div>
         </div>
       </div>
 
