@@ -233,7 +233,7 @@ export function OperatingSystemLayout() {
                             
                             {/* Share Row */}
                             <div className="flex gap-1">
-                              <Button size="sm" variant="outline" className="h-6 w-6 p-0" title="Email">
+                              <Button size="sm" variant="outline" className="h-6 w-6 p-0" title="Email (Gmail required)">
                                 <Mail className="h-3 w-3" />
                               </Button>
                               <Button size="sm" variant="outline" className="h-6 w-6 p-0" title="Copy">

@@ -330,7 +330,7 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
               />
               
               <div className="flex gap-1 mb-3">
-                {["All", "Connected", "Analytics", "CRM", "Marketing", "E-commerce"].map((filter) => (
+                {["All", "Connected", "Analytics", "CRM", "Marketing", "Email"].map((filter) => (
                   <Button key={filter} size="sm" variant="outline" className="text-xs h-6 px-2 rounded">
                     {filter}
                   </Button>
@@ -359,6 +359,13 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
                     records: "45K records",
                     status: "Connected", 
                     lastSync: "15m ago"
+                  },
+                  { 
+                    name: "Gmail", 
+                    category: "Email",
+                    records: "Email sending enabled",
+                    status: "Connected",
+                    lastSync: "5m ago"
                   },
                   { 
                     name: "Mixpanel", 
@@ -455,6 +462,26 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
                     </div>
                   ))}
                   <div className="text-xs text-gray-500 dark:text-gray-400 pl-1">+12 more</div>
+                </div>
+              </div>
+
+              {/* Email & Communication */}
+              <div className="mb-3">
+                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-2">Email & Communication</div>
+                <div className="space-y-1">
+                  {[
+                    "Outlook",
+                    "Slack",
+                    "Microsoft Teams"
+                  ].map((tool, index) => (
+                    <div key={index} className="flex items-center justify-between p-1 hover:bg-gray-50 dark:hover:bg-[#404040] rounded transition-colors cursor-pointer">
+                      <div className="text-sm text-gray-900 dark:text-gray-100">{tool}</div>
+                      <Button size="sm" variant="ghost" className="text-xs h-5 px-1 text-gray-400 hover:text-gray-600" title="Connect">
+                        Add
+                      </Button>
+                    </div>
+                  ))}
+                  <div className="text-xs text-gray-500 dark:text-gray-400 pl-1">+3 more</div>
                 </div>
               </div>
 
