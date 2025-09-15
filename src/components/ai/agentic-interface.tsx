@@ -416,21 +416,21 @@ print(df)`,
                     }}
                   />
 
-                  {/* Data Sources - Just logos */}
-                  {message.sources && message.sources.length > 0 && (
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs text-muted-foreground">Sources:</span>
-                      {message.sources.map((source) => (
-                        <div 
-                          key={source.id} 
-                          className="w-6 h-6 bg-background border border-border rounded flex items-center justify-center p-1"
-                          title={source.name}
-                        >
-                          <SourceLogo source={source.icon} className="w-4 h-4" />
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                         {/* Data Sources - Just logos */}
+                         {message.sources && message.sources.length > 0 && (
+                           <div className="flex items-center gap-2">
+                             <span className="text-xs text-muted-foreground">Sources:</span>
+                             {message.sources.map((source) => (
+                               <div 
+                                 key={source.id} 
+                                 className="w-6 h-6 bg-gray-100 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded flex items-center justify-center p-1"
+                                 title={source.name}
+                               >
+                                 <SourceLogo source={source.icon} className="w-4 h-4 text-gray-700 dark:text-gray-300" />
+                               </div>
+                             ))}
+                           </div>
+                         )}
 
                   {/* Code Blocks - Output visible, code collapsible */}
                   {message.codeBlocks && message.codeBlocks.map((codeBlock) => (
