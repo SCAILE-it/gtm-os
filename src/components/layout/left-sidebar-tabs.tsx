@@ -151,40 +151,48 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
       case "daily":
         return (
           <div className="space-y-4">
-            {/* Daily TL;DR - Essential Only */}
+            {/* Customizable KPI Dashboard */}
             <div>
-              <div className="p-3 bg-white dark:bg-[#262626] rounded border border-gray-200 dark:border-gray-600">
-                <div className="space-y-2">
-                  <div className="text-sm text-gray-800 dark:text-gray-200">
-                    Revenue <span className="font-semibold">$142.5K</span> (+12.3%) • CAC <span className="font-semibold">$85</span> (-8.2%) • Conv <span className="font-semibold">3.2%</span> (+0.5%) • Users <span className="font-semibold">2.1K</span> (+15.7%)
-                  </div>
-                  
-                  <div className="text-xs text-gray-600 dark:text-gray-400 space-y-1">
-                    <div>• Email = 45% revenue → Scale for +$30K/month</div>
-                    <div>• Mobile down 12% → Fix saves $60K/month</div>
-                    <div>• Social ROAS +40% → Double budget</div>
-                  </div>
-                </div>
+              <div className="flex items-center justify-between mb-2">
+                <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100">Your KPIs</h4>
+                <Button size="sm" variant="ghost" className="text-xs h-5 px-2" title="Customize KPIs">
+                  Edit
+                </Button>
               </div>
-            </div>
-
-            {/* Key Numbers */}
-            <div>
-              <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3">Key Numbers</h4>
+              
               <div className="grid grid-cols-2 gap-2">
-                {dailyDigest.metrics.map((metric, index) => (
-                  <div key={index} className="p-2 bg-white dark:bg-[#262626] rounded border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#3A3E4E] transition-colors cursor-pointer">
-                    <div className="text-xs text-gray-600 dark:text-gray-400">{metric.label}</div>
+                {[
+                  { label: "Revenue", value: "$142.5K", change: "+12.3%", trend: "up" },
+                  { label: "CAC", value: "$85", change: "-8.2%", trend: "down" },
+                  { label: "Conversion", value: "3.2%", change: "+0.5%", trend: "up" },
+                  { label: "Users", value: "2.1K", change: "+15.7%", trend: "up" }
+                ].map((kpi, index) => (
+                  <div key={index} className="p-2 bg-white dark:bg-[#262626] rounded border border-gray-200 dark:border-gray-600">
+                    <div className="text-xs text-gray-600 dark:text-gray-400">{kpi.label}</div>
                     <div className="flex items-center gap-1">
-                      <span className="text-sm font-semibold text-gray-900 dark:text-white">{metric.value}</span>
-                      <span className={`text-xs font-medium ${
-                        metric.trend === 'up' ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'
-                      }`}>
-                        {metric.change}
+                      <span className="text-sm font-semibold text-gray-900 dark:text-white">{kpi.value}</span>
+                      <span className="text-xs font-medium text-gray-600 dark:text-gray-400">
+                        {kpi.trend === 'up' ? '↗' : '↘'} {kpi.change}
                       </span>
                     </div>
                   </div>
                 ))}
+              </div>
+            </div>
+
+            {/* Key Insights - Cleaner */}
+            <div>
+              <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">Key Insights</h4>
+              <div className="space-y-2">
+                <div className="p-2 bg-white dark:bg-[#262626] rounded border border-gray-200 dark:border-gray-600">
+                  <div className="text-sm font-medium text-gray-900 dark:text-gray-100">Email = Top Performer</div>
+                  <div className="text-xs text-gray-600 dark:text-gray-400">45% revenue • Scale for +$30K/month</div>
+                </div>
+                
+                <div className="p-2 bg-white dark:bg-[#262626] rounded border border-gray-200 dark:border-gray-600">
+                  <div className="text-sm font-medium text-gray-900 dark:text-gray-100">Mobile = Urgent Fix</div>
+                  <div className="text-xs text-gray-600 dark:text-gray-400">Down 12% • Fix saves $60K/month</div>
+                </div>
               </div>
             </div>
 
