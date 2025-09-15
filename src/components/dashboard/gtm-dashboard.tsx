@@ -229,16 +229,11 @@ export function GTMDashboard() {
       <CardContent className="space-y-4">
         {Object.entries(metrics).map(([key, metric]) => (
           <div key={key} className="group/metric relative">
-            <div className="flex items-center justify-between mb-2">
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-medium text-gray-900 dark:text-gray-100">
-                  {metric.label}
-                </span>
-                <Info className="h-3 w-3 text-gray-400 opacity-0 group-hover/metric:opacity-100 transition-opacity" />
-              </div>
-              <Badge variant={metric.benchmark.status === "above" ? "default" : "secondary"} className="text-xs">
-                {metric.benchmark.status === "above" ? "Above Industry" : "Below Industry"}
-              </Badge>
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-xs font-medium text-gray-900 dark:text-gray-100">
+                {metric.label}
+              </span>
+              <Info className="h-3 w-3 text-gray-400 opacity-0 group-hover/metric:opacity-100 transition-opacity" />
             </div>
             
               <div className="flex items-center justify-between">
