@@ -402,8 +402,8 @@ print(df)`,
                      <div className={cn(
                        "w-full max-w-[85%] transition-all duration-200",
                        message.type === "user" 
-                         ? "bg-gray-50/80 dark:bg-gray-800/30 text-gray-900 dark:text-gray-100 ml-auto rounded-lg px-3 py-2" 
-                         : "bg-gray-50/50 dark:bg-gray-800/20 border-0 rounded-lg px-3 py-2"
+                         ? "bg-gray-50/80 dark:bg-[#223248]/30 text-gray-900 dark:text-gray-100 ml-auto rounded-lg px-3 py-2" 
+                         : "bg-gray-50/50 dark:bg-[#223248]/20 border-0 rounded-lg px-3 py-2"
                      )}>
                 <div className="space-y-3">
                   <div 
@@ -437,7 +437,7 @@ print(df)`,
                     <div key={codeBlock.id} className="space-y-2">
                       {/* Output - Always visible */}
                       {codeBlock.output && (
-                        <div className="bg-gray-50/70 dark:bg-gray-800/30 border border-gray-200/50 dark:border-gray-700/50 rounded-md p-3 relative group">
+                        <div className="bg-gray-50/70 dark:bg-[#223248]/30 border border-gray-200/50 dark:border-gray-700/50 rounded-md p-3 relative group">
                           <div className="flex items-center gap-2 mb-1">
                             <Play className="h-3 w-3 text-gray-600 dark:text-gray-400" />
                             <span className="text-xs font-medium text-gray-600 dark:text-gray-400">Result</span>

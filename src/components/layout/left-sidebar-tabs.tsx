@@ -114,7 +114,7 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
                 className={`p-2 rounded border cursor-pointer transition-colors ${
                   flow.status === 'active' 
                     ? 'border-blue-200 dark:border-blue-700 bg-blue-50 dark:bg-blue-950/20 hover:bg-blue-100 dark:hover:bg-blue-950/30' 
-                    : 'border-gray-200 dark:border-gray-600 bg-white dark:bg-[#363A4A] hover:bg-gray-50 dark:hover:bg-[#3A3E4E]'
+                    : 'border-gray-200 dark:border-gray-600 bg-white dark:bg-[#223248] hover:bg-gray-50 dark:hover:bg-[#3A3E4E]'
                 }`}
               >
                 <div className="flex items-center justify-between">
@@ -151,7 +151,7 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
           <div className="space-y-4">
             {/* Daily TL;DR - Essential Only */}
             <div>
-              <div className="p-3 bg-white dark:bg-[#363A4A] rounded border border-gray-200 dark:border-gray-600">
+              <div className="p-3 bg-white dark:bg-[#223248] rounded border border-gray-200 dark:border-gray-600">
                 <div className="space-y-2">
                   <div className="text-sm text-gray-800 dark:text-gray-200">
                     Revenue <span className="font-semibold">$142.5K</span> (+12.3%) • CAC <span className="font-semibold">$85</span> (-8.2%) • Conv <span className="font-semibold">3.2%</span> (+0.5%) • Users <span className="font-semibold">2.1K</span> (+15.7%)
@@ -171,7 +171,7 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
               <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3">Key Numbers</h4>
               <div className="grid grid-cols-2 gap-2">
                 {dailyDigest.metrics.map((metric, index) => (
-                  <div key={index} className="p-2 bg-white dark:bg-[#363A4A] rounded border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#3A3E4E] transition-colors cursor-pointer">
+                  <div key={index} className="p-2 bg-white dark:bg-[#223248] rounded border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#3A3E4E] transition-colors cursor-pointer">
                     <div className="text-xs text-gray-600 dark:text-gray-400">{metric.label}</div>
                     <div className="flex items-center gap-1">
                       <span className="text-sm font-semibold text-gray-900 dark:text-white">{metric.value}</span>
@@ -190,17 +190,17 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
             <div>
               <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3">Focus Today</h4>
               <div className="space-y-2">
-                <div className="p-2 bg-white dark:bg-[#363A4A] rounded border border-gray-200 dark:border-gray-600 cursor-pointer hover:bg-gray-50 dark:hover:bg-[#3A3E4E]">
+                <div className="p-2 bg-white dark:bg-[#223248] rounded border border-gray-200 dark:border-gray-600 cursor-pointer hover:bg-gray-50 dark:hover:bg-[#3A3E4E]">
                   <div className="text-sm font-medium text-gray-900 dark:text-gray-100">Fix mobile conversion</div>
                   <div className="text-xs text-gray-600 dark:text-gray-400">Losing $60K monthly</div>
                 </div>
                 
-                <div className="p-2 bg-white dark:bg-[#363A4A] rounded border border-gray-200 dark:border-gray-600 cursor-pointer hover:bg-gray-50 dark:hover:bg-[#3A3E4E]">
+                <div className="p-2 bg-white dark:bg-[#223248] rounded border border-gray-200 dark:border-gray-600 cursor-pointer hover:bg-gray-50 dark:hover:bg-[#3A3E4E]">
                   <div className="text-sm font-medium text-gray-900 dark:text-gray-100">Scale email campaigns</div>
                   <div className="text-xs text-gray-600 dark:text-gray-400">Potential $30K monthly</div>
                 </div>
 
-                <div className="p-2 bg-white dark:bg-[#363A4A] rounded border border-gray-200 dark:border-gray-600 cursor-pointer hover:bg-gray-50 dark:hover:bg-[#3A3E4E]">
+                <div className="p-2 bg-white dark:bg-[#223248] rounded border border-gray-200 dark:border-gray-600 cursor-pointer hover:bg-gray-50 dark:hover:bg-[#3A3E4E]">
                   <div className="text-sm font-medium text-gray-900 dark:text-gray-100">Increase social budget</div>
                   <div className="text-xs text-gray-600 dark:text-gray-400">40% higher ROAS</div>
                 </div>
@@ -218,7 +218,7 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
                   { title: "Social Media Metrics", time: "16:00", status: "pending", executedAt: "4:00 PM" },
                   { title: "End-of-Day Summary", time: "18:00", status: "scheduled", executedAt: "6:00 PM" }
                 ].map((task, index) => (
-                  <div key={index} className="flex items-center gap-2 p-2 bg-white dark:bg-[#363A4A] rounded border border-gray-200 dark:border-gray-600">
+                  <div key={index} className="flex items-center gap-2 p-2 bg-white dark:bg-[#223248] rounded border border-gray-200 dark:border-gray-600">
                     <div className={`w-2 h-2 rounded-full ${
                       task.status === 'completed' ? 'bg-green-500' :
                       task.status === 'pending' ? 'bg-blue-500' : 'bg-gray-400'
@@ -248,7 +248,7 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
                   { name: "Revenue Analyst", status: "active", task: "Tracking Q4 performance" },
                   { name: "Conversion Optimizer", status: "idle", task: "Ready for funnel analysis" }
                 ].map((agent, index) => (
-                  <Card key={index} className="p-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-[#363A4A]">
+                  <Card key={index} className="p-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-[#223248]">
                     <div className="flex items-center justify-between">
                       <div className="flex-1">
                         <div className="font-medium text-sm text-gray-800 dark:text-gray-200">{agent.name}</div>
@@ -274,7 +274,7 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
                   { name: "Stripe", status: "syncing", lastSync: "syncing...", records: "12K" },
                   { name: "LinkedIn Ads", status: "connected", lastSync: "1h ago", records: "8K" }
                 ].map((source, index) => (
-                  <div key={index} className="p-2 bg-white dark:bg-[#363A4A] rounded border border-gray-200 dark:border-gray-600">
+                  <div key={index} className="p-2 bg-white dark:bg-[#223248] rounded border border-gray-200 dark:border-gray-600">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <div className={`w-2 h-2 rounded-full ${
@@ -381,7 +381,7 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
                     actions: ["retry", "configure", "logs"]
                   }
                 ].map((source, index) => (
-                  <div key={index} className="p-2 bg-white dark:bg-[#363A4A] rounded border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#3A3E4E] group">
+                  <div key={index} className="p-2 bg-white dark:bg-[#223248] rounded border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#3A3E4E] group">
                     <div className="flex items-center gap-2 mb-1">
                       <div className={`w-2 h-2 rounded-full flex-shrink-0 ${
                         source.status === 'connected' ? 'bg-green-500' :
@@ -437,7 +437,7 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
                     { name: "Mixpanel", description: "Product analytics, events", category: "Analytics" },
                     { name: "Amplitude", description: "Product intelligence platform", category: "Analytics" }
                   ].map((tool, index) => (
-                    <div key={index} className="p-2 bg-white dark:bg-[#363A4A] rounded border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#3A3E4E] cursor-pointer group">
+                    <div key={index} className="p-2 bg-white dark:bg-[#223248] rounded border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#3A3E4E] cursor-pointer group">
                       <div className="flex items-start gap-2">
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-1">
@@ -471,7 +471,7 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
                     { name: "Salesforce", description: "Enterprise CRM solution", category: "CRM", popular: true },
                     { name: "Pipedrive", description: "Sales-focused CRM", category: "CRM" }
                   ].map((tool, index) => (
-                    <div key={index} className="p-2 bg-white dark:bg-[#363A4A] rounded border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#3A3E4E] cursor-pointer group">
+                    <div key={index} className="p-2 bg-white dark:bg-[#223248] rounded border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#3A3E4E] cursor-pointer group">
                       <div className="flex items-start gap-2">
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-1">
@@ -505,7 +505,7 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
                     { name: "Facebook Ads", description: "Social media advertising", category: "Marketing", popular: true },
                     { name: "Mailchimp", description: "Email marketing platform", category: "Marketing" }
                   ].map((tool, index) => (
-                    <div key={index} className="p-2 bg-white dark:bg-[#363A4A] rounded border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#3A3E4E] cursor-pointer group">
+                    <div key={index} className="p-2 bg-white dark:bg-[#223248] rounded border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#3A3E4E] cursor-pointer group">
                       <div className="flex items-start gap-2">
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-1">
@@ -538,7 +538,7 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
                     { name: "Stripe", description: "Payment processing & analytics", category: "E-commerce", popular: true },
                     { name: "Shopify", description: "E-commerce platform data", category: "E-commerce" }
                   ].map((tool, index) => (
-                    <div key={index} className="p-2 bg-white dark:bg-[#363A4A] rounded border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#3A3E4E] cursor-pointer group">
+                    <div key={index} className="p-2 bg-white dark:bg-[#223248] rounded border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#3A3E4E] cursor-pointer group">
                       <div className="flex items-start gap-2">
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-1">
@@ -571,7 +571,7 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
                     { name: "Slack", description: "Team communication data", category: "Communication" },
                     { name: "LinkedIn", description: "Professional network insights", category: "Social" }
                   ].map((tool, index) => (
-                    <div key={index} className="p-2 bg-white dark:bg-[#363A4A] rounded border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#3A3E4E] cursor-pointer group">
+                    <div key={index} className="p-2 bg-white dark:bg-[#223248] rounded border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#3A3E4E] cursor-pointer group">
                       <div className="flex items-start gap-2">
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-1">
@@ -735,7 +735,7 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
   }
 
   return (
-    <div className="w-80 border-r border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-[#2A2D3A] flex flex-col transition-all duration-300">
+    <div className="w-80 border-r border-gray-200 dark:border-[#2C334B] bg-gray-50 dark:bg-[#1A1E2B] flex flex-col transition-all duration-300">
       <div className="border-b border-gray-200 dark:border-gray-700 p-2">
         <div className="flex items-center justify-between">
           <div className="flex-1 overflow-x-auto">
