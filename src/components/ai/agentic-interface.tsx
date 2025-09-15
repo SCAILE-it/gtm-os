@@ -95,7 +95,7 @@ export function AgenticInterface({ className, onSaveToWorkspace }: AgenticInterf
     {
       id: "1",
       type: "agent",
-      content: "**Daily Brief**\n\nRevenue $142.5K (+12.3%) • CAC $85 (-8.2%) • Conv 3.2% (+0.5%) • Users 2.1K (+15.7%)\n\nEmail 45% revenue (+23% performance) → Scale +$30K/month\nMobile conv -12% → Fix saves $60K/month\nSocial ROAS +40% → Double budget\nCustomer LTV up 8% → Retention improving\nPaid ads CPC down 15% → Efficiency gains\n\nTop priority: Mobile conversion fix"
+      content: "**Daily Brief**\n\n**Key Metrics**\n• Revenue: $142.5K (+12.3%)\n• CAC: $85 (-8.2%)\n• Conversion: 3.2% (+0.5%)\n• Users: 2.1K (+15.7%)\n\n**Opportunities**\n• Email driving 45% revenue (+23% performance)\n  → Scale for +$30K/month\n• Mobile conversion down 12%\n  → Fix saves $60K/month\n• Social ROAS up 40%\n  → Double budget recommended\n\n**Priority**: Mobile conversion optimization"
     }
   ]);
   const [inputValue, setInputValue] = useState("");

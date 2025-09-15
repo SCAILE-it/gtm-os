@@ -17,6 +17,7 @@ import {
   AlertCircle,
   CheckCircle2
 } from "lucide-react";
+import { SourceLogo } from "@/components/ui/source-logo";
 
 interface DailyDigest {
   date: string;
@@ -348,52 +349,60 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
                 {[
                   { 
                     name: "Google Analytics 4", 
+                    logo: "Google Analytics",
                     category: "Analytics",
-                    records: "1.2M records",
+                    records: "1.2M",
                     status: "Connected",
-                    lastSync: "2m ago"
+                    lastSync: "2m"
                   },
                   { 
                     name: "HubSpot CRM", 
+                    logo: "HubSpot",
                     category: "CRM",
-                    records: "45K records",
+                    records: "45K",
                     status: "Connected", 
-                    lastSync: "15m ago"
+                    lastSync: "15m"
                   },
                   { 
                     name: "Gmail", 
+                    logo: "Gmail",
                     category: "Email",
-                    records: "Email sending enabled",
+                    records: "Ready",
                     status: "Connected",
-                    lastSync: "5m ago"
+                    lastSync: "5m"
                   },
                   { 
                     name: "Mixpanel", 
+                    logo: "Mixpanel",
                     category: "Analytics",
-                    records: "Testing connection",
+                    records: "Testing",
                     status: "Testing",
                     lastSync: ""
                   },
                   { 
                     name: "Salesforce", 
+                    logo: "Salesforce",
                     category: "CRM",
-                    records: "Connection failed",
+                    records: "Failed",
                     status: "Failed", 
-                    lastSync: "2h ago"
+                    lastSync: "2h"
                   }
                 ].map((source, index) => (
                   <div key={index} className="p-2 hover:bg-gray-50 dark:hover:bg-[#404040] rounded transition-colors cursor-pointer">
-                    <div className="flex items-center justify-between mb-1">
-                      <div className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
+                    <div className="flex items-center gap-2 mb-1">
+                      <div className="w-5 h-5 flex-shrink-0">
+                        <SourceLogo source={source.logo} className="w-5 h-5" />
+                      </div>
+                      <div className="text-sm font-medium text-gray-900 dark:text-gray-100 flex-1 min-w-0 truncate">
                         {source.name}
                       </div>
                       <div className="text-xs text-gray-500 dark:text-gray-400 flex-shrink-0">
                         {source.status}
                       </div>
                     </div>
-                    <div className="flex items-center justify-between text-xs text-gray-600 dark:text-gray-400">
-                      <span>{source.records}</span>
-                      {source.lastSync && <span>{source.lastSync}</span>}
+                    <div className="flex items-center justify-between text-xs text-gray-600 dark:text-gray-400 ml-7">
+                      <span className="truncate">{source.records}</span>
+                      {source.lastSync && <span className="flex-shrink-0 ml-2">{source.lastSync}</span>}
                     </div>
                   </div>
                 ))}
@@ -409,15 +418,18 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
                 <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-2">Analytics</div>
                 <div className="space-y-1">
                   {[
-                    "Adobe Analytics",
-                    "Amplitude", 
-                    "Hotjar",
-                    "Segment"
+                    { name: "Adobe Analytics", logo: "Adobe Analytics" },
+                    { name: "Amplitude", logo: "Amplitude" }, 
+                    { name: "Hotjar", logo: "Hotjar" },
+                    { name: "Segment", logo: "Segment" }
                   ].map((tool, index) => (
-                    <div key={index} className="flex items-center justify-between p-1 hover:bg-gray-50 dark:hover:bg-[#404040] rounded transition-colors cursor-pointer">
-                      <div className="text-sm text-gray-900 dark:text-gray-100">{tool}</div>
-                      <Button size="sm" variant="ghost" className="text-xs h-5 px-1 text-gray-400 hover:text-gray-600" title="Connect">
-                        Add
+                    <div key={index} className="flex items-center gap-2 p-1 hover:bg-gray-50 dark:hover:bg-[#404040] rounded transition-colors cursor-pointer">
+                      <div className="w-4 h-4 flex-shrink-0">
+                        <SourceLogo source={tool.logo} className="w-4 h-4" />
+                      </div>
+                      <div className="text-sm text-gray-900 dark:text-gray-100 flex-1 min-w-0 truncate">{tool.name}</div>
+                      <Button size="sm" variant="ghost" className="text-xs h-4 w-4 p-0 text-gray-400 hover:text-gray-600 flex-shrink-0" title="Connect">
+                        +
                       </Button>
                     </div>
                   ))}
@@ -430,14 +442,17 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
                 <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-2">CRM</div>
                 <div className="space-y-1">
                   {[
-                    "Pipedrive",
-                    "Zoho CRM",
-                    "Monday.com"
+                    { name: "Pipedrive", logo: "Pipedrive" },
+                    { name: "Zoho CRM", logo: "Zoho" },
+                    { name: "Monday.com", logo: "Monday" }
                   ].map((tool, index) => (
-                    <div key={index} className="flex items-center justify-between p-1 hover:bg-gray-50 dark:hover:bg-[#404040] rounded transition-colors cursor-pointer">
-                      <div className="text-sm text-gray-900 dark:text-gray-100">{tool}</div>
-                      <Button size="sm" variant="ghost" className="text-xs h-5 px-1 text-gray-400 hover:text-gray-600" title="Connect">
-                        Add
+                    <div key={index} className="flex items-center gap-2 p-1 hover:bg-gray-50 dark:hover:bg-[#404040] rounded transition-colors cursor-pointer">
+                      <div className="w-4 h-4 flex-shrink-0">
+                        <SourceLogo source={tool.logo} className="w-4 h-4" />
+                      </div>
+                      <div className="text-sm text-gray-900 dark:text-gray-100 flex-1 min-w-0 truncate">{tool.name}</div>
+                      <Button size="sm" variant="ghost" className="text-xs h-4 w-4 p-0 text-gray-400 hover:text-gray-600 flex-shrink-0" title="Connect">
+                        +
                       </Button>
                     </div>
                   ))}
@@ -450,14 +465,17 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
                 <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-2">Marketing</div>
                 <div className="space-y-1">
                   {[
-                    "Google Ads",
-                    "Facebook Ads", 
-                    "Mailchimp"
+                    { name: "Google Ads", logo: "Google Ads" },
+                    { name: "Facebook Ads", logo: "Facebook" }, 
+                    { name: "Mailchimp", logo: "Mailchimp" }
                   ].map((tool, index) => (
-                    <div key={index} className="flex items-center justify-between p-1 hover:bg-gray-50 dark:hover:bg-[#404040] rounded transition-colors cursor-pointer">
-                      <div className="text-sm text-gray-900 dark:text-gray-100">{tool}</div>
-                      <Button size="sm" variant="ghost" className="text-xs h-5 px-1 text-gray-400 hover:text-gray-600" title="Connect">
-                        Add
+                    <div key={index} className="flex items-center gap-2 p-1 hover:bg-gray-50 dark:hover:bg-[#404040] rounded transition-colors cursor-pointer">
+                      <div className="w-4 h-4 flex-shrink-0">
+                        <SourceLogo source={tool.logo} className="w-4 h-4" />
+                      </div>
+                      <div className="text-sm text-gray-900 dark:text-gray-100 flex-1 min-w-0 truncate">{tool.name}</div>
+                      <Button size="sm" variant="ghost" className="text-xs h-4 w-4 p-0 text-gray-400 hover:text-gray-600 flex-shrink-0" title="Connect">
+                        +
                       </Button>
                     </div>
                   ))}
@@ -470,14 +488,17 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
                 <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-2">Email & Communication</div>
                 <div className="space-y-1">
                   {[
-                    "Outlook",
-                    "Slack",
-                    "Microsoft Teams"
+                    { name: "Outlook", logo: "Outlook" },
+                    { name: "Slack", logo: "Slack" },
+                    { name: "Microsoft Teams", logo: "Microsoft Teams" }
                   ].map((tool, index) => (
-                    <div key={index} className="flex items-center justify-between p-1 hover:bg-gray-50 dark:hover:bg-[#404040] rounded transition-colors cursor-pointer">
-                      <div className="text-sm text-gray-900 dark:text-gray-100">{tool}</div>
-                      <Button size="sm" variant="ghost" className="text-xs h-5 px-1 text-gray-400 hover:text-gray-600" title="Connect">
-                        Add
+                    <div key={index} className="flex items-center gap-2 p-1 hover:bg-gray-50 dark:hover:bg-[#404040] rounded transition-colors cursor-pointer">
+                      <div className="w-4 h-4 flex-shrink-0">
+                        <SourceLogo source={tool.logo} className="w-4 h-4" />
+                      </div>
+                      <div className="text-sm text-gray-900 dark:text-gray-100 flex-1 min-w-0 truncate">{tool.name}</div>
+                      <Button size="sm" variant="ghost" className="text-xs h-4 w-4 p-0 text-gray-400 hover:text-gray-600 flex-shrink-0" title="Connect">
+                        +
                       </Button>
                     </div>
                   ))}
@@ -490,14 +511,17 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
                 <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-2">E-commerce</div>
                 <div className="space-y-1">
                   {[
-                    "Stripe",
-                    "Shopify",
-                    "WooCommerce"
+                    { name: "Stripe", logo: "Stripe" },
+                    { name: "Shopify", logo: "Shopify" },
+                    { name: "WooCommerce", logo: "WooCommerce" }
                   ].map((tool, index) => (
-                    <div key={index} className="flex items-center justify-between p-1 hover:bg-gray-50 dark:hover:bg-[#404040] rounded transition-colors cursor-pointer">
-                      <div className="text-sm text-gray-900 dark:text-gray-100">{tool}</div>
-                      <Button size="sm" variant="ghost" className="text-xs h-5 px-1 text-gray-400 hover:text-gray-600" title="Connect">
-                        Add
+                    <div key={index} className="flex items-center gap-2 p-1 hover:bg-gray-50 dark:hover:bg-[#404040] rounded transition-colors cursor-pointer">
+                      <div className="w-4 h-4 flex-shrink-0">
+                        <SourceLogo source={tool.logo} className="w-4 h-4" />
+                      </div>
+                      <div className="text-sm text-gray-900 dark:text-gray-100 flex-1 min-w-0 truncate">{tool.name}</div>
+                      <Button size="sm" variant="ghost" className="text-xs h-4 w-4 p-0 text-gray-400 hover:text-gray-600 flex-shrink-0" title="Connect">
+                        +
                       </Button>
                     </div>
                   ))}
