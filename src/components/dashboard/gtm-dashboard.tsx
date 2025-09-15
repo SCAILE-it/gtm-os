@@ -235,7 +235,7 @@ export function GTMDashboard() {
                   <span className="text-xs font-medium text-gray-900 dark:text-gray-100">
                     {metric.label}
                   </span>
-                  <div className="text-xs text-gray-400">
+                  <div className="text-xs text-gray-400 opacity-0 group-hover/metric:opacity-100 transition-opacity">
                     {metric.dataSources.map(source => source.split(' ')[0]).join('+')}
                   </div>
                 </div>
