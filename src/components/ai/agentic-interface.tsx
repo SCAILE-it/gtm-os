@@ -437,7 +437,7 @@ print(df)`,
                     <div key={codeBlock.id} className="space-y-2">
                       {/* Output - Always visible */}
                       {codeBlock.output && (
-                        <div className="bg-gray-50/70 dark:bg-[#262626]/30 border border-gray-200/50 dark:border-gray-700/50 rounded-md p-3 relative group">
+                        <div className="bg-gray-100 dark:bg-[#262626] border border-gray-200 dark:border-gray-600 rounded-md p-3 relative group">
                           <div className="flex items-center gap-2 mb-1">
                             <Play className="h-3 w-3 text-gray-600 dark:text-gray-400" />
                             <span className="text-xs font-medium text-gray-600 dark:text-gray-400">Result</span>
