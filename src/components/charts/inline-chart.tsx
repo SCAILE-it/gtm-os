@@ -13,6 +13,9 @@ interface InlineChartProps {
 
 export function InlineChart({ chart }: InlineChartProps) {
   const COLORS = ['#2563eb', '#6b7280', '#9ca3af', '#d1d5db'];
+  
+  // Debug log
+  console.log('InlineChart rendering:', chart);
 
   const renderChart = () => {
     switch (chart.type) {
@@ -50,16 +53,16 @@ export function InlineChart({ chart }: InlineChartProps) {
       
       case "pie":
         return (
-          <ResponsiveContainer width="100%" height={120}>
-            <PieChart>
+          <div className="w-full h-[120px] flex items-center justify-center">
+            <PieChart width={200} height={120}>
               <Pie
                 data={chart.data}
-                cx="50%"
-                cy="50%"
-                outerRadius={60}
+                cx={100}
+                cy={60}
+                innerRadius={20}
+                outerRadius={50}
+                paddingAngle={2}
                 dataKey="value"
-                label={({ name, percentage }) => `${name} ${percentage}%`}
-                labelStyle={{ fontSize: 11, fill: '#6b7280' }}
               >
                 {chart.data.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -68,13 +71,14 @@ export function InlineChart({ chart }: InlineChartProps) {
               <Tooltip 
                 formatter={(value: number) => [`$${(value / 1000).toFixed(1)}K`, 'Revenue']}
                 contentStyle={{
-                  backgroundColor: 'hsl(var(--background))',
-                  border: '1px solid hsl(var(--border))',
-                  borderRadius: '6px'
+                  backgroundColor: 'white',
+                  border: '1px solid #e5e7eb',
+                  borderRadius: '6px',
+                  fontSize: '12px'
                 }}
               />
             </PieChart>
-          </ResponsiveContainer>
+          </div>
         );
       
       default:
