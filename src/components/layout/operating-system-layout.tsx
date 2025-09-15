@@ -50,6 +50,7 @@ interface AgentTask {
 
 export function OperatingSystemLayout() {
   const [leftSidebarCollapsed, setLeftSidebarCollapsed] = useState(false);
+  const [rightPanelCollapsed, setRightPanelCollapsed] = useState(false);
   const [leftPanelWidth, setLeftPanelWidth] = useState(320); // 80 * 4 = 320px
   const [rightPanelWidth, setRightPanelWidth] = useState(320); // Match left panel width
   const [workspaceItems, setWorkspaceItems] = useState<WorkspaceItem[]>([]);
@@ -127,32 +128,64 @@ export function OperatingSystemLayout() {
         {/* Right Panel - Always Visible with Tasks + Optional Canvas */}
         <div 
           className="border-l border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-[#171717] flex flex-col flex-shrink-0 relative"
-          style={{ width: `${rightPanelWidth}px` }}
+          style={{ width: rightPanelCollapsed ? '64px' : `${rightPanelWidth}px` }}
         >
           {/* Left Resize Handle */}
-          <div 
-            className="absolute left-0 top-0 bottom-0 w-1 bg-transparent hover:bg-blue-500 cursor-col-resize transition-colors"
-            title="Drag to resize"
-          />
-
-          {/* Tasks Section - Top Half */}
-          <div className="border-b border-gray-200 dark:border-gray-700 p-3">
-            <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3">Tasks</h3>
-            <TodoList 
-              onTaskUpdate={(tasks) => {
-                console.log('Tasks updated:', tasks);
-              }}
-              onOpenLeftPanel={(tab) => {
-                setLeftSidebarCollapsed(false);
-              }}
+          {!rightPanelCollapsed && (
+            <div 
+              className="absolute left-0 top-0 bottom-0 w-1 bg-transparent hover:bg-gray-500 cursor-col-resize transition-colors"
+              title="Drag to resize"
             />
-          </div>
+          )}
 
-          {/* Canvas Section - Bottom Half */}
-          <div className="flex-1 flex flex-col">
-            <div className="p-3 border-b border-gray-200 dark:border-gray-700">
-              <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">Clipboard</h3>
+          {rightPanelCollapsed ? (
+            /* Collapsed Right Panel */
+            <div className="w-16 flex flex-col items-center py-4 space-y-4">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-8 w-8 p-0"
+                onClick={() => setRightPanelCollapsed(false)}
+                title="Expand panel"
+              >
+                <ChevronRight className="h-4 w-4 rotate-180" />
+              </Button>
+              
+              <div className="writing-mode-vertical text-xs text-gray-500 dark:text-gray-400 transform rotate-90 whitespace-nowrap">
+                Tasks & Clipboard
+              </div>
             </div>
+          ) : (
+            <>
+              {/* Tasks Section - Top Half */}
+              <div className="border-b border-gray-200 dark:border-gray-700 p-3">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">Tasks</h3>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-6 w-6 p-0 text-gray-500 hover:text-gray-700"
+                    onClick={() => setRightPanelCollapsed(true)}
+                    title="Collapse panel"
+                  >
+                    <ChevronRight className="h-4 w-4" />
+                  </Button>
+                </div>
+                <TodoList 
+                  onTaskUpdate={(tasks) => {
+                    console.log('Tasks updated:', tasks);
+                  }}
+                  onOpenLeftPanel={(tab) => {
+                    setLeftSidebarCollapsed(false);
+                  }}
+                />
+              </div>
+
+              {/* Clipboard Section - Bottom Half */}
+              <div className="flex-1 flex flex-col">
+                <div className="p-3 border-b border-gray-200 dark:border-gray-700">
+                  <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">Clipboard</h3>
+                </div>
 
             <ScrollArea className="flex-1 p-3">
                          {/* Clipboard Empty State */}
@@ -241,7 +274,9 @@ export function OperatingSystemLayout() {
                     </div>
                   )}
               </ScrollArea>
-          </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
