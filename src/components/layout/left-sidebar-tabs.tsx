@@ -512,16 +512,58 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
       case "system":
         return (
           <div className="space-y-4">
-            {/* System Prompt */}
+            {/* System Prompt Editor */}
             <div>
               <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3">System Prompt</h4>
               <div className="p-3 bg-white dark:bg-[#262626] rounded border border-gray-200 dark:border-gray-600">
-                <div className="text-xs text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-[#404040] p-2 rounded font-mono mb-3">
-                  You are a GTM Operating System AI. Focus on actionable insights, revenue optimization, and team collaboration. Provide data-driven recommendations with clear next steps.
+                <textarea 
+                  className="w-full h-20 text-xs text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-[#404040] p-2 rounded font-mono border-0 outline-none resize-none mb-3"
+                  defaultValue="You are a GTM Operating System AI. Focus on actionable insights, revenue optimization, and team collaboration. Provide data-driven recommendations with clear next steps."
+                  placeholder="Edit system prompt..."
+                />
+                <div className="flex gap-1">
+                  <Button size="sm" variant="outline" className="text-xs flex-1">
+                    Save Changes
+                  </Button>
+                  <Button size="sm" variant="ghost" className="text-xs px-2">
+                    Reset
+                  </Button>
                 </div>
-                <Button size="sm" variant="outline" className="text-xs w-full">
-                  Edit Prompt
-                </Button>
+              </div>
+            </div>
+
+            {/* Prompt Suggestions */}
+            <div>
+              <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">Suggested Improvements</h4>
+              <div className="space-y-2">
+                {[
+                  {
+                    title: "Executive Focus",
+                    description: "Add: 'Prioritize executive-level insights with revenue impact estimates'",
+                    impact: "Better C-suite relevance"
+                  },
+                  {
+                    title: "Industry Context", 
+                    description: "Add: 'Consider industry benchmarks and competitive context'",
+                    impact: "More strategic insights"
+                  },
+                  {
+                    title: "Action Urgency",
+                    description: "Add: 'Classify recommendations by urgency and effort required'",
+                    impact: "Clearer prioritization"
+                  }
+                ].map((suggestion, index) => (
+                  <div key={index} className="p-2 bg-white dark:bg-[#262626] rounded border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#404040] cursor-pointer">
+                    <div className="flex items-center justify-between mb-1">
+                      <div className="text-sm font-medium text-gray-900 dark:text-gray-100">{suggestion.title}</div>
+                      <Button size="sm" variant="ghost" className="text-xs h-4 w-4 p-0" title="Apply">
+                        +
+                      </Button>
+                    </div>
+                    <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">{suggestion.description}</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-500">{suggestion.impact}</div>
+                  </div>
+                ))}
               </div>
             </div>
 
