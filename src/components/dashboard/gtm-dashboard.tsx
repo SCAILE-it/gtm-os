@@ -63,89 +63,93 @@ export function GTMDashboard() {
   const [selectedBusinessUnit, setSelectedBusinessUnit] = useState("All");
   const [selectedTimeframe, setSelectedTimeframe] = useState<"day" | "week" | "month">("day");
 
-  // Tool-Specific KPIs Based on Integrations
+  // Rethought GTM KPIs - What Actually Matters
   const funnelMetrics = {
     attract: {
-      // GSC + GA4 Metrics
-      organicTraffic: {
-        label: "Organic Traffic",
-        value: "12.4K",
-        change: { day: 8.3, week: 12.1, month: 18.7 },
-        benchmark: { target: 10000, status: "above" as const, editable: true },
-        dataSources: ["Google Search Console", "GA4"],
-        calculation: "Organic search sessions from GSC + GA4"
+      // What matters: Quality of traffic, not just volume
+      qualifiedVisitors: {
+        label: "Qualified Visitors",
+        value: "3.2K",
+        change: { day: 12.1, week: 8.7, month: 18.2 },
+        benchmark: { target: 2500, status: "above" as const, editable: true },
+        dataSources: ["GA4", "Peek"],
+        calculation: "Visitors matching ICP criteria + engagement signals"
       },
-      // Google Ads Metrics
-      paidLeads: {
-        label: "Paid Leads", 
-        value: "847",
-        change: { day: -3.2, week: 5.8, month: 12.4 },
-        benchmark: { target: 750, status: "above" as const, editable: true },
-        dataSources: ["Google Ads", "GA4"],
-        calculation: "Conversions from Google Ads campaigns"
+      // What matters: Conversion efficiency, not just leads
+      conversionRate: {
+        label: "Visitor→Lead Rate", 
+        value: "4.2%",
+        change: { day: 0.3, week: -0.1, month: 0.8 },
+        benchmark: { target: 3.5, status: "above" as const, editable: true },
+        dataSources: ["GA4", "HubSpot"],
+        calculation: "Form submissions / Qualified visitors * 100"
       },
-      // Phantombuster + Apollo Outbound
-      outboundReplies: {
-        label: "Outbound Replies",
-        value: "156",
-        change: { day: 15.2, week: 8.9, month: 22.1 },
-        benchmark: { target: 120, status: "above" as const, editable: true },
-        dataSources: ["Phantombuster", "Instantly", "Apollo"],
-        calculation: "Positive replies from outbound campaigns"
-      },
-      // Peek AI + Teamfluence
-      contentPerformance: {
-        label: "Content Reach",
-        value: "45.2K",
-        change: { day: 6.7, week: 14.3, month: 28.9 },
-        benchmark: { target: 35000, status: "above" as const, editable: true },
-        dataSources: ["Peek AI", "Teamfluence"],
-        calculation: "Total content impressions and engagement"
-      },
-      // Combined Cost Efficiency
-      costPerLead: {
-        label: "Blended CAC",
-        value: "$42",
-        change: { day: -8.1, week: -5.3, month: -12.1 },
-        benchmark: { target: 55, status: "above" as const, editable: true },
-        dataSources: ["Google Ads", "Phantombuster", "Apollo"],
-        calculation: "Total marketing spend / Total leads acquired"
+      // What matters: Outbound effectiveness
+      outboundConversion: {
+        label: "Outbound→Meeting Rate",
+        value: "12.8%",
+        change: { day: 2.1, week: -1.2, month: 3.4 },
+        benchmark: { target: 8, status: "above" as const, editable: true },
+        dataSources: ["Apollo", "Instantly"],
+        calculation: "Meetings booked / Outbound contacts * 100"
       }
     },
     convert: {
-      qualified: {
-        label: "Interested Leads",
-        value: "847",
-        change: { day: 15.7, week: 12.3, month: 18.9 },
-        benchmark: { target: 650, status: "above" as const, editable: true },
+      // What matters: Speed to qualification
+      timeToQualify: {
+        label: "Avg. Time to Qualify",
+        value: "2.3 days",
+        change: { day: -0.2, week: -0.5, month: -0.8 },
+        benchmark: { target: 3, status: "above" as const, editable: true },
         dataSources: ["HubSpot", "Pipedrive"],
-        calculation: "Leads with engagement score > 70 or replied to outreach"
+        calculation: "Time from lead creation to qualified status"
       },
-      rate: {
-        label: "Interest Rate",
-        value: "29.8%",
-        change: { day: 2.1, week: 1.8, month: 4.2 },
+      // What matters: Quality of leads moving forward
+      qualificationRate: {
+        label: "Lead→Qualified Rate",
+        value: "28.4%",
+        change: { day: 1.2, week: 2.8, month: 4.1 },
         benchmark: { target: 25, status: "above" as const, editable: true },
         dataSources: ["HubSpot", "Pipedrive"],
-        calculation: "Interested leads / Total leads * 100"
+        calculation: "Qualified leads / Total leads * 100"
+      },
+      // What matters: Pipeline velocity
+      pipelineValue: {
+        label: "Pipeline Added",
+        value: "$847K",
+        change: { day: 12.3, week: 8.9, month: 15.7 },
+        benchmark: { target: 650000, status: "above" as const, editable: true },
+        dataSources: ["HubSpot", "Pipedrive"],
+        calculation: "New opportunities value added to pipeline"
       }
     },
     close: {
-      opportunities: {
-        label: "Real Opportunities",
-        value: "127",
-        change: { day: 8.9, week: 6.7, month: 12.4 },
-        benchmark: { target: 95, status: "above" as const, editable: true },
+      // What matters: Deal velocity
+      salesCycle: {
+        label: "Avg. Sales Cycle",
+        value: "42 days",
+        change: { day: -1.2, week: -3.8, month: -8.1 },
+        benchmark: { target: 45, status: "above" as const, editable: true },
         dataSources: ["HubSpot", "Pipedrive"],
-        calculation: "Qualified leads with budget + authority + timeline"
+        calculation: "Days from opportunity to closed-won"
       },
-      revenue: {
-        label: "Revenue",
-        value: "$142.5K",
-        change: { day: 18.2, week: 15.6, month: 22.8 },
-        benchmark: { target: 120000, status: "above" as const, editable: true },
-        dataSources: ["HubSpot", "Stripe"],
-        calculation: "Closed deals * Average deal value"
+      // What matters: Win rate efficiency
+      winRate: {
+        label: "Win Rate",
+        value: "24.6%",
+        change: { day: 0.8, week: 1.2, month: 2.3 },
+        benchmark: { target: 20, status: "above" as const, editable: true },
+        dataSources: ["HubSpot", "Pipedrive"],
+        calculation: "Closed-won / Total opportunities * 100"
+      },
+      // What matters: Revenue predictability
+      monthlyRecurring: {
+        label: "New MRR",
+        value: "$47.2K",
+        change: { day: 8.9, week: 12.4, month: 18.7 },
+        benchmark: { target: 40000, status: "above" as const, editable: true },
+        dataSources: ["Stripe", "HubSpot"],
+        calculation: "New monthly recurring revenue from closed deals"
       }
     }
   };
