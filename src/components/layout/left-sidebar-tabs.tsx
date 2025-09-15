@@ -321,11 +321,29 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
       case "context":
         return (
           <div className="space-y-4">
-            {/* Data Sources - Exact Match to Connections Page */}
+            {/* Search & Filter */}
             <div>
-              <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">Data Sources</h4>
+              <Input
+                placeholder="Search data sources..."
+                className="text-sm mb-3"
+              />
               
-              {/* Connected Sources */}
+              <div className="flex gap-1 mb-3">
+                {["All", "Connected", "Analytics", "CRM", "Marketing", "E-commerce"].map((filter) => (
+                  <Button key={filter} size="sm" variant="outline" className="text-xs h-6 px-2 rounded">
+                    {filter}
+                  </Button>
+                ))}
+              </div>
+            </div>
+
+            {/* Connected Sources */}
+            <div>
+              <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2 flex items-center gap-2">
+                <div className="w-2 h-2 bg-green-500 rounded-full" />
+                Connected (4)
+              </h4>
+              
               <div className="space-y-2 mb-4">
                 {[
                   { 
@@ -334,7 +352,8 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
                     category: "Analytics",
                     status: "connected", 
                     lastSync: "2 minutes ago", 
-                    recordCount: 1250000
+                    recordCount: 1250000,
+                    actions: ["sync", "test", "configure"]
                   },
                   { 
                     name: "HubSpot CRM", 
@@ -342,24 +361,27 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
                     category: "CRM",
                     status: "connected", 
                     lastSync: "15 minutes ago", 
-                    recordCount: 45000
+                    recordCount: 45000,
+                    actions: ["sync", "test", "configure"]
                   },
                   { 
                     name: "Mixpanel", 
                     description: "Product analytics, user journeys",
                     category: "Analytics",
                     status: "testing", 
-                    lastSync: "Testing connection..."
+                    lastSync: "Testing connection...",
+                    actions: ["retry", "configure"]
                   },
                   { 
                     name: "Salesforce", 
                     description: "CRM data, leads, opportunities",
                     category: "CRM",
                     status: "error", 
-                    lastSync: "Failed 2 hours ago"
+                    lastSync: "Failed 2 hours ago",
+                    actions: ["retry", "configure", "logs"]
                   }
                 ].map((source, index) => (
-                  <div key={index} className="p-2 bg-white dark:bg-[#363A4A] rounded border border-gray-200 dark:border-gray-600">
+                  <div key={index} className="p-2 bg-white dark:bg-[#363A4A] rounded border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#3A3E4E] group">
                     <div className="flex items-center gap-2 mb-1">
                       <div className={`w-2 h-2 rounded-full flex-shrink-0 ${
                         source.status === 'connected' ? 'bg-green-500' :
@@ -369,57 +391,209 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
                       <div className="text-sm font-medium text-gray-800 dark:text-gray-200 flex-1 min-w-0 truncate">{source.name}</div>
                       <Badge variant="outline" className="text-xs flex-shrink-0">{source.category}</Badge>
                     </div>
-                    <div className="text-xs text-gray-600 dark:text-gray-400 mb-1 line-clamp-2">{source.description}</div>
-                    <div className="text-xs text-gray-500 dark:text-gray-500">
+                    <div className="text-xs text-gray-600 dark:text-gray-400 mb-2 truncate">{source.description}</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-500 mb-2">
                       {source.recordCount ? `${(source.recordCount / 1000).toFixed(0)}K records • ` : ''}{source.lastSync}
+                    </div>
+                    
+                    {/* Action Buttons */}
+                    <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                      {source.actions.map((action) => (
+                        <Button 
+                          key={action} 
+                          size="sm" 
+                          variant="outline" 
+                          className="text-xs h-5 px-2"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            console.log(`${action} ${source.name}`);
+                          }}
+                        >
+                          {action === 'sync' && '🔄'}
+                          {action === 'test' && '🧪'}
+                          {action === 'configure' && '⚙️'}
+                          {action === 'retry' && '🔄'}
+                          {action === 'logs' && '📋'}
+                          {action}
+                        </Button>
+                      ))}
                     </div>
                   </div>
                 ))}
               </div>
+            </div>
 
-              {/* Available Sources */}
-              <div>
-                <h5 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Available Sources</h5>
+            {/* Tool Library - All Available Sources */}
+            <div>
+              <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">Tool Library (50+)</h4>
+              
+              {/* Analytics Tools */}
+              <div className="mb-3">
+                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Analytics (12)</div>
                 <div className="space-y-1">
                   {[
-                    { name: "Stripe", description: "Payment data, subscription metrics", category: "E-commerce" },
-                    { name: "Mailchimp", description: "Email campaigns, open rates", category: "Marketing" },
-                    { name: "Facebook Ads", description: "Ad performance, audience insights", category: "Marketing" },
-                    { name: "Google Ads", description: "Search ads performance, keyword data", category: "Marketing" },
-                    { name: "LinkedIn Ads", description: "B2B advertising campaigns", category: "Marketing" },
-                    { name: "Klaviyo", description: "Email marketing automation", category: "Marketing" }
-                  ].map((source, index) => (
-                    <div key={index} className="p-2 bg-white dark:bg-[#363A4A] rounded border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#3A3E4E] cursor-pointer">
+                    { name: "Google Analytics 4", description: "Web analytics, user behavior", category: "Analytics", popular: true },
+                    { name: "Adobe Analytics", description: "Enterprise web analytics", category: "Analytics" },
+                    { name: "Mixpanel", description: "Product analytics, events", category: "Analytics" },
+                    { name: "Amplitude", description: "Product intelligence platform", category: "Analytics" }
+                  ].map((tool, index) => (
+                    <div key={index} className="p-2 bg-white dark:bg-[#363A4A] rounded border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#3A3E4E] cursor-pointer group">
                       <div className="flex items-start gap-2">
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-1">
-                            <div className="text-sm font-medium text-gray-800 dark:text-gray-200 truncate">{source.name}</div>
-                            <Badge variant="outline" className="text-xs flex-shrink-0">{source.category}</Badge>
+                            <div className="text-sm font-medium text-gray-800 dark:text-gray-200 truncate">{tool.name}</div>
+                            {tool.popular && <Badge variant="outline" className="text-xs bg-blue-50 text-blue-600 border-blue-200">Popular</Badge>}
+                            <Badge variant="outline" className="text-xs flex-shrink-0">{tool.category}</Badge>
                           </div>
-                          <div className="text-xs text-gray-600 dark:text-gray-400 truncate">{source.description}</div>
+                          <div className="text-xs text-gray-600 dark:text-gray-400 truncate">{tool.description}</div>
                         </div>
-                        <Button size="sm" variant="outline" className="text-xs h-6 px-1 flex-shrink-0">
-                          +
-                        </Button>
+                        <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <Button size="sm" variant="outline" className="h-6 w-6 p-0" title="Test Connection">
+                            🧪
+                          </Button>
+                          <Button size="sm" variant="outline" className="h-6 w-6 p-0" title="Connect">
+                            +
+                          </Button>
+                        </div>
                       </div>
                     </div>
                   ))}
+                  <div className="text-xs text-gray-500 dark:text-gray-400 pl-2">+8 more analytics tools</div>
                 </div>
               </div>
-            </div>
 
-            {/* System Prompt */}
-            <div>
-              <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3">System Prompt</h4>
-              <Card className="p-3 rounded border border-gray-200 dark:border-gray-600 bg-white dark:bg-[#363A4A]">
-                <div className="text-xs text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-700 p-2 rounded font-mono">
-                  You are a GTM Operating System AI. Focus on actionable insights, revenue optimization, and team collaboration.
+              {/* CRM Tools */}
+              <div className="mb-3">
+                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">CRM (8)</div>
+                <div className="space-y-1">
+                  {[
+                    { name: "HubSpot", description: "All-in-one CRM platform", category: "CRM", popular: true },
+                    { name: "Salesforce", description: "Enterprise CRM solution", category: "CRM", popular: true },
+                    { name: "Pipedrive", description: "Sales-focused CRM", category: "CRM" }
+                  ].map((tool, index) => (
+                    <div key={index} className="p-2 bg-white dark:bg-[#363A4A] rounded border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#3A3E4E] cursor-pointer group">
+                      <div className="flex items-start gap-2">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-1">
+                            <div className="text-sm font-medium text-gray-800 dark:text-gray-200 truncate">{tool.name}</div>
+                            {tool.popular && <Badge variant="outline" className="text-xs bg-blue-50 text-blue-600 border-blue-200">Popular</Badge>}
+                            <Badge variant="outline" className="text-xs flex-shrink-0">{tool.category}</Badge>
+                          </div>
+                          <div className="text-xs text-gray-600 dark:text-gray-400 truncate">{tool.description}</div>
+                        </div>
+                        <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <Button size="sm" variant="outline" className="h-6 w-6 p-0" title="Test Connection">
+                            🧪
+                          </Button>
+                          <Button size="sm" variant="outline" className="h-6 w-6 p-0" title="Connect">
+                            +
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                  <div className="text-xs text-gray-500 dark:text-gray-400 pl-2">+5 more CRM tools</div>
                 </div>
-                <Button size="sm" variant="outline" className="text-xs mt-2 w-full rounded">
-                  <Settings className="h-3 w-3 mr-1" />
-                  Edit Prompt
-                </Button>
-              </Card>
+              </div>
+
+              {/* Marketing Tools */}
+              <div className="mb-3">
+                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Marketing (15)</div>
+                <div className="space-y-1">
+                  {[
+                    { name: "Google Ads", description: "Search & display advertising", category: "Marketing", popular: true },
+                    { name: "Facebook Ads", description: "Social media advertising", category: "Marketing", popular: true },
+                    { name: "Mailchimp", description: "Email marketing platform", category: "Marketing" }
+                  ].map((tool, index) => (
+                    <div key={index} className="p-2 bg-white dark:bg-[#363A4A] rounded border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#3A3E4E] cursor-pointer group">
+                      <div className="flex items-start gap-2">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-1">
+                            <div className="text-sm font-medium text-gray-800 dark:text-gray-200 truncate">{tool.name}</div>
+                            {tool.popular && <Badge variant="outline" className="text-xs bg-blue-50 text-blue-600 border-blue-200">Popular</Badge>}
+                            <Badge variant="outline" className="text-xs flex-shrink-0">{tool.category}</Badge>
+                          </div>
+                          <div className="text-xs text-gray-600 dark:text-gray-400 truncate">{tool.description}</div>
+                        </div>
+                        <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <Button size="sm" variant="outline" className="h-6 w-6 p-0" title="Test Connection">
+                            🧪
+                          </Button>
+                          <Button size="sm" variant="outline" className="h-6 w-6 p-0" title="Connect">
+                            +
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                  <div className="text-xs text-gray-500 dark:text-gray-400 pl-2">+12 more marketing tools</div>
+                </div>
+              </div>
+
+              {/* E-commerce Tools */}
+              <div className="mb-3">
+                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">E-commerce (10)</div>
+                <div className="space-y-1">
+                  {[
+                    { name: "Stripe", description: "Payment processing & analytics", category: "E-commerce", popular: true },
+                    { name: "Shopify", description: "E-commerce platform data", category: "E-commerce" }
+                  ].map((tool, index) => (
+                    <div key={index} className="p-2 bg-white dark:bg-[#363A4A] rounded border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#3A3E4E] cursor-pointer group">
+                      <div className="flex items-start gap-2">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-1">
+                            <div className="text-sm font-medium text-gray-800 dark:text-gray-200 truncate">{tool.name}</div>
+                            {tool.popular && <Badge variant="outline" className="text-xs bg-blue-50 text-blue-600 border-blue-200">Popular</Badge>}
+                            <Badge variant="outline" className="text-xs flex-shrink-0">{tool.category}</Badge>
+                          </div>
+                          <div className="text-xs text-gray-600 dark:text-gray-400 truncate">{tool.description}</div>
+                        </div>
+                        <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <Button size="sm" variant="outline" className="h-6 w-6 p-0" title="Test Connection">
+                            🧪
+                          </Button>
+                          <Button size="sm" variant="outline" className="h-6 w-6 p-0" title="Connect">
+                            +
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                  <div className="text-xs text-gray-500 dark:text-gray-400 pl-2">+8 more e-commerce tools</div>
+                </div>
+              </div>
+
+              {/* Social & Communication */}
+              <div>
+                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Social & Communication (5)</div>
+                <div className="space-y-1">
+                  {[
+                    { name: "Slack", description: "Team communication data", category: "Communication" },
+                    { name: "LinkedIn", description: "Professional network insights", category: "Social" }
+                  ].map((tool, index) => (
+                    <div key={index} className="p-2 bg-white dark:bg-[#363A4A] rounded border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#3A3E4E] cursor-pointer group">
+                      <div className="flex items-start gap-2">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-1">
+                            <div className="text-sm font-medium text-gray-800 dark:text-gray-200 truncate">{tool.name}</div>
+                            <Badge variant="outline" className="text-xs flex-shrink-0">{tool.category}</Badge>
+                          </div>
+                          <div className="text-xs text-gray-600 dark:text-gray-400 truncate">{tool.description}</div>
+                        </div>
+                        <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <Button size="sm" variant="outline" className="h-6 w-6 p-0" title="Test Connection">
+                            🧪
+                          </Button>
+                          <Button size="sm" variant="outline" className="h-6 w-6 p-0" title="Connect">
+                            +
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                  <div className="text-xs text-gray-500 dark:text-gray-400 pl-2">+3 more social tools</div>
+                </div>
+              </div>
             </div>
           </div>
         );
