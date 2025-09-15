@@ -228,33 +228,23 @@ export function OperatingSystemLayout() {
                             </div>
                           )}
                           
-                          {/* Collaboration Actions */}
-                          <div className="space-y-2">
-                            {/* Edit/Refine Row */}
-                            <div className="flex gap-1">
-                              <Button size="sm" variant="outline" className="h-6 w-6 p-0" title="Edit">
-                                <Edit3 className="h-3 w-3" />
-                              </Button>
-                              <Button size="sm" variant="outline" className="h-6 w-6 p-0" title="Refine">
-                                <RefreshCw className="h-3 w-3" />
-                              </Button>
-                            </div>
-                            
-                            {/* Communication Row */}
-                            <div className="flex gap-1">
-                              <Button size="sm" variant="outline" className="h-6 w-6 p-0" title="Email report (Gmail)">
-                                <Mail className="h-3 w-3" />
-                              </Button>
-                              <Button size="sm" variant="outline" className="h-6 w-6 p-0" title="Copy to clipboard">
-                                <Copy className="h-3 w-3" />
-                              </Button>
-                              <Button size="sm" variant="outline" className="h-6 w-6 p-0" title="Share link">
-                                <Share2 className="h-3 w-3" />
-                              </Button>
-                              <Button size="sm" variant="outline" className="h-6 w-6 p-0" title="Download PDF">
-                                <Download className="h-3 w-3" />
-                              </Button>
-                            </div>
+                          {/* Single Row Actions */}
+                          <div className="flex gap-1">
+                            <Button size="sm" variant="outline" className="h-6 w-6 p-0" title="Edit content">
+                              <Edit3 className="h-3 w-3" />
+                            </Button>
+                            <Button size="sm" variant="outline" className="h-6 w-6 p-0" title="Refresh data">
+                              <RefreshCw className="h-3 w-3" />
+                            </Button>
+                            <Button size="sm" variant="outline" className="h-6 w-6 p-0" title="Email report (Gmail)">
+                              <Mail className="h-3 w-3" />
+                            </Button>
+                            <Button size="sm" variant="outline" className="h-6 w-6 p-0" title="Share link">
+                              <Share2 className="h-3 w-3" />
+                            </Button>
+                            <Button size="sm" variant="outline" className="h-6 w-6 p-0" title="Download PDF">
+                              <Download className="h-3 w-3" />
+                            </Button>
                           </div>
                         </div>
                       ))}
