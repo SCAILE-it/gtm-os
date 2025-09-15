@@ -39,7 +39,7 @@ interface LeftSidebarTabsProps {
   onTabClick?: (tabId: TabType) => void;
 }
 
-type TabType = "flows" | "daily" | "context" | "agents";
+type TabType = "flows" | "daily" | "context" | "agents" | "system";
 
 export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTabClick }: LeftSidebarTabsProps) {
   const [activeTab, setActiveTab] = useState<TabType>("daily");
@@ -49,6 +49,7 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
     { id: "daily" as TabType, label: "Daily", icon: Calendar },
     { id: "context" as TabType, label: "Context", icon: Database },
     { id: "agents" as TabType, label: "Agents", icon: Bot },
+    { id: "system" as TabType, label: "System", icon: Settings },
   ];
 
   const renderTabContent = () => {
@@ -337,261 +338,143 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
               </div>
             </div>
 
-            {/* Connected Sources */}
+            {/* Connected Sources - Clean Minimal Design */}
             <div>
-              <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2 flex items-center gap-2">
-                <div className="w-2 h-2 bg-green-500 rounded-full" />
-                Connected (4)
+              <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3">
+                Connected Sources
               </h4>
               
-              <div className="space-y-2 mb-4">
+              <div className="space-y-1 mb-4">
                 {[
                   { 
                     name: "Google Analytics 4", 
-                    description: "Website and app analytics, user behavior",
                     category: "Analytics",
-                    status: "connected", 
-                    lastSync: "2 minutes ago", 
-                    recordCount: 1250000,
-                    actions: ["sync", "test", "configure"]
+                    records: "1.2M records",
+                    status: "Connected",
+                    lastSync: "2m ago"
                   },
                   { 
                     name: "HubSpot CRM", 
-                    description: "Customer data, deals, contact interactions",
                     category: "CRM",
-                    status: "connected", 
-                    lastSync: "15 minutes ago", 
-                    recordCount: 45000,
-                    actions: ["sync", "test", "configure"]
+                    records: "45K records",
+                    status: "Connected", 
+                    lastSync: "15m ago"
                   },
                   { 
                     name: "Mixpanel", 
-                    description: "Product analytics, user journeys",
                     category: "Analytics",
-                    status: "testing", 
-                    lastSync: "Testing connection...",
-                    actions: ["retry", "configure"]
+                    records: "Testing connection",
+                    status: "Testing",
+                    lastSync: ""
                   },
                   { 
                     name: "Salesforce", 
-                    description: "CRM data, leads, opportunities",
                     category: "CRM",
-                    status: "error", 
-                    lastSync: "Failed 2 hours ago",
-                    actions: ["retry", "configure", "logs"]
+                    records: "Connection failed",
+                    status: "Failed", 
+                    lastSync: "2h ago"
                   }
                 ].map((source, index) => (
-                  <div key={index} className="p-2 bg-white dark:bg-[#262626] rounded border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#3A3E4E] group">
-                    <div className="flex items-center gap-2 mb-1">
-                      <div className={`w-2 h-2 rounded-full flex-shrink-0 ${
-                        source.status === 'connected' ? 'bg-green-500' :
-                        source.status === 'testing' ? 'bg-yellow-500 animate-pulse' :
-                        source.status === 'error' ? 'bg-red-500' : 'bg-gray-400'
-                      }`} />
-                      <div className="text-sm font-medium text-gray-800 dark:text-gray-200 flex-1 min-w-0 truncate">{source.name}</div>
-                      <Badge variant="outline" className="text-xs flex-shrink-0">{source.category}</Badge>
+                  <div key={index} className="p-2 hover:bg-gray-50 dark:hover:bg-[#404040] rounded transition-colors cursor-pointer">
+                    <div className="flex items-center justify-between mb-1">
+                      <div className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
+                        {source.name}
+                      </div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400 flex-shrink-0">
+                        {source.status}
+                      </div>
                     </div>
-                    <div className="text-xs text-gray-600 dark:text-gray-400 mb-2 truncate">{source.description}</div>
-                    <div className="text-xs text-gray-500 dark:text-gray-500 mb-2">
-                      {source.recordCount ? `${(source.recordCount / 1000).toFixed(0)}K records • ` : ''}{source.lastSync}
-                    </div>
-                    
-                    {/* Action Buttons - Compact Icons Only */}
-                    <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                      {source.actions.map((action) => (
-                        <Button 
-                          key={action} 
-                          size="sm" 
-                          variant="outline" 
-                          className="h-5 w-5 p-0"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            console.log(`${action} ${source.name}`);
-                          }}
-                          title={action}
-                        >
-                          {action === 'sync' && '🔄'}
-                          {action === 'test' && '🧪'}
-                          {action === 'configure' && '⚙️'}
-                          {action === 'retry' && '🔄'}
-                          {action === 'logs' && '📋'}
-                        </Button>
-                      ))}
+                    <div className="flex items-center justify-between text-xs text-gray-600 dark:text-gray-400">
+                      <span>{source.records}</span>
+                      {source.lastSync && <span>{source.lastSync}</span>}
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Tool Library - All Available Sources */}
+            {/* Available Tools - Clean Minimal Design */}
             <div>
-              <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">Tool Library (50+)</h4>
+              <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3">Available Tools</h4>
               
-              {/* Analytics Tools */}
+              {/* Analytics */}
               <div className="mb-3">
-                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Analytics (12)</div>
+                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-2">Analytics</div>
                 <div className="space-y-1">
                   {[
-                    { name: "Google Analytics 4", description: "Web analytics, user behavior", category: "Analytics", popular: true },
-                    { name: "Adobe Analytics", description: "Enterprise web analytics", category: "Analytics" },
-                    { name: "Mixpanel", description: "Product analytics, events", category: "Analytics" },
-                    { name: "Amplitude", description: "Product intelligence platform", category: "Analytics" }
+                    "Adobe Analytics",
+                    "Amplitude", 
+                    "Hotjar",
+                    "Segment"
                   ].map((tool, index) => (
-                    <div key={index} className="p-2 bg-white dark:bg-[#262626] rounded border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#3A3E4E] cursor-pointer group">
-                      <div className="flex items-start gap-2">
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-1">
-                            <div className="text-sm font-medium text-gray-800 dark:text-gray-200 truncate">{tool.name}</div>
-                            {tool.popular && <Badge variant="outline" className="text-xs bg-blue-50 text-blue-600 border-blue-200">Popular</Badge>}
-                            <Badge variant="outline" className="text-xs flex-shrink-0">{tool.category}</Badge>
-                          </div>
-                          <div className="text-xs text-gray-600 dark:text-gray-400 truncate">{tool.description}</div>
-                        </div>
-                        <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
-                          <Button size="sm" variant="outline" className="h-5 w-5 p-0" title="Test Connection">
-                            🧪
-                          </Button>
-                          <Button size="sm" variant="outline" className="h-5 w-5 p-0" title="Connect">
-                            +
-                          </Button>
-                        </div>
-                      </div>
+                    <div key={index} className="flex items-center justify-between p-1 hover:bg-gray-50 dark:hover:bg-[#404040] rounded transition-colors cursor-pointer">
+                      <div className="text-sm text-gray-900 dark:text-gray-100">{tool}</div>
+                      <Button size="sm" variant="ghost" className="text-xs h-5 px-1 text-gray-400 hover:text-gray-600" title="Connect">
+                        Add
+                      </Button>
                     </div>
                   ))}
-                  <div className="text-xs text-gray-500 dark:text-gray-400 pl-2">+8 more analytics tools</div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400 pl-1">+8 more</div>
                 </div>
               </div>
 
-              {/* CRM Tools */}
+              {/* CRM */}
               <div className="mb-3">
-                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">CRM (8)</div>
+                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-2">CRM</div>
                 <div className="space-y-1">
                   {[
-                    { name: "HubSpot", description: "All-in-one CRM platform", category: "CRM", popular: true },
-                    { name: "Salesforce", description: "Enterprise CRM solution", category: "CRM", popular: true },
-                    { name: "Pipedrive", description: "Sales-focused CRM", category: "CRM" }
+                    "Pipedrive",
+                    "Zoho CRM",
+                    "Monday.com"
                   ].map((tool, index) => (
-                    <div key={index} className="p-2 bg-white dark:bg-[#262626] rounded border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#3A3E4E] cursor-pointer group">
-                      <div className="flex items-start gap-2">
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-1">
-                            <div className="text-sm font-medium text-gray-800 dark:text-gray-200 truncate">{tool.name}</div>
-                            {tool.popular && <Badge variant="outline" className="text-xs bg-blue-50 text-blue-600 border-blue-200">Popular</Badge>}
-                            <Badge variant="outline" className="text-xs flex-shrink-0">{tool.category}</Badge>
-                          </div>
-                          <div className="text-xs text-gray-600 dark:text-gray-400 truncate">{tool.description}</div>
-                        </div>
-                        <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
-                          <Button size="sm" variant="outline" className="h-5 w-5 p-0" title="Test Connection">
-                            🧪
-                          </Button>
-                          <Button size="sm" variant="outline" className="h-5 w-5 p-0" title="Connect">
-                            +
-                          </Button>
-                        </div>
-                      </div>
+                    <div key={index} className="flex items-center justify-between p-1 hover:bg-gray-50 dark:hover:bg-[#404040] rounded transition-colors cursor-pointer">
+                      <div className="text-sm text-gray-900 dark:text-gray-100">{tool}</div>
+                      <Button size="sm" variant="ghost" className="text-xs h-5 px-1 text-gray-400 hover:text-gray-600" title="Connect">
+                        Add
+                      </Button>
                     </div>
                   ))}
-                  <div className="text-xs text-gray-500 dark:text-gray-400 pl-2">+5 more CRM tools</div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400 pl-1">+5 more</div>
                 </div>
               </div>
 
-              {/* Marketing Tools */}
+              {/* Marketing */}
               <div className="mb-3">
-                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Marketing (15)</div>
+                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-2">Marketing</div>
                 <div className="space-y-1">
                   {[
-                    { name: "Google Ads", description: "Search & display advertising", category: "Marketing", popular: true },
-                    { name: "Facebook Ads", description: "Social media advertising", category: "Marketing", popular: true },
-                    { name: "Mailchimp", description: "Email marketing platform", category: "Marketing" }
+                    "Google Ads",
+                    "Facebook Ads", 
+                    "Mailchimp"
                   ].map((tool, index) => (
-                    <div key={index} className="p-2 bg-white dark:bg-[#262626] rounded border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#3A3E4E] cursor-pointer group">
-                      <div className="flex items-start gap-2">
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-1">
-                            <div className="text-sm font-medium text-gray-800 dark:text-gray-200 truncate">{tool.name}</div>
-                            {tool.popular && <Badge variant="outline" className="text-xs bg-blue-50 text-blue-600 border-blue-200">Popular</Badge>}
-                            <Badge variant="outline" className="text-xs flex-shrink-0">{tool.category}</Badge>
-                          </div>
-                          <div className="text-xs text-gray-600 dark:text-gray-400 truncate">{tool.description}</div>
-                        </div>
-                        <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
-                          <Button size="sm" variant="outline" className="h-5 w-5 p-0" title="Test Connection">
-                            🧪
-                          </Button>
-                          <Button size="sm" variant="outline" className="h-5 w-5 p-0" title="Connect">
-                            +
-                          </Button>
-                        </div>
-                      </div>
+                    <div key={index} className="flex items-center justify-between p-1 hover:bg-gray-50 dark:hover:bg-[#404040] rounded transition-colors cursor-pointer">
+                      <div className="text-sm text-gray-900 dark:text-gray-100">{tool}</div>
+                      <Button size="sm" variant="ghost" className="text-xs h-5 px-1 text-gray-400 hover:text-gray-600" title="Connect">
+                        Add
+                      </Button>
                     </div>
                   ))}
-                  <div className="text-xs text-gray-500 dark:text-gray-400 pl-2">+12 more marketing tools</div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400 pl-1">+12 more</div>
                 </div>
               </div>
 
-              {/* E-commerce Tools */}
-              <div className="mb-3">
-                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">E-commerce (10)</div>
-                <div className="space-y-1">
-                  {[
-                    { name: "Stripe", description: "Payment processing & analytics", category: "E-commerce", popular: true },
-                    { name: "Shopify", description: "E-commerce platform data", category: "E-commerce" }
-                  ].map((tool, index) => (
-                    <div key={index} className="p-2 bg-white dark:bg-[#262626] rounded border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#3A3E4E] cursor-pointer group">
-                      <div className="flex items-start gap-2">
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-1">
-                            <div className="text-sm font-medium text-gray-800 dark:text-gray-200 truncate">{tool.name}</div>
-                            {tool.popular && <Badge variant="outline" className="text-xs bg-blue-50 text-blue-600 border-blue-200">Popular</Badge>}
-                            <Badge variant="outline" className="text-xs flex-shrink-0">{tool.category}</Badge>
-                          </div>
-                          <div className="text-xs text-gray-600 dark:text-gray-400 truncate">{tool.description}</div>
-                        </div>
-                        <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
-                          <Button size="sm" variant="outline" className="h-5 w-5 p-0" title="Test Connection">
-                            🧪
-                          </Button>
-                          <Button size="sm" variant="outline" className="h-5 w-5 p-0" title="Connect">
-                            +
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                  <div className="text-xs text-gray-500 dark:text-gray-400 pl-2">+8 more e-commerce tools</div>
-                </div>
-              </div>
-
-              {/* Social & Communication */}
+              {/* E-commerce */}
               <div>
-                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Social & Communication (5)</div>
+                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-2">E-commerce</div>
                 <div className="space-y-1">
                   {[
-                    { name: "Slack", description: "Team communication data", category: "Communication" },
-                    { name: "LinkedIn", description: "Professional network insights", category: "Social" }
+                    "Stripe",
+                    "Shopify",
+                    "WooCommerce"
                   ].map((tool, index) => (
-                    <div key={index} className="p-2 bg-white dark:bg-[#262626] rounded border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#3A3E4E] cursor-pointer group">
-                      <div className="flex items-start gap-2">
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-1">
-                            <div className="text-sm font-medium text-gray-800 dark:text-gray-200 truncate">{tool.name}</div>
-                            <Badge variant="outline" className="text-xs flex-shrink-0">{tool.category}</Badge>
-                          </div>
-                          <div className="text-xs text-gray-600 dark:text-gray-400 truncate">{tool.description}</div>
-                        </div>
-                        <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
-                          <Button size="sm" variant="outline" className="h-5 w-5 p-0" title="Test Connection">
-                            🧪
-                          </Button>
-                          <Button size="sm" variant="outline" className="h-5 w-5 p-0" title="Connect">
-                            +
-                          </Button>
-                        </div>
-                      </div>
+                    <div key={index} className="flex items-center justify-between p-1 hover:bg-gray-50 dark:hover:bg-[#404040] rounded transition-colors cursor-pointer">
+                      <div className="text-sm text-gray-900 dark:text-gray-100">{tool}</div>
+                      <Button size="sm" variant="ghost" className="text-xs h-5 px-1 text-gray-400 hover:text-gray-600" title="Connect">
+                        Add
+                      </Button>
                     </div>
                   ))}
-                  <div className="text-xs text-gray-500 dark:text-gray-400 pl-2">+3 more social tools</div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400 pl-1">+7 more</div>
                 </div>
               </div>
             </div>
@@ -689,6 +572,58 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
           </div>
         );
 
+      case "system":
+        return (
+          <div className="space-y-4">
+            {/* System Prompt */}
+            <div>
+              <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3">System Prompt</h4>
+              <div className="p-3 bg-white dark:bg-[#262626] rounded border border-gray-200 dark:border-gray-600">
+                <div className="text-xs text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-[#404040] p-2 rounded font-mono mb-3">
+                  You are a GTM Operating System AI. Focus on actionable insights, revenue optimization, and team collaboration. Provide data-driven recommendations with clear next steps.
+                </div>
+                <Button size="sm" variant="outline" className="text-xs w-full">
+                  Edit Prompt
+                </Button>
+              </div>
+            </div>
+
+            {/* API Configuration */}
+            <div>
+              <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3">API Configuration</h4>
+              <div className="space-y-2">
+                <div className="flex items-center justify-between p-2 hover:bg-gray-50 dark:hover:bg-[#404040] rounded">
+                  <span className="text-sm text-gray-900 dark:text-gray-100">OpenAI API</span>
+                  <span className="text-xs text-gray-500 dark:text-gray-400">Connected</span>
+                </div>
+                <div className="flex items-center justify-between p-2 hover:bg-gray-50 dark:hover:bg-[#404040] rounded">
+                  <span className="text-sm text-gray-900 dark:text-gray-100">Anthropic Claude</span>
+                  <span className="text-xs text-gray-500 dark:text-gray-400">Available</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Settings */}
+            <div>
+              <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3">Settings</h4>
+              <div className="space-y-2">
+                <div className="flex items-center justify-between p-2 hover:bg-gray-50 dark:hover:bg-[#404040] rounded cursor-pointer">
+                  <span className="text-sm text-gray-900 dark:text-gray-100">Response Length</span>
+                  <span className="text-xs text-gray-500 dark:text-gray-400">Detailed</span>
+                </div>
+                <div className="flex items-center justify-between p-2 hover:bg-gray-50 dark:hover:bg-[#404040] rounded cursor-pointer">
+                  <span className="text-sm text-gray-900 dark:text-gray-100">Auto-save Charts</span>
+                  <span className="text-xs text-gray-500 dark:text-gray-400">Enabled</span>
+                </div>
+                <div className="flex items-center justify-between p-2 hover:bg-gray-50 dark:hover:bg-[#404040] rounded cursor-pointer">
+                  <span className="text-sm text-gray-900 dark:text-gray-100">Data Retention</span>
+                  <span className="text-xs text-gray-500 dark:text-gray-400">30 days</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+
       default:
         return null;
     }
@@ -696,7 +631,7 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
 
   if (collapsed) {
     return (
-      <div className="w-16 border-r border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-[#2A2D3A] flex flex-col">
+      <div className="w-16 border-r border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-[#171717] flex flex-col">
         <div className="flex flex-col">
           {tabs.map((tab) => {
             const Icon = tab.icon;
