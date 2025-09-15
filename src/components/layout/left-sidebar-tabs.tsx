@@ -323,210 +323,66 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
       case "context":
         return (
           <div className="space-y-4">
-            {/* Search & Filter */}
+            {/* Search Only */}
             <div>
               <Input
-                placeholder="Search data sources..."
-                className="text-sm mb-3"
+                placeholder="Search connectors..."
+                className="text-sm"
               />
-              
-              <div className="flex gap-1 mb-3">
-                {["All", "Connected", "Analytics", "CRM", "Marketing", "Email"].map((filter) => (
-                  <Button key={filter} size="sm" variant="outline" className="text-xs h-6 px-2 rounded">
-                    {filter}
-                  </Button>
-                ))}
-              </div>
             </div>
 
-            {/* Connected Sources - Clean Minimal Design */}
+            {/* Connector Library - Airbyte Style */}
             <div>
-              <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3">
-                Connected Sources
-              </h4>
-              
-              <div className="space-y-1 mb-4">
+              <div className="grid grid-cols-2 gap-2">
                 {[
-                  { 
-                    name: "Google Analytics 4", 
-                    logo: "Google Analytics",
-                    category: "Analytics",
-                    records: "1.2M",
-                    status: "Connected",
-                    lastSync: "2m"
-                  },
-                  { 
-                    name: "HubSpot CRM", 
-                    logo: "HubSpot",
-                    category: "CRM",
-                    records: "45K",
-                    status: "Connected", 
-                    lastSync: "15m"
-                  },
-                  { 
-                    name: "Gmail", 
-                    logo: "Gmail",
-                    category: "Email",
-                    records: "Ready",
-                    status: "Connected",
-                    lastSync: "5m"
-                  },
-                  { 
-                    name: "Mixpanel", 
-                    logo: "Mixpanel",
-                    category: "Analytics",
-                    records: "Testing",
-                    status: "Testing",
-                    lastSync: ""
-                  },
-                  { 
-                    name: "Salesforce", 
-                    logo: "Salesforce",
-                    category: "CRM",
-                    records: "Failed",
-                    status: "Failed", 
-                    lastSync: "2h"
-                  }
-                ].map((source, index) => (
-                  <div key={index} className="p-2 hover:bg-gray-50 dark:hover:bg-[#404040] rounded transition-colors cursor-pointer">
-                    <div className="flex items-center gap-2 mb-1">
-                      <div className="w-5 h-5 flex-shrink-0">
-                        <SourceLogo source={source.logo} className="w-5 h-5" />
+                  // Connected (solid outline)
+                  { name: "Google Analytics", logo: "Google Analytics", connected: true },
+                  { name: "HubSpot", logo: "HubSpot", connected: true },
+                  { name: "Gmail", logo: "Gmail", connected: true },
+                  { name: "Mixpanel", logo: "Mixpanel", connected: false },
+                  { name: "Salesforce", logo: "Salesforce", connected: false },
+                  { name: "Stripe", logo: "Stripe", connected: false },
+                  { name: "Google Ads", logo: "Google Ads", connected: false },
+                  { name: "Facebook Ads", logo: "Facebook", connected: false },
+                  { name: "Mailchimp", logo: "Mailchimp", connected: false },
+                  { name: "Slack", logo: "Slack", connected: false },
+                  { name: "Shopify", logo: "Shopify", connected: false },
+                  { name: "Adobe Analytics", logo: "Adobe Analytics", connected: false },
+                  { name: "Amplitude", logo: "Amplitude", connected: false },
+                  { name: "Pipedrive", logo: "Pipedrive", connected: false },
+                  { name: "Outlook", logo: "Outlook", connected: false },
+                  { name: "LinkedIn Ads", logo: "LinkedIn", connected: false }
+                ].map((connector, index) => (
+                  <div 
+                    key={index} 
+                    className={`p-3 rounded cursor-pointer hover:bg-gray-50 dark:hover:bg-[#404040] transition-colors ${
+                      connector.connected 
+                        ? 'border-2 border-gray-400 dark:border-gray-500 bg-white dark:bg-[#262626]' 
+                        : 'border-2 border-dashed border-gray-300 dark:border-gray-600 bg-gray-50/50 dark:bg-[#171717]/50'
+                    }`}
+                  >
+                    <div className="flex flex-col items-center text-center gap-2">
+                      <div className="w-8 h-8 flex-shrink-0">
+                        <SourceLogo source={connector.logo} className="w-8 h-8" />
                       </div>
-                      <div className="text-sm font-medium text-gray-900 dark:text-gray-100 flex-1 min-w-0 truncate">
-                        {source.name}
+                      <div className="text-xs font-medium text-gray-900 dark:text-gray-100 truncate w-full">
+                        {connector.name}
                       </div>
-                      <div className="text-xs text-gray-500 dark:text-gray-400 flex-shrink-0">
-                        {source.status}
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between text-xs text-gray-600 dark:text-gray-400 ml-7">
-                      <span className="truncate">{source.records}</span>
-                      {source.lastSync && <span className="flex-shrink-0 ml-2">{source.lastSync}</span>}
+                      {connector.connected && (
+                        <div className="text-xs text-gray-500 dark:text-gray-400">
+                          Connected
+                        </div>
+                      )}
                     </div>
                   </div>
                 ))}
               </div>
-            </div>
-
-            {/* Available Tools - Clean Minimal Design */}
-            <div>
-              <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3">Available Tools</h4>
               
-              {/* Analytics */}
-              <div className="mb-3">
-                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-2">Analytics</div>
-                <div className="space-y-1">
-                  {[
-                    { name: "Adobe Analytics", logo: "Adobe Analytics" },
-                    { name: "Amplitude", logo: "Amplitude" }, 
-                    { name: "Hotjar", logo: "Hotjar" },
-                    { name: "Segment", logo: "Segment" }
-                  ].map((tool, index) => (
-                    <div key={index} className="flex items-center gap-2 p-1 hover:bg-gray-50 dark:hover:bg-[#404040] rounded transition-colors cursor-pointer">
-                      <div className="w-4 h-4 flex-shrink-0">
-                        <SourceLogo source={tool.logo} className="w-4 h-4" />
-                      </div>
-                      <div className="text-sm text-gray-900 dark:text-gray-100 flex-1 min-w-0 truncate">{tool.name}</div>
-                      <Button size="sm" variant="ghost" className="text-xs h-4 w-4 p-0 text-gray-400 hover:text-gray-600 flex-shrink-0" title="Connect">
-                        +
-                      </Button>
-                    </div>
-                  ))}
-                  <div className="text-xs text-gray-500 dark:text-gray-400 pl-1">+8 more</div>
-                </div>
-              </div>
-
-              {/* CRM */}
-              <div className="mb-3">
-                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-2">CRM</div>
-                <div className="space-y-1">
-                  {[
-                    { name: "Pipedrive", logo: "Pipedrive" },
-                    { name: "Zoho CRM", logo: "Zoho" },
-                    { name: "Monday.com", logo: "Monday" }
-                  ].map((tool, index) => (
-                    <div key={index} className="flex items-center gap-2 p-1 hover:bg-gray-50 dark:hover:bg-[#404040] rounded transition-colors cursor-pointer">
-                      <div className="w-4 h-4 flex-shrink-0">
-                        <SourceLogo source={tool.logo} className="w-4 h-4" />
-                      </div>
-                      <div className="text-sm text-gray-900 dark:text-gray-100 flex-1 min-w-0 truncate">{tool.name}</div>
-                      <Button size="sm" variant="ghost" className="text-xs h-4 w-4 p-0 text-gray-400 hover:text-gray-600 flex-shrink-0" title="Connect">
-                        +
-                      </Button>
-                    </div>
-                  ))}
-                  <div className="text-xs text-gray-500 dark:text-gray-400 pl-1">+5 more</div>
-                </div>
-              </div>
-
-              {/* Marketing */}
-              <div className="mb-3">
-                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-2">Marketing</div>
-                <div className="space-y-1">
-                  {[
-                    { name: "Google Ads", logo: "Google Ads" },
-                    { name: "Facebook Ads", logo: "Facebook" }, 
-                    { name: "Mailchimp", logo: "Mailchimp" }
-                  ].map((tool, index) => (
-                    <div key={index} className="flex items-center gap-2 p-1 hover:bg-gray-50 dark:hover:bg-[#404040] rounded transition-colors cursor-pointer">
-                      <div className="w-4 h-4 flex-shrink-0">
-                        <SourceLogo source={tool.logo} className="w-4 h-4" />
-                      </div>
-                      <div className="text-sm text-gray-900 dark:text-gray-100 flex-1 min-w-0 truncate">{tool.name}</div>
-                      <Button size="sm" variant="ghost" className="text-xs h-4 w-4 p-0 text-gray-400 hover:text-gray-600 flex-shrink-0" title="Connect">
-                        +
-                      </Button>
-                    </div>
-                  ))}
-                  <div className="text-xs text-gray-500 dark:text-gray-400 pl-1">+12 more</div>
-                </div>
-              </div>
-
-              {/* Email & Communication */}
-              <div className="mb-3">
-                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-2">Email & Communication</div>
-                <div className="space-y-1">
-                  {[
-                    { name: "Outlook", logo: "Outlook" },
-                    { name: "Slack", logo: "Slack" },
-                    { name: "Microsoft Teams", logo: "Microsoft Teams" }
-                  ].map((tool, index) => (
-                    <div key={index} className="flex items-center gap-2 p-1 hover:bg-gray-50 dark:hover:bg-[#404040] rounded transition-colors cursor-pointer">
-                      <div className="w-4 h-4 flex-shrink-0">
-                        <SourceLogo source={tool.logo} className="w-4 h-4" />
-                      </div>
-                      <div className="text-sm text-gray-900 dark:text-gray-100 flex-1 min-w-0 truncate">{tool.name}</div>
-                      <Button size="sm" variant="ghost" className="text-xs h-4 w-4 p-0 text-gray-400 hover:text-gray-600 flex-shrink-0" title="Connect">
-                        +
-                      </Button>
-                    </div>
-                  ))}
-                  <div className="text-xs text-gray-500 dark:text-gray-400 pl-1">+3 more</div>
-                </div>
-              </div>
-
-              {/* E-commerce */}
-              <div>
-                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-2">E-commerce</div>
-                <div className="space-y-1">
-                  {[
-                    { name: "Stripe", logo: "Stripe" },
-                    { name: "Shopify", logo: "Shopify" },
-                    { name: "WooCommerce", logo: "WooCommerce" }
-                  ].map((tool, index) => (
-                    <div key={index} className="flex items-center gap-2 p-1 hover:bg-gray-50 dark:hover:bg-[#404040] rounded transition-colors cursor-pointer">
-                      <div className="w-4 h-4 flex-shrink-0">
-                        <SourceLogo source={tool.logo} className="w-4 h-4" />
-                      </div>
-                      <div className="text-sm text-gray-900 dark:text-gray-100 flex-1 min-w-0 truncate">{tool.name}</div>
-                      <Button size="sm" variant="ghost" className="text-xs h-4 w-4 p-0 text-gray-400 hover:text-gray-600 flex-shrink-0" title="Connect">
-                        +
-                      </Button>
-                    </div>
-                  ))}
-                  <div className="text-xs text-gray-500 dark:text-gray-400 pl-1">+7 more</div>
-                </div>
+              {/* Show More */}
+              <div className="text-center pt-2">
+                <Button variant="ghost" size="sm" className="text-xs text-gray-500 hover:text-gray-700">
+                  Show all 50+ connectors
+                </Button>
               </div>
             </div>
           </div>
