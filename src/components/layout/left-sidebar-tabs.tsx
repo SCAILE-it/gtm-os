@@ -113,35 +113,65 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
             ].map((flow, index) => (
               <div 
                 key={index} 
-                       className={`p-2 rounded border cursor-pointer transition-colors ${
-                         flow.status === 'active' 
-                           ? 'border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-[#404040] hover:bg-gray-200 dark:hover:bg-[#525252]' 
-                           : 'border-gray-200 dark:border-gray-600 bg-white dark:bg-[#262626] hover:bg-gray-50 dark:hover:bg-[#3A3E4E]'
-                       }`}
+                className={`p-3 rounded border cursor-pointer transition-all duration-200 ${
+                  flow.status === 'active' 
+                    ? 'border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-[#262626] hover:bg-gray-100 dark:hover:bg-[#404040] shadow-sm' 
+                    : !flow.read
+                    ? 'border-gray-300 dark:border-gray-500 bg-white dark:bg-[#171717] hover:bg-gray-50 dark:hover:bg-[#262626] shadow-sm'
+                    : 'border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-[#171717]/50 hover:bg-gray-50 dark:hover:bg-[#262626]'
+                }`}
               >
-                <div className="flex items-center justify-between">
-                  <div className="flex-1 min-w-0 mr-2">
-                    <div className={`text-sm truncate ${
-                      !flow.read ? 'font-bold text-gray-900 dark:text-gray-100' : 'font-medium text-gray-800 dark:text-gray-200'
-                    }`}>
-                      {flow.name}
+                <div className="space-y-2">
+                  {/* Header */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex-1 min-w-0">
+                      <div className={`text-sm truncate ${
+                        !flow.read ? 'font-bold text-gray-900 dark:text-gray-100' : 'font-medium text-gray-700 dark:text-gray-300'
+                      }`}>
+                        {flow.name}
+                      </div>
+                      <div className="text-xs text-gray-500 dark:text-gray-500 mt-0.5">{flow.time}</div>
                     </div>
-                    <div className="text-xs text-gray-500 dark:text-gray-500 mt-0.5">{flow.time}</div>
+                    
+                    <div className="flex items-center gap-2 flex-shrink-0">
+                      {flow.status === 'active' && (
+                        <div className="text-xs text-gray-600 dark:text-gray-400 font-medium">{flow.progress}%</div>
+                      )}
+                      
+                      {/* Status Indicator */}
+                      {flow.status === 'active' ? (
+                        <div className="w-2 h-2 bg-gray-600 rounded-full animate-pulse" />
+                      ) : !flow.read ? (
+                        <div className="w-3 h-3 bg-gray-800 dark:bg-gray-200 rounded-full flex items-center justify-center">
+                          <div className="w-1.5 h-1.5 bg-white dark:bg-gray-800 rounded-full" />
+                        </div>
+                      ) : (
+                        <div className="w-2 h-2 bg-gray-400 rounded-full" />
+                      )}
+                    </div>
                   </div>
                   
-                  <div className="flex items-center gap-1 flex-shrink-0">
-                           {flow.status === 'active' && (
-                             <div className="text-xs text-gray-600 dark:text-gray-400 font-medium">{flow.progress}%</div>
-                           )}
-                           
-                           {flow.status === 'active' ? (
-                             <div className="w-2 h-2 bg-gray-600 rounded-full animate-pulse" />
-                           ) : !flow.read ? (
-                             <div className="w-2 h-2 bg-gray-800 dark:bg-gray-300 rounded-full" />
-                           ) : (
-                             <div className="w-2 h-2 bg-gray-400 rounded-full" />
-                           )}
-                  </div>
+                  {/* Progress Bar for Active Flows */}
+                  {flow.status === 'active' && (
+                    <div className="space-y-1">
+                      <div className="flex items-center justify-between text-xs">
+                        <span className="text-gray-600 dark:text-gray-400">{flow.task}</span>
+                      </div>
+                      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
+                        <div 
+                          className="bg-gray-600 dark:bg-gray-400 h-1.5 rounded-full transition-all duration-300"
+                          style={{ width: `${flow.progress}%` }}
+                        />
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* Unread Indicator */}
+                  {!flow.read && flow.status === 'completed' && (
+                    <div className="text-xs text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-[#404040] px-2 py-1 rounded">
+                      New insights available
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
