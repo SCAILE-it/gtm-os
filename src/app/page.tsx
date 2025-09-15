@@ -1,5 +1,5 @@
-import { OperatingSystemLayout } from "@/components/layout/operating-system-layout";
+import { DashboardChatLayout } from "@/components/layout/dashboard-chat-layout";
 
 export default function HomePage() {
-  return <OperatingSystemLayout />;
+  return <DashboardChatLayout />;
 }

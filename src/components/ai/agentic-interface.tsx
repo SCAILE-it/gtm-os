@@ -86,9 +86,10 @@ interface AgenticInterfaceProps {
     timestamp: Date;
     data?: any;
   }) => void;
+  context?: string | null;
 }
 
-export function AgenticInterface({ className, onSaveToWorkspace }: AgenticInterfaceProps) {
+export function AgenticInterface({ className, onSaveToWorkspace, context }: AgenticInterfaceProps) {
   // TODO: Replace with API call to /api/chat/history
   // Should load previous conversation or generate welcome message from current data
   // Expected response: Message[]
