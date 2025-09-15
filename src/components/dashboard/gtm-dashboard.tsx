@@ -316,44 +316,41 @@ export function GTMDashboard() {
   return (
     <div className="p-6 space-y-6 bg-background min-h-screen">
       {/* Filters */}
-      <div className="flex items-center justify-between">
-        <div className="flex gap-1">
-          {/* Location Filter */}
-          <select className="text-xs border border-gray-200 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-gray-800">
-            <option>All Locations</option>
-            <option>North America</option>
-            <option>Europe</option>
-            <option>Asia Pacific</option>
-          </select>
-          
-          {/* Channel Filter */}
-          <select className="text-xs border border-gray-200 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-gray-800">
-            <option>All Channels</option>
-            <option>Inbound</option>
-            <option>Outbound</option>
-            <option>Referral</option>
-          </select>
-          
-          {/* Business Unit Filter */}
-          <select className="text-xs border border-gray-200 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-gray-800">
-            <option>All Units</option>
-            <option>Enterprise</option>
-            <option>SMB</option>
-            <option>Startup</option>
-          </select>
-        </div>
+      <div className="flex items-center gap-2">
+        {/* Location Filter */}
+        <select className="text-xs border border-gray-200 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-gray-800">
+          <option>All Locations</option>
+          <option>North America</option>
+          <option>Europe</option>
+          <option>Asia Pacific</option>
+        </select>
         
-        <div className="flex gap-1">
-          <select className="text-xs border border-gray-200 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-gray-800">
-            <option>Last 7 days</option>
-            <option>Last 30 days</option>
-            <option>Last 90 days</option>
-            <option>This month</option>
-            <option>Last month</option>
-            <option>This quarter</option>
-            <option>Custom range...</option>
-          </select>
-        </div>
+        {/* Channel Filter */}
+        <select className="text-xs border border-gray-200 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-gray-800">
+          <option>All Channels</option>
+          <option>Inbound</option>
+          <option>Outbound</option>
+          <option>Referral</option>
+        </select>
+        
+        {/* Business Unit Filter */}
+        <select className="text-xs border border-gray-200 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-gray-800">
+          <option>All Units</option>
+          <option>Enterprise</option>
+          <option>SMB</option>
+          <option>Startup</option>
+        </select>
+        
+        {/* Timeframe Filter */}
+        <select className="text-xs border border-gray-200 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-gray-800">
+          <option>Last 7 days</option>
+          <option>Last 30 days</option>
+          <option>Last 90 days</option>
+          <option>This month</option>
+          <option>Last month</option>
+          <option>This quarter</option>
+          <option>Custom range...</option>
+        </select>
       </div>
 
       {/* Funnel Cards */}
