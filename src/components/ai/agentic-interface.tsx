@@ -399,12 +399,12 @@ print(df)`,
                 </Avatar>
               )}
               
-              <div className={cn(
-                "w-full max-w-[85%] transition-all duration-200",
-                message.type === "user" 
-                  ? "bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 ml-auto rounded-lg px-3 py-2" 
-                  : "bg-gray-100 dark:bg-gray-800 border-0 rounded-lg px-3 py-2"
-              )}>
+                     <div className={cn(
+                       "w-full max-w-[85%] transition-all duration-200",
+                       message.type === "user" 
+                         ? "bg-gray-50/80 dark:bg-gray-800/30 text-gray-900 dark:text-gray-100 ml-auto rounded-lg px-3 py-2" 
+                         : "bg-gray-50/50 dark:bg-gray-800/20 border-0 rounded-lg px-3 py-2"
+                     )}>
                 <div className="space-y-3">
                   <div 
                     className="text-xs leading-relaxed prose prose-xs dark:prose-invert max-w-none"
@@ -437,12 +437,12 @@ print(df)`,
                     <div key={codeBlock.id} className="space-y-2">
                       {/* Output - Always visible */}
                       {codeBlock.output && (
-                        <div className="bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-800 rounded-md p-3 relative group">
+                        <div className="bg-gray-50/70 dark:bg-gray-800/30 border border-gray-200/50 dark:border-gray-700/50 rounded-md p-3 relative group">
                           <div className="flex items-center gap-2 mb-1">
-                            <Play className="h-3 w-3 text-green-600" />
-                            <span className="text-xs font-medium text-green-600">Result</span>
+                            <Play className="h-3 w-3 text-gray-600 dark:text-gray-400" />
+                            <span className="text-xs font-medium text-gray-600 dark:text-gray-400">Result</span>
                             {codeBlock.status === "completed" && (
-                              <CheckCircle className="h-3 w-3 text-green-600" />
+                              <CheckCircle className="h-3 w-3 text-gray-600 dark:text-gray-400" />
                             )}
                             {onSaveToWorkspace && (
                               <Button
@@ -461,7 +461,7 @@ print(df)`,
                               </Button>
                             )}
                           </div>
-                          <pre className="text-xs font-mono whitespace-pre-wrap text-green-800 dark:text-green-200">
+                          <pre className="text-xs font-mono whitespace-pre-wrap text-gray-700 dark:text-gray-300">
                             {codeBlock.output}
                           </pre>
                         </div>
@@ -495,8 +495,8 @@ print(df)`,
                   {/* Generated Charts - Clean & Clickable */}
                   {message.charts && message.charts.map((chart) => (
                     <div key={chart.id} className="my-4">
-                      <div 
-                        className="bg-gray-50 dark:bg-gray-800 rounded p-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors border border-gray-200 dark:border-gray-600 relative group"
+                             <div 
+                               className="bg-gray-50/60 dark:bg-gray-800/25 rounded p-2 cursor-pointer hover:bg-gray-50/80 dark:hover:bg-gray-800/40 transition-colors border border-gray-200/60 dark:border-gray-700/40 relative group"
                         onClick={() => {
                           // TODO: Open chart in detailed view
                           console.log('Chart clicked:', chart.title);
@@ -654,13 +654,13 @@ print(df)`,
                 key={index}
                 variant="outline"
                 size="sm"
-                className={cn(
-                  "justify-start text-left h-auto text-xs hover:bg-primary/5 hover:border-primary/30 transition-all duration-200 group w-full",
-                  messages.length <= 1 ? "p-3" : "p-2"
-                )}
+                       className={cn(
+                         "justify-start text-left h-auto text-xs hover:bg-gray-50/80 dark:hover:bg-gray-800/30 hover:border-gray-300/50 dark:hover:border-gray-600/50 transition-all duration-200 group w-full",
+                         messages.length <= 1 ? "p-3" : "p-2"
+                       )}
                 onClick={() => handleSuggestedQuestion(question.text)}
               >
-                <question.icon className="h-4 w-4 text-primary mr-2 flex-shrink-0" />
+                <question.icon className="h-4 w-4 text-gray-500 dark:text-gray-400 mr-2 flex-shrink-0" />
                 <div className="flex-1 min-w-0 overflow-hidden">
                   <div className={cn(
                     "font-medium leading-tight text-wrap hyphens-auto",
