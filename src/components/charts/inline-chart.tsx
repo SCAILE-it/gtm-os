@@ -12,7 +12,7 @@ interface InlineChartProps {
 }
 
 export function InlineChart({ chart }: InlineChartProps) {
-  const COLORS = ['#2563eb', '#6b7280', '#9ca3af', '#d1d5db'];
+  const COLORS = ['#e5e5e5', '#a3a3a3', '#737373', '#525252'];
   
   // Debug log
   console.log('InlineChart rendering:', chart);

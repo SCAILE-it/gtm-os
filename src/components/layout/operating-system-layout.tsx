@@ -94,7 +94,7 @@ export function OperatingSystemLayout() {
       <div className="flex h-[calc(100vh-4rem)]">
         {/* Left Sidebar - Resizable */}
         <div 
-          className="border-r border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-[#1A1E2B] flex flex-shrink-0 relative"
+          className="border-r border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-[#171717] flex flex-shrink-0 relative"
           style={{ width: leftSidebarCollapsed ? '64px' : `${leftPanelWidth}px` }}
         >
           <LeftSidebarTabs 
@@ -126,7 +126,7 @@ export function OperatingSystemLayout() {
 
         {/* Right Panel - Always Visible with Tasks + Optional Canvas */}
         <div 
-          className="border-l border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-[#1A1E2B] flex flex-col flex-shrink-0 relative"
+          className="border-l border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-[#171717] flex flex-col flex-shrink-0 relative"
           style={{ width: `${rightPanelWidth}px` }}
         >
           {/* Left Resize Handle */}
@@ -181,7 +181,7 @@ export function OperatingSystemLayout() {
                   {workspaceItems.length > 0 && (
                     <div className="space-y-3">
                       {workspaceItems.map((item) => (
-                        <div key={item.id} className="p-3 bg-white dark:bg-[#223248] rounded border border-gray-200 dark:border-gray-600">
+                        <div key={item.id} className="p-3 bg-white dark:bg-[#262626] rounded border border-gray-200 dark:border-gray-600">
                           {/* Header with Edit/Delete */}
                           <div className="flex items-center justify-between mb-3">
                             <input 
