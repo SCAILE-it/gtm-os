@@ -62,8 +62,10 @@ export function GTMDashboard() {
   const [selectedChannel, setSelectedChannel] = useState("All");
   const [selectedBusinessUnit, setSelectedBusinessUnit] = useState("All");
   const [selectedTimeframe, setSelectedTimeframe] = useState<"day" | "week" | "month">("day");
+  const [selectedComparison, setSelectedComparison] = useState<"day" | "week" | "month">("day");
 
-  // Rethought GTM KPIs - What Actually Matters
+  // Clean GTM KPIs focused on actionable metrics
+
   const funnelMetrics = {
     attract: {
       // What matters: Quality of traffic, not just volume
@@ -261,11 +263,22 @@ export function GTMDashboard() {
                 </div>
               </div>
               
-              {/* Main Value */}
-              <div>
+              {/* Main Value with Growth Badge */}
+              <div className="flex items-center gap-2">
                 <span className="text-lg font-bold text-gray-900 dark:text-gray-100">
                   {metric.value}
                 </span>
+                <Badge 
+                  variant="outline" 
+                  className="text-xs text-gray-600 border-gray-300 bg-gray-50 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+                >
+                  {selectedComparison === "day" 
+                    ? `${metric.change.day > 0 ? "+" : ""}${metric.change.day}%` 
+                    : selectedComparison === "week"
+                    ? `${metric.change.week > 0 ? "+" : ""}${metric.change.week}%`
+                    : `${metric.change.month > 0 ? "+" : ""}${metric.change.month}%`
+                  }
+                </Badge>
               </div>
               
               {/* Simple Target Comparison */}
@@ -283,20 +296,15 @@ export function GTMDashboard() {
                   edit
                 </button>
               </div>
-              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 relative overflow-visible">
-                {/* Target indicator line at 100% */}
-                <div className="absolute right-0 top-0 w-0.5 h-1.5 bg-gray-800 dark:bg-gray-200" />
+              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 relative">
+                {/* Target indicator line at 80% */}
+                <div className="absolute top-0 w-0.5 h-1.5 bg-gray-800 dark:bg-gray-200" style={{ left: '80%' }} />
                 
-                {/* Performance bar - can exceed container */}
+                {/* Performance bar - contained within card */}
                 <div 
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
-                    (parseInt(metric.value.replace(/[^0-9.]/g, '')) / metric.benchmark.target) > 1 
-                      ? 'bg-gray-800 dark:bg-gray-200' 
-                      : 'bg-gray-600 dark:bg-gray-400'
-                  }`}
+                  className="h-1.5 rounded-full transition-all duration-300 bg-gray-600 dark:bg-gray-400"
                   style={{ 
-                    width: `${(parseInt(metric.value.replace(/[^0-9.]/g, '')) / metric.benchmark.target) * 100}%`,
-                    maxWidth: '150%'
+                    width: `${Math.min((parseInt(metric.value.replace(/[^0-9.]/g, '')) / metric.benchmark.target) * 80, 100)}%`
                   }}
                 />
               </div>
@@ -310,33 +318,13 @@ export function GTMDashboard() {
   return (
     <div className="p-6 space-y-6 bg-background min-h-screen">
       {/* Daily TL;DR */}
-      <div className="bg-white dark:bg-[#262626] rounded border border-gray-200 dark:border-gray-600 p-4">
-        <h2 className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">Daily Brief</h2>
-        <div className="grid grid-cols-4 gap-4 text-xs">
-          <div>
-            <div className="text-gray-500 dark:text-gray-400">Revenue</div>
-            <div className="font-semibold text-gray-900 dark:text-gray-100">$142.5K</div>
-            <div className="text-gray-600 dark:text-gray-400">+12.3%</div>
-          </div>
-          <div>
-            <div className="text-gray-500 dark:text-gray-400">Leads</div>
-            <div className="font-semibold text-gray-900 dark:text-gray-100">2,847</div>
-            <div className="text-gray-600 dark:text-gray-400">+8.7%</div>
-          </div>
-          <div>
-            <div className="text-gray-500 dark:text-gray-400">CAC</div>
-            <div className="font-semibold text-gray-900 dark:text-gray-100">$42</div>
-            <div className="text-gray-600 dark:text-gray-400">-8.1%</div>
-          </div>
-          <div>
-            <div className="text-gray-500 dark:text-gray-400">Conversion</div>
-            <div className="font-semibold text-gray-900 dark:text-gray-100">15.6%</div>
-            <div className="text-gray-600 dark:text-gray-400">+2.1%</div>
-          </div>
-        </div>
-        <div className="mt-3 text-xs text-gray-500 dark:text-gray-500 space-y-1">
-          <div>• Mobile conversion fix → $60K monthly</div>
-          <div>• Email campaigns scaling → $30K monthly</div>
+      <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded p-4">
+        <h2 className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">Daily TL;DR</h2>
+        <div className="text-xs text-gray-600 dark:text-gray-400 space-y-1">
+          <div>• Mobile conversion optimization identified - potential $60K monthly impact</div>
+          <div>• Email campaign performance scaling - $30K monthly opportunity</div>
+          <div>• Lead qualification process needs refinement - 15% close rate improvement possible</div>
+          <div>• Outbound sequences performing 23% above target - scale recommended</div>
         </div>
       </div>
 
@@ -376,6 +364,17 @@ export function GTMDashboard() {
           <option>This quarter</option>
           <option>Custom range...</option>
         </select>
+        
+        {/* Time Comparison Filter */}
+        <select 
+          className="text-xs border border-gray-200 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-gray-800"
+          value={selectedComparison}
+          onChange={(e) => setSelectedComparison(e.target.value as "day" | "week" | "month")}
+        >
+          <option value="day">Day over Day</option>
+          <option value="week">Week over Week</option>
+          <option value="month">Month over Month</option>
+        </select>
       </div>
 
       {/* Funnel Cards */}
@@ -406,7 +405,7 @@ export function GTMDashboard() {
       </div>
 
       {/* Dashboard Boxes */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Daily Tasks for Improvements */}
         <Card className="cursor-pointer hover:shadow-md transition-all duration-200 bg-white dark:bg-[#262626] border border-gray-200 dark:border-gray-600">
           <CardHeader className="pb-3">
@@ -444,60 +443,6 @@ export function GTMDashboard() {
           </CardContent>
         </Card>
 
-        {/* Agent Runs of the Day */}
-        <Card className="cursor-pointer hover:shadow-md transition-all duration-200 bg-white dark:bg-[#262626] border border-gray-200 dark:border-gray-600">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-semibold text-gray-900 dark:text-gray-100 flex items-center gap-2">
-              <Bot className="h-5 w-5" />
-              Agent Runs
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            {agentRuns.map((agent) => (
-              <div 
-                key={agent.id}
-                className="p-3 bg-gray-50 dark:bg-gray-800 rounded border hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer transition-colors"
-                onClick={() => console.log("Open agent details:", agent.name)}
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-medium text-gray-900 dark:text-gray-100">
-                    {agent.name}
-                  </span>
-                  <div className="flex items-center gap-1">
-                    {agent.status === "running" && (
-                      <Clock className="h-3 w-3 text-gray-600 animate-pulse" />
-                    )}
-                    {agent.status === "completed" && (
-                      <CheckCircle2 className="h-3 w-3 text-gray-600" />
-                    )}
-                    {agent.status === "scheduled" && (
-                      <AlertCircle className="h-3 w-3 text-gray-400" />
-                    )}
-                  </div>
-                </div>
-                
-                {agent.status === "running" && agent.progress && (
-                  <div className="space-y-1">
-                    <Progress value={agent.progress} className="h-1" />
-                    <div className="text-xs text-gray-600 dark:text-gray-400">
-                      {agent.progress}% complete
-                    </div>
-                  </div>
-                )}
-                
-                {agent.result && (
-                  <div className="text-xs text-gray-600 dark:text-gray-400">
-                    {agent.result}
-                  </div>
-                )}
-                
-                <div className="text-xs text-gray-500 mt-1">
-                  {agent.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                </div>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
 
         {/* Market Sentiment Insights */}
         <Card className="cursor-pointer hover:shadow-md transition-all duration-200 bg-white dark:bg-[#262626] border border-gray-200 dark:border-gray-600">

@@ -30,61 +30,46 @@ export function InlineChart({ chart }: InlineChartProps) {
     switch (chart.type) {
       case "bar":
         return (
-          <div className="w-full h-[80px] p-1">
-            <BarChart width={260} height={60} data={chart.data} margin={{ top: 2, right: 2, left: 2, bottom: 15 }}>
-              <XAxis 
-                dataKey="stage" 
-                tick={{ fontSize: 9, fill: "#9ca3af" }}
-                axisLine={false}
-                tickLine={false}
-                interval={0}
-              />
-              <Bar 
-                dataKey="count" 
-                fill="#d1d5db"
-                radius={[1, 1, 0, 0]}
-              />
-            </BarChart>
+          <div className="w-full h-[60px] bg-gray-50 dark:bg-gray-800 rounded p-2">
+            <div className="flex items-end justify-between h-full gap-1">
+              {chart.data.map((item, index) => {
+                const maxValue = Math.max(...chart.data.map(d => d.count || d.value || 0));
+                const height = ((item.count || item.value || 0) / maxValue) * 100;
+                return (
+                  <div key={index} className="flex flex-col items-center flex-1">
+                    <div 
+                      className="w-full bg-gray-400 dark:bg-gray-600 rounded-t transition-all duration-300"
+                      style={{ height: `${height}%`, minHeight: '2px' }}
+                    />
+                    <div className="text-xs text-gray-600 dark:text-gray-400 mt-1 truncate">
+                      {item.stage || item.name}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         );
       
       case "pie":
         return (
-          <div className="w-full h-[80px] p-1">
-            <div className="flex items-start gap-2 h-full">
-              {/* Minimal Chart */}
-              <div className="flex-shrink-0">
-                <PieChart width={60} height={60}>
-                  <Pie
-                    data={chart.data}
-                    cx={30}
-                    cy={30}
-                    innerRadius={8}
-                    outerRadius={25}
-                    paddingAngle={0}
-                    dataKey="value"
-                  >
-                    {chart.data.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                    ))}
-                  </Pie>
-                </PieChart>
-              </div>
-              
-              {/* Minimal Legend */}
-              <div className="flex-1 space-y-0.5 pt-1">
-                {chart.data.map((entry, index) => (
-                  <div key={index} className="flex items-center gap-1">
+          <div className="w-full h-[60px] bg-gray-50 dark:bg-gray-800 rounded p-2">
+            <div className="flex items-center gap-3 h-full">
+              {chart.data.map((entry, index) => {
+                const percentage = entry.percentage || Math.round((entry.value / chart.data.reduce((sum, item) => sum + item.value, 0)) * 100);
+                return (
+                  <div key={index} className="flex items-center gap-1 flex-1">
                     <div 
-                      className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+                      className="w-2 h-2 rounded-full flex-shrink-0"
                       style={{ backgroundColor: COLORS[index % COLORS.length] }}
                     />
-                    <span className="text-xs text-gray-700 dark:text-gray-300 truncate">
-                      {entry.name} {entry.percentage || Math.round((entry.value / chart.data.reduce((sum, item) => sum + item.value, 0)) * 100)}%
-                    </span>
+                    <div className="text-xs text-gray-700 dark:text-gray-300 truncate">
+                      <div className="font-medium">{entry.name}</div>
+                      <div className="text-gray-500">{percentage}%</div>
+                    </div>
                   </div>
-                ))}
-              </div>
+                );
+              })}
             </div>
           </div>
         );
