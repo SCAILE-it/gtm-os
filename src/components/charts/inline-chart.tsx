@@ -58,17 +58,17 @@ export function InlineChart({ chart }: InlineChartProps) {
       
       case "pie":
         return (
-          <div className="w-full h-[140px] p-2">
-            <div className="flex items-center gap-3">
+          <div className="w-full h-[120px] p-1">
+            <div className="flex items-start gap-2 h-full">
               {/* Chart */}
               <div className="flex-shrink-0">
-                <PieChart width={100} height={80}>
+                <PieChart width={120} height={100}>
                   <Pie
                     data={chart.data}
-                    cx={50}
-                    cy={40}
-                    innerRadius={12}
-                    outerRadius={28}
+                    cx={60}
+                    cy={50}
+                    innerRadius={15}
+                    outerRadius={35}
                     paddingAngle={1}
                     dataKey="value"
                   >
@@ -88,21 +88,21 @@ export function InlineChart({ chart }: InlineChartProps) {
                 </PieChart>
               </div>
               
-              {/* Legend */}
-              <div className="flex-1 space-y-1">
+              {/* Compact Legend */}
+              <div className="flex-1 space-y-0.5 pt-2">
                 {chart.data.map((entry, index) => (
-                  <div key={index} className="flex items-center gap-2">
+                  <div key={index} className="flex items-center gap-1.5">
                     <div 
                       className="w-2 h-2 rounded-full flex-shrink-0"
                       style={{ backgroundColor: COLORS[index % COLORS.length] }}
                     />
-                    <div className="flex-1 min-w-0">
-                      <div className="text-xs font-medium text-gray-900 dark:text-gray-100 truncate">
+                    <div className="flex items-center gap-1 flex-1 min-w-0">
+                      <span className="text-xs font-medium text-gray-900 dark:text-gray-100 truncate">
                         {entry.name}
-                      </div>
-                      <div className="text-xs text-gray-600 dark:text-gray-400">
+                      </span>
+                      <span className="text-xs text-gray-600 dark:text-gray-400 flex-shrink-0">
                         {entry.percentage || Math.round((entry.value / chart.data.reduce((sum, item) => sum + item.value, 0)) * 100)}%
-                      </div>
+                      </span>
                     </div>
                   </div>
                 ))}
@@ -118,9 +118,6 @@ export function InlineChart({ chart }: InlineChartProps) {
 
   return (
     <div className="w-full">
-      <h4 className="text-sm font-medium mb-2 text-gray-900 dark:text-gray-100">
-        {chart.title}
-      </h4>
       {renderChart()}
     </div>
   );
