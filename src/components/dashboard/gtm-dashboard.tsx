@@ -89,7 +89,7 @@ export function GTMDashboard() {
         label: "Outbound→Meeting Rate",
         value: "12.8%",
         change: { day: 2.1, week: -1.2, month: 3.4 },
-        benchmark: { target: 8, status: "above" as const, editable: true },
+        benchmark: { target: 8.0, status: "above" as const, editable: true },
         dataSources: ["Apollo", "Instantly"],
         calculation: "Meetings booked / Outbound contacts * 100"
       }
@@ -270,17 +270,33 @@ export function GTMDashboard() {
               
               {/* Simple Target Comparison */}
               <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
-                <span>Target: {metric.benchmark.target.toLocaleString()}</span>
+                <span>Target: {
+                  metric.value.includes('%') 
+                    ? `${metric.benchmark.target}%`
+                    : metric.value.includes('$')
+                    ? `$${(metric.benchmark.target / 1000).toFixed(0)}K`
+                    : metric.value.includes('days')
+                    ? `${metric.benchmark.target} days`
+                    : metric.benchmark.target.toLocaleString()
+                }</span>
                 <button className="text-gray-400 hover:text-gray-600 text-xs" title="Edit target">
                   edit
                 </button>
               </div>
-              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 relative">
-                {/* Progress towards target */}
+              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 relative overflow-visible">
+                {/* Target indicator line at 100% */}
+                <div className="absolute right-0 top-0 w-0.5 h-1.5 bg-gray-800 dark:bg-gray-200" />
+                
+                {/* Performance bar - can exceed container */}
                 <div 
-                  className="bg-gray-600 dark:bg-gray-400 h-1.5 rounded-full transition-all duration-300"
+                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                    (parseInt(metric.value.replace(/[^0-9.]/g, '')) / metric.benchmark.target) > 1 
+                      ? 'bg-gray-800 dark:bg-gray-200' 
+                      : 'bg-gray-600 dark:bg-gray-400'
+                  }`}
                   style={{ 
-                    width: `${Math.min(100, (parseInt(metric.value.replace(/[^0-9.]/g, '')) / metric.benchmark.target) * 100)}%` 
+                    width: `${(parseInt(metric.value.replace(/[^0-9.]/g, '')) / metric.benchmark.target) * 100}%`,
+                    maxWidth: '150%'
                   }}
                 />
               </div>
