@@ -260,41 +260,26 @@ export function GTMDashboard() {
                 </div>
               </div>
             
-            {/* Industry Benchmark Visualization */}
+            {/* Clean Benchmark Bar */}
             <div className="mt-2">
-              <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 mb-1">
-                <span>Industry Benchmark</span>
-                <span>{metric.benchmark.industry.toLocaleString()} avg</span>
-              </div>
-              
-              {/* Benchmark Bar with Percentiles */}
-              <div className="relative">
-                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 relative">
-                  {/* Bottom 25% */}
-                  <div className="absolute left-0 w-1/4 h-2 bg-gray-300 dark:bg-gray-600 rounded-l-full" />
-                  {/* Middle 50% (Industry Average) */}
-                  <div className="absolute left-1/4 w-1/2 h-2 bg-gray-400 dark:bg-gray-500" />
-                  {/* Top 25% */}
-                  <div className="absolute right-0 w-1/4 h-2 bg-gray-500 dark:bg-gray-400 rounded-r-full" />
-                  
-                  {/* Your Performance Indicator */}
-                  <div 
-                    className="absolute top-0 w-1 h-2 bg-gray-900 dark:bg-gray-100 rounded-full transition-all duration-300"
-                    style={{ 
-                      left: `${Math.min(95, Math.max(5, 
-                        ((parseInt(metric.value.replace(/[^0-9.]/g, '')) - metric.benchmark.bottom25) / 
-                         (metric.benchmark.top25 - metric.benchmark.bottom25)) * 100
-                      ))}%` 
-                    }}
-                  />
-                </div>
+              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 relative">
+                {/* Bottom 25% */}
+                <div className="absolute left-0 w-1/4 h-1.5 bg-gray-300 dark:bg-gray-600 rounded-l-full" />
+                {/* Middle 50% (Industry Average) */}
+                <div className="absolute left-1/4 w-1/2 h-1.5 bg-gray-400 dark:bg-gray-500" />
+                {/* Top 25% */}
+                <div className="absolute right-0 w-1/4 h-1.5 bg-gray-500 dark:bg-gray-400 rounded-r-full" />
                 
-                {/* Labels */}
-                <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
-                  <span>Bottom 25%</span>
-                  <span>Average</span>
-                  <span>Top 25%</span>
-                </div>
+                {/* Your Performance Indicator */}
+                <div 
+                  className="absolute top-0 w-0.5 h-1.5 bg-gray-900 dark:bg-gray-100 transition-all duration-300"
+                  style={{ 
+                    left: `${Math.min(95, Math.max(5, 
+                      ((parseInt(metric.value.replace(/[^0-9.]/g, '')) - metric.benchmark.bottom25) / 
+                       (metric.benchmark.top25 - metric.benchmark.bottom25)) * 100
+                    ))}%` 
+                  }}
+                />
               </div>
             </div>
             
