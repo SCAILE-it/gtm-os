@@ -21,7 +21,7 @@ export function InlineChart({ chart }: InlineChartProps) {
     switch (chart.type) {
       case "bar":
         return (
-          <ResponsiveContainer width="100%" height={120}>
+          <ResponsiveContainer width="100%" height={100}>
             <BarChart data={chart.data} margin={{ top: 10, right: 10, left: 10, bottom: 10 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
               <XAxis 
@@ -54,13 +54,13 @@ export function InlineChart({ chart }: InlineChartProps) {
       case "pie":
         return (
           <div className="w-full h-[120px] flex items-center justify-center">
-            <PieChart width={200} height={120}>
+            <PieChart width={160} height={100}>
               <Pie
                 data={chart.data}
-                cx={100}
-                cy={60}
-                innerRadius={20}
-                outerRadius={50}
+                cx={80}
+                cy={50}
+                innerRadius={15}
+                outerRadius={35}
                 paddingAngle={2}
                 dataKey="value"
               >
