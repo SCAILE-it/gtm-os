@@ -523,7 +523,7 @@ print(df)`,
                             Save
                           </Button>
                         )}
-                        <div className="w-full h-40 overflow-hidden">
+                        <div className="w-full h-24 overflow-hidden">
                           <InlineChart chart={chart} />
                         </div>
                       </div>
