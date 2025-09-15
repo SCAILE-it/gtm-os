@@ -223,29 +223,24 @@ export function OperatingSystemLayout() {
                           <div className="space-y-2">
                             {/* Edit/Refine Row */}
                             <div className="flex gap-1">
-                              <Button size="sm" variant="outline" className="text-xs h-6 px-2 flex-1">
-                                <Edit3 className="h-3 w-3 mr-1" />
-                                Edit
+                              <Button size="sm" variant="outline" className="h-6 w-6 p-0" title="Edit">
+                                <Edit3 className="h-3 w-3" />
                               </Button>
-                              <Button size="sm" variant="outline" className="text-xs h-6 px-2 flex-1">
-                                <RefreshCw className="h-3 w-3 mr-1" />
-                                Refine
+                              <Button size="sm" variant="outline" className="h-6 w-6 p-0" title="Refine">
+                                <RefreshCw className="h-3 w-3" />
                               </Button>
                             </div>
                             
                             {/* Share Row */}
                             <div className="flex gap-1">
-                              <Button size="sm" variant="outline" className="text-xs h-6 px-2 flex-1">
-                                <Mail className="h-3 w-3 mr-1" />
-                                Email
+                              <Button size="sm" variant="outline" className="h-6 w-6 p-0" title="Email">
+                                <Mail className="h-3 w-3" />
                               </Button>
-                              <Button size="sm" variant="outline" className="text-xs h-6 px-2 flex-1">
-                                <Copy className="h-3 w-3 mr-1" />
-                                Copy
+                              <Button size="sm" variant="outline" className="h-6 w-6 p-0" title="Copy">
+                                <Copy className="h-3 w-3" />
                               </Button>
-                              <Button size="sm" variant="outline" className="text-xs h-6 px-2 flex-1">
-                                <Share2 className="h-3 w-3 mr-1" />
-                                Share
+                              <Button size="sm" variant="outline" className="h-6 w-6 p-0" title="Share">
+                                <Share2 className="h-3 w-3" />
                               </Button>
                             </div>
                           </div>
