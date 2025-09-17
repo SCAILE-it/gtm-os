@@ -55,7 +55,7 @@ export function InlineChart({ chart }: InlineChartProps) {
       case "pie":
         return (
           <div className="w-full h-full bg-background rounded p-4 min-h-[120px]">
-            <div className="grid grid-cols-2 gap-3 h-full">
+            <div className="grid grid-cols-4 gap-3 h-full items-center">
               {chart.data.map((entry, index) => {
                 const percentage = entry.percentage || Math.round((entry.value / chart.data.reduce((sum, item) => sum + item.value, 0)) * 100);
                 return (

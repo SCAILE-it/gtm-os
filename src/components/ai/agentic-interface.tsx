@@ -645,13 +645,8 @@ print(df)`,
             </div>
           )}
           
-          <div className={cn(
-            "space-y-2",
-            messages.length <= 1 
-              ? "space-y-2" 
-              : "grid grid-cols-2 lg:grid-cols-4 gap-1"
-          )}>
-            {(messages.length <= 1 ? suggestedQuestions.slice(0, 3) : suggestedQuestions.slice(0, 2)).map((question, index) => (
+          <div className="space-y-2">
+            {suggestedQuestions.slice(0, 3).map((question, index) => (
               <Button
                 key={index}
                 variant="outline"
