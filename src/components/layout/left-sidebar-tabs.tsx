@@ -336,19 +336,42 @@ export function LeftSidebarTabs({ dailyDigest, collapsed, onToggleCollapse, onTa
                 <h5 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Available</h5>
                 <div className="space-y-1">
                   {[
-                    { name: "Gong", category: "Sales" },
-                    { name: "Reddit", category: "Social" },
-                    { name: "SEMrush", category: "SEO" },
-                    { name: "Google Ads", category: "Marketing" }
+                    { name: "Gong", category: "Sales", premium: false },
+                    { name: "Reddit Intelligence", category: "Social", premium: true },
+                    { name: "SEMrush", category: "SEO", premium: false },
+                    { name: "Google Ads", category: "Marketing", premium: false }
                   ].map((source, index) => (
-                    <div key={index} className="flex items-center justify-between p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded cursor-pointer">
+                    <div key={index} className={`flex items-center justify-between p-2 rounded cursor-pointer transition-all ${
+                      source.premium 
+                        ? "bg-gradient-to-r from-primary/10 to-primary/5 hover:from-primary/20 hover:to-primary/10 border border-primary/20" 
+                        : "hover:bg-gray-100 dark:hover:bg-gray-700"
+                    }`}>
                       <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-gray-400 rounded-full" />
-                        <div className="text-sm text-gray-800 dark:text-gray-200">{source.name}</div>
-                        <Badge variant="outline" className="text-xs">{source.category}</Badge>
+                        <div className={`w-2 h-2 rounded-full ${
+                          source.premium ? "bg-amber-400 animate-pulse" : "bg-gray-400"
+                        }`} />
+                        <div className="text-sm text-gray-800 dark:text-gray-200 flex items-center gap-1">
+                          {source.name}
+                          {source.premium && (
+                            <span className="text-[8px] bg-amber-400 text-amber-900 px-1 py-0.5 rounded font-bold">
+                              PRO
+                            </span>
+                          )}
+                        </div>
+                        <Badge variant="outline" className={`text-xs ${
+                          source.premium ? "border-primary/40 text-primary" : ""
+                        }`}>
+                          {source.category}
+                        </Badge>
                       </div>
-                      <Button size="sm" variant="outline" className="text-xs h-6 px-2">
-                        Connect
+                      <Button 
+                        size="sm" 
+                        variant={source.premium ? "default" : "outline"} 
+                        className={`text-xs h-6 px-2 ${
+                          source.premium ? "bg-primary hover:bg-primary/90" : ""
+                        }`}
+                      >
+                        {source.premium ? "Upgrade" : "Connect"}
                       </Button>
                     </div>
                   ))}

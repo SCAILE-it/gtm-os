@@ -42,12 +42,12 @@ interface DataConnection {
   lastSync?: string;
   recordCount?: number;
   syncFrequency?: string;
+  isPremium?: boolean;
+  premiumFeatures?: string[];
 }
 
 export function ConnectionsPage() {
-  // TODO: Replace with API call to /api/connections/available
-  // Should return all available data sources that can be connected via Airbyte
-  // Expected response: DataConnection[]
+  // Clean tool library with status
   const [availableConnections, setAvailableConnections] = useState<DataConnection[]>([
     {
       id: "google-analytics",
@@ -245,6 +245,21 @@ export function ConnectionsPage() {
       icon: "Notion",
       requiresOAuth: true,
       setupComplexity: "medium"
+    },
+    {
+      id: "reddit-intelligence",
+      name: "Reddit Intelligence",
+      description: "Advanced sentiment analysis, competitive intelligence, and trend detection from 100M+ Reddit discussions. Premium AI-powered insights for market research.",
+      category: "Social",
+      status: "connected",
+      icon: "Reddit",
+      requiresOAuth: true,
+      setupComplexity: "easy",
+      isPremium: true,
+      premiumFeatures: ["Real-time sentiment tracking", "Advanced topic modeling", "Competitive intelligence", "Industry trend prediction", "Custom keyword monitoring"],
+      lastSync: "Live",
+      recordCount: 2847000,
+      syncFrequency: "Real-time"
     }
   ]);
 
@@ -385,61 +400,18 @@ export function ConnectionsPage() {
   }, {} as Record<string, DataConnection[]>);
 
   return (
-    <div className="p-6 max-w-6xl mx-auto space-y-6 overflow-auto h-full">
+    <div className="p-4 space-y-4 bg-background min-h-screen">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold flex items-center gap-2">
-            <Database className="h-6 w-6" />
-            Data Connections
+          <h1 className="text-lg font-bold flex items-center gap-2">
+            <Database className="h-5 w-5" />
+            Tool Connections
           </h1>
-          <p className="text-muted-foreground">
-            Connect your tools to enable AI-powered insights. We handle the data warehouse setup.
+          <p className="text-sm text-muted-foreground">
+            {connectedCount} of {availableConnections.length} tools connected
           </p>
         </div>
-        <div className="text-right">
-          <div className="text-2xl font-bold text-primary">{connectedCount}</div>
-          <div className="text-sm text-muted-foreground">Connected Sources</div>
-        </div>
-      </div>
-
-      {/* Stats Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-muted-foreground">Total Records</p>
-                <p className="text-2xl font-bold">{(totalRecords / 1000000).toFixed(1)}M</p>
-              </div>
-              <Database className="h-8 w-8 text-primary" />
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-muted-foreground">Active Connections</p>
-                <p className="text-2xl font-bold">{connectedCount}/{availableConnections.length}</p>
-              </div>
-              <CheckCircle className="h-8 w-8 text-green-600" />
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-muted-foreground">Data Warehouse</p>
-                <p className="text-lg font-semibold text-green-600">Airbyte Ready</p>
-              </div>
-              <Zap className="h-8 w-8 text-yellow-600" />
-            </div>
-          </CardContent>
-        </Card>
       </div>
 
       {/* Funnel Flow Visualization - Top Section */}

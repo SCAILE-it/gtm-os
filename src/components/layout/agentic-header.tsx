@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Settings, User, LogOut, Sun, Moon, MessageSquare, BarChart3, Database } from "lucide-react";
+import { Settings, User, LogOut, Sun, Moon, MessageSquare, BarChart3, Database, Building2 } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
@@ -102,6 +102,15 @@ export function AgenticHeader({}: AgenticHeaderProps) {
               >
                 <Database className="mr-2 h-4 w-4" />
                 <span>Data Connections</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                onClick={(e) => {
+                  e.preventDefault();
+                  router.push('/company');
+                }}
+              >
+                <Building2 className="mr-2 h-4 w-4" />
+                <span>Company Context</span>
               </DropdownMenuItem>
               <DropdownMenuItem 
                 onClick={(e) => {

@@ -318,7 +318,7 @@ print(df)`,
 
     const randomTemplate = responseTemplates[Math.floor(Math.random() * responseTemplates.length)];
     
-    const messageId = Date.now().toString();
+    const messageId = `msg-${Math.random().toString(36).substr(2, 9)}`;
     setMessages(prev => [...prev, {
       id: messageId,
       type: "agent",
@@ -347,7 +347,7 @@ print(df)`,
     if (!inputValue.trim() || isLoading) return;
 
     const userMessage = {
-      id: Date.now().toString(),
+      id: `user-${Math.random().toString(36).substr(2, 9)}`,
       type: "user" as const,
       content: inputValue,
       timestamp: new Date(),
@@ -364,7 +364,7 @@ print(df)`,
     if (isLoading) return;
     
     const userMessage = {
-      id: Date.now().toString(),
+      id: `user-${Math.random().toString(36).substr(2, 9)}`,
       type: "user" as const,
       content: question,
       timestamp: new Date(),
@@ -401,10 +401,10 @@ print(df)`,
                      )}
               
                      <div className={cn(
-                       "w-full max-w-[85%] transition-all duration-200",
+                       "w-full max-w-full transition-all duration-200",
                        message.type === "user" 
-                         ? "bg-gray-50/80 dark:bg-[#262626]/30 text-gray-900 dark:text-gray-100 ml-auto rounded-lg px-3 py-2" 
-                         : "bg-gray-50/50 dark:bg-[#262626]/20 border-0 rounded-lg px-3 py-2"
+                         ? "bg-muted/30 text-foreground ml-auto rounded px-3 py-2 border border-border/50" 
+                         : "bg-background text-foreground border border-border rounded px-3 py-2"
                      )}>
                 <div className="space-y-3">
                   <div 
@@ -424,10 +424,10 @@ print(df)`,
                              {message.sources.map((source) => (
                                <div 
                                  key={source.id} 
-                                 className="w-6 h-6 bg-gray-100 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded flex items-center justify-center p-1"
+                                 className="w-6 h-6 bg-muted border border-border rounded flex items-center justify-center p-1"
                                  title={source.name}
                                >
-                                 <SourceLogo source={source.icon} className="w-4 h-4 text-gray-700 dark:text-gray-300" />
+                                 <SourceLogo source={source.icon} className="w-4 h-4 text-foreground" />
                                </div>
                              ))}
                            </div>
@@ -438,12 +438,12 @@ print(df)`,
                     <div key={codeBlock.id} className="space-y-2">
                       {/* Output - Always visible */}
                       {codeBlock.output && (
-                        <div className="bg-gray-100 dark:bg-[#262626] border border-gray-200 dark:border-gray-600 rounded-md p-3 relative group">
+                        <div className="bg-muted/30 border border-border rounded-md p-3 relative group">
                           <div className="flex items-center gap-2 mb-1">
-                            <Play className="h-3 w-3 text-gray-600 dark:text-gray-400" />
-                            <span className="text-xs font-medium text-gray-600 dark:text-gray-400">Result</span>
+                            <Play className="h-3 w-3 text-muted-foreground" />
+                            <span className="text-xs font-medium text-muted-foreground">Result</span>
                             {codeBlock.status === "completed" && (
-                              <CheckCircle className="h-3 w-3 text-gray-600 dark:text-gray-400" />
+                              <CheckCircle className="h-3 w-3 text-muted-foreground" />
                             )}
                             {onSaveToWorkspace && (
                               <Button
@@ -496,9 +496,9 @@ print(df)`,
 
                   {/* Generated Charts - Clean & Clickable */}
                   {message.charts && message.charts.map((chart) => (
-                    <div key={chart.id} className="my-4">
+                    <div key={chart.id} className="my-6">
                              <div 
-                               className="bg-gray-50/60 dark:bg-gray-800/25 rounded p-2 cursor-pointer hover:bg-gray-50/80 dark:hover:bg-gray-800/40 transition-colors border border-gray-200/60 dark:border-gray-700/40 relative group"
+                               className="bg-muted/30 rounded p-4 cursor-pointer hover:bg-muted/50 transition-colors border border-border/50 relative group"
                         onClick={() => {
                           // TODO: Open chart in detailed view
                           console.log('Chart clicked:', chart.title);
@@ -523,8 +523,10 @@ print(df)`,
                             Save
                           </Button>
                         )}
-                        <div className="w-full h-24 overflow-hidden">
-                          <InlineChart chart={chart} />
+                        <div className="w-full h-32 overflow-hidden bg-muted/20 rounded border border-border/50">
+                          <div className="w-full h-full p-2">
+                            <InlineChart chart={chart} />
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -537,10 +539,10 @@ print(df)`,
                     {message.type === "agent" && (
                       <Sparkles className="h-3 w-3 animate-pulse" />
                     )}
-                    {message.timestamp?.toLocaleTimeString([], { 
+                    {typeof window !== 'undefined' ? message.timestamp?.toLocaleTimeString([], { 
                       hour: '2-digit', 
                       minute: '2-digit' 
-                    }) || 'Now'}
+                    }) || 'Now' : 'Now'}
                   </div>
                 </div>
               </div>
@@ -644,10 +646,10 @@ print(df)`,
           )}
           
           <div className={cn(
-            "grid gap-1",
+            "space-y-2",
             messages.length <= 1 
-              ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2" 
-              : "grid-cols-2 lg:grid-cols-4 gap-1"
+              ? "space-y-2" 
+              : "grid grid-cols-2 lg:grid-cols-4 gap-1"
           )}>
             {(messages.length <= 1 ? suggestedQuestions.slice(0, 3) : suggestedQuestions.slice(0, 2)).map((question, index) => (
               <Button
@@ -660,7 +662,7 @@ print(df)`,
                        )}
                 onClick={() => handleSuggestedQuestion(question.text)}
               >
-                <question.icon className="h-4 w-4 text-gray-500 dark:text-gray-400 mr-2 flex-shrink-0" />
+                <question.icon className="h-4 w-4 text-muted-foreground mr-2 flex-shrink-0" />
                 <div className="flex-1 min-w-0 overflow-hidden">
                   <div className={cn(
                     "font-medium leading-tight text-wrap hyphens-auto",
