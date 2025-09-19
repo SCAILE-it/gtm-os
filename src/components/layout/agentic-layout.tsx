@@ -29,7 +29,7 @@ export function AgenticLayout({ children }: AgenticLayoutProps) {
       <div className="flex h-[calc(100vh-4rem)]">
         {isDashboardPage || (hasCustomContent && !isAgenticPage) ? (
           /* Dashboard/Settings/Connections View - Clean layout */
-          <main className="flex-1 overflow-hidden">
+          <main className="flex-1 overflow-auto">
             {children}
           </main>
         ) : (

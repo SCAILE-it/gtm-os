@@ -16,7 +16,10 @@ import {
   Database,
   Settings,
   ChevronRight,
-  X
+  X,
+  Bot,
+  Zap,
+  User
 } from "lucide-react";
 
 interface SidebarProps {
@@ -34,6 +37,18 @@ const navigationSections = [
         href: "/",
         icon: LayoutDashboard,
         description: "CEO view with KPIs and funnel"
+      },
+      {
+        title: "Agentic Engine",
+        href: "/agents",
+        icon: Bot,
+        description: "Deploy and manage AI agents"
+      },
+      {
+        title: "Profile",
+        href: "/profile",
+        icon: User,
+        description: "Account settings and preferences"
       }
     ]
   },

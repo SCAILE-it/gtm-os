@@ -23,7 +23,9 @@ import {
   Calendar,
   Zap,
   Settings,
-  Plus
+  Plus,
+  ChevronDown,
+  ChevronUp
 } from "lucide-react";
 
 interface FunnelMetric {
@@ -76,6 +78,7 @@ export function GTMDashboard() {
   const [taskStatuses, setTaskStatuses] = useState<{[key: string]: string}>({});
   const [expandedMetric, setExpandedMetric] = useState<string | null>(null);
   const [filtersExpanded, setFiltersExpanded] = useState(false);
+  const [tldrExpanded, setTldrExpanded] = useState(false);
   
   const [detailView, setDetailView] = useState<string | null>(null);
   const [activeKPIs, setActiveKPIs] = useState<Record<string, string[]>>({
@@ -441,7 +444,7 @@ export function GTMDashboard() {
   };
 
   return (
-    <div className="p-2 space-y-2 bg-background min-h-screen">
+    <div className="p-1 space-y-1 bg-background min-h-screen">
 
       {/* Filters */}
       <div className="mb-4">
@@ -550,7 +553,7 @@ export function GTMDashboard() {
       </div>
 
       {/* GTM Funnel - Combined Box */}
-      <Card className="bg-background border border-border rounded-lg">
+      <Card className="border border-border rounded-lg">
         <CardContent className="p-6 relative">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Attract Stage */}
@@ -820,14 +823,15 @@ export function GTMDashboard() {
       </Card>
 
       {/* Dashboard Boxes */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">
         {/* Daily TL;DR */}
-        <Card className="h-full flex flex-col">
+        <Card className="h-full flex flex-col cursor-pointer hover:shadow-md transition-shadow" onClick={() => setTldrExpanded(!tldrExpanded)}>
           <CardHeader className="pb-3 pt-4 px-4">
             <CardTitle className="text-sm font-semibold text-foreground flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <BarChart3 className="h-4 w-4" />
                 Daily TL;DR
+                {tldrExpanded ? <ChevronUp className="h-3 w-3 text-muted-foreground" /> : <ChevronDown className="h-3 w-3 text-muted-foreground" />}
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-xs text-muted-foreground">GTM Score</span>
@@ -862,18 +866,40 @@ export function GTMDashboard() {
               }
             ].map((item, index) => (
               <div key={item.id} className="group">
-                <div className="cursor-pointer" onClick={() => console.log(`Clicked ${item.title}`)}>
-                  <div className="flex items-start gap-2">
-                    <div className="w-1 h-1 bg-muted-foreground rounded-full mt-2 flex-shrink-0"></div>
-                    <div>
-                      <span className="text-xs font-semibold text-foreground">{item.title}</span>
-                      <span className="text-xs text-muted-foreground"> {item.subtitle} - </span>
-                      <span className="text-xs font-bold text-foreground">{item.impact}</span>
-                    </div>
+                <div className="flex items-start gap-2">
+                  <div className="w-1 h-1 bg-muted-foreground rounded-full mt-2 flex-shrink-0"></div>
+                  <div>
+                    <span className="text-xs font-semibold text-foreground">{item.title}</span>
+                    <span className="text-xs text-muted-foreground"> {item.subtitle} - </span>
+                    <span className="text-xs font-bold text-foreground">{item.impact}</span>
+                    {tldrExpanded && (
+                      <div className="text-xs text-muted-foreground mt-1 leading-relaxed">
+                        {item.action}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
             ))}
+            
+            {/* Deep Analysis Button - Only show when expanded */}
+            {tldrExpanded && (
+              <div className="pt-2 mt-2 border-t border-border/30">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="w-full h-6 text-xs"
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent card collapse
+                    // TODO: Trigger deep GTM analysis
+                    console.log("Running deep GTM analysis...");
+                  }}
+                >
+                  <BarChart3 className="h-3 w-3 mr-1" />
+                  Deep Analysis
+                </Button>
+              </div>
+            )}
           </CardContent>
         </Card>
 

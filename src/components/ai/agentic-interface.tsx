@@ -523,8 +523,8 @@ print(df)`,
                             Save
                           </Button>
                         )}
-                        <div className="w-full h-32 overflow-hidden bg-muted/20 rounded border border-border/50">
-                          <div className="w-full h-full p-2">
+                        <div className="w-full h-40 bg-background rounded border border-border/50">
+                          <div className="w-full h-full">
                             <InlineChart chart={chart} />
                           </div>
                         </div>

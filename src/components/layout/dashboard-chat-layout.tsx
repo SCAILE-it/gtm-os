@@ -1,11 +1,14 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { AgenticHeader } from "@/components/layout/agentic-header";
 import { GTMDashboard } from "@/components/dashboard/gtm-dashboard";
+import { AgentsFunnelPage } from "@/components/agents/agents-funnel-page";
 import { AgenticInterface } from "@/components/ai/agentic-interface";
 
 export function DashboardChatLayout() {
+  const pathname = usePathname();
   const [selectedContext, setSelectedContext] = useState<string | null>(null);
   const [dashboardWidth, setDashboardWidth] = useState(66.67); // Start at 2/3 (66.67%)
   const [isDragging, setIsDragging] = useState(false);
@@ -55,12 +58,12 @@ export function DashboardChatLayout() {
       <AgenticHeader />
       
       <div ref={containerRef} className="flex h-[calc(100vh-4rem)]">
-        {/* Dashboard - Dynamic width with responsive behavior */}
+        {/* Dashboard or Agents - Dynamic width with responsive behavior */}
         <div 
           className="overflow-auto min-w-0 md:block"
           style={{ width: `${dashboardWidth}%` }}
         >
-          <GTMDashboard />
+          {pathname === "/agents" ? <AgentsFunnelPage /> : <GTMDashboard />}
         </div>
 
         {/* Drag Handle - Hidden on mobile */}

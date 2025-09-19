@@ -23,10 +23,10 @@ interface FunnelCardProps {
 }
 
 const stageColors = {
-  "first-touch": "bg-muted/40",
-  "qualified": "bg-muted/50", 
-  "opportunity": "bg-muted/60",
-  "closed": "bg-muted/70"
+  "first-touch": "",
+  "qualified": "", 
+  "opportunity": "",
+  "closed": ""
 };
 
 const stageBorders = {

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Settings, User, LogOut, Sun, Moon, MessageSquare, BarChart3, Database, Building2 } from "lucide-react";
+import { Settings, User, LogOut, Sun, Moon, MessageSquare, BarChart3, Database, Building2, Bot } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
@@ -50,8 +50,26 @@ export function AgenticHeader({}: AgenticHeaderProps) {
         </div>
 
         {/* Center - Navigation Tabs */}
-        {/* Center - Clean design, no mode toggle */}
-        <div></div>
+        <div className="flex items-center gap-1">
+          <Button
+            variant={pathname === "/" ? "secondary" : "ghost"}
+            size="sm"
+            onClick={() => router.push("/")}
+            className="flex items-center gap-2"
+          >
+            <BarChart3 className="h-4 w-4" />
+            Dashboard
+          </Button>
+          <Button
+            variant={pathname === "/agents" ? "secondary" : "ghost"}
+            size="sm"
+            onClick={() => router.push("/agents")}
+            className="flex items-center gap-2"
+          >
+            <Bot className="h-4 w-4" />
+            Agentic Engine
+          </Button>
+        </div>
 
         {/* Right side - Settings and Profile */}
         <div className="flex items-center gap-2">

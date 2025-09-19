@@ -29,21 +29,28 @@ export function InlineChart({ chart }: InlineChartProps) {
     switch (chart.type) {
       case "bar":
         return (
-          <div className="w-full h-full bg-background rounded p-2 flex items-center min-h-[120px]">
-            <div className="flex items-end justify-between h-full w-full gap-1">
+          <div className="w-full h-full bg-background rounded p-3 flex items-center">
+            <div className="flex items-end justify-between h-full w-full gap-2" style={{ height: '100px' }}>
               {chart.data.map((item, index) => {
                 const maxValue = Math.max(...chart.data.map(d => d.count || d.value || 0));
-                const height = ((item.count || item.value || 0) / maxValue) * 100;
+                const height = ((item.count || item.value || 0) / maxValue) * 80 + 10; // Ensure minimum height
                 return (
                   <div key={index} className="flex flex-col items-center flex-1 h-full">
-                    <div className="flex-1 flex items-end">
+                    <div className="flex-1 flex items-end justify-center" style={{ height: '80px' }}>
                       <div 
-                        className="w-full bg-foreground/60 rounded-t transition-all duration-300"
-                        style={{ height: `${height}%`, minHeight: '2px' }}
+                        className="w-full bg-blue-500 rounded-t transition-all duration-300"
+                        style={{ 
+                          height: `${height}px`,
+                          maxWidth: '40px',
+                          minHeight: '4px'
+                        }}
                       />
                     </div>
-                    <div className="text-xs text-muted-foreground mt-1 truncate">
+                    <div className="text-xs text-muted-foreground mt-1 truncate text-center">
                       {item.stage || item.name}
+                    </div>
+                    <div className="text-xs font-medium text-foreground">
+                      {item.count || item.value}
                     </div>
                   </div>
                 );
@@ -54,19 +61,20 @@ export function InlineChart({ chart }: InlineChartProps) {
       
       case "pie":
         return (
-          <div className="w-full h-full bg-background rounded p-4 min-h-[120px]">
-            <div className="grid grid-cols-4 gap-3 h-full items-center">
+          <div className="w-full h-full bg-background rounded p-3">
+            <div className="grid grid-cols-2 gap-2 h-full">
               {chart.data.map((entry, index) => {
-                const percentage = entry.percentage || Math.round((entry.value / chart.data.reduce((sum, item) => sum + item.value, 0)) * 100);
+                const percentage = entry.percentage || Math.round((entry.value / chart.data.reduce((sum, item) => sum + (item.value || 0), 0)) * 100);
+                const colors = ['#3b82f6', '#ef4444', '#10b981', '#f59e0b'];
                 return (
-                  <div key={index} className="flex flex-col items-center text-center">
+                  <div key={index} className="flex items-center gap-2">
                     <div 
-                      className="w-3 h-3 rounded-full mb-1"
-                      style={{ backgroundColor: COLORS[index % COLORS.length] }}
+                      className="w-3 h-3 rounded-full flex-shrink-0"
+                      style={{ backgroundColor: colors[index % colors.length] }}
                     />
-                    <div className="text-xs text-foreground">
-                      <div className="font-medium">{entry.name}</div>
-                      <div className="text-muted-foreground">{percentage}%</div>
+                    <div className="text-xs text-foreground min-w-0">
+                      <div className="font-medium truncate">{entry.name}</div>
+                      <div className="text-muted-foreground">{percentage}% • {entry.value?.toLocaleString()}</div>
                     </div>
                   </div>
                 );
@@ -81,11 +89,13 @@ export function InlineChart({ chart }: InlineChartProps) {
   };
 
   return (
-    <div className="w-full h-full">
-      <div className="text-sm font-medium text-foreground mb-2 px-2 pt-1">
+    <div className="w-full h-full flex flex-col">
+      <div className="text-sm font-medium text-foreground mb-2 px-2 pt-2">
         {chart.title}
       </div>
-      {renderChart()}
+      <div className="flex-1">
+        {renderChart()}
+      </div>
     </div>
   );
 }

@@ -58,7 +58,7 @@ export function CompanyContextPage() {
   const [isEditing, setIsEditing] = useState(false);
   const [companyProfile, setCompanyProfile] = useState<CompanyProfile>({
     name: "SCAILE AI",
-    website: "https://scaile.ai",
+    website: "https://scaile.tech",
     description: "AI-powered GTM intelligence platform that helps B2B companies optimize their go-to-market strategies through data-driven insights and automated recommendations.",
     industry: "SaaS / AI",
     companySize: "11-50 employees",
@@ -162,7 +162,7 @@ export function CompanyContextPage() {
   });
 
   return (
-    <div className="p-4 space-y-6 bg-background min-h-screen">
+    <div className="p-4 space-y-6 bg-background min-h-screen overflow-y-auto">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>

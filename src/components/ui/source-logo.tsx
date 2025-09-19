@@ -186,6 +186,74 @@ export function SourceLogo({ source, className = "w-4 h-4" }: SourceLogoProps) {
             <path fill="#6b7280FFF" d="M8 8h8v8H8z"/>
           </svg>
         );
+
+      case "google search console":
+        return (
+          <svg viewBox="0 0 24 24" className={className}>
+            <rect width="24" height="24" rx="4" fill="#4285F4"/>
+            <path fill="#FFF" d="M7 8h10v1.5H7zm0 3h10v1.5H7zm0 3h7v1.5H7z"/>
+            <circle cx="19" cy="6" r="2" fill="#34A853"/>
+            <path fill="#FFF" d="M18.5 5.5h1v1h-1z"/>
+          </svg>
+        );
+
+      case "instantly":
+        return (
+          <svg viewBox="0 0 24 24" className={className}>
+            <rect width="24" height="24" rx="6" fill="#FF6B35"/>
+            <path fill="#FFF" d="M6 7l6 5 6-5v10l-6-5-6 5V7z"/>
+            <circle cx="18" cy="6" r="2" fill="#FFF"/>
+          </svg>
+        );
+
+      case "phantombuster":
+        return (
+          <svg viewBox="0 0 24 24" className={className}>
+            <rect width="24" height="24" rx="6" fill="#1A1A1A"/>
+            <path fill="#FF6B35" d="M12 4c4.4 0 8 3.6 8 8s-3.6 8-8 8-8-3.6-8-8 3.6-8 8-8z"/>
+            <path fill="#1A1A1A" d="M9 10c0-.6.4-1 1-1s1 .4 1 1-.4 1-1 1-1-.4-1-1zm4 0c0-.6.4-1 1-1s1 .4 1 1-.4 1-1 1-1-.4-1-1z"/>
+            <path fill="#1A1A1A" d="M8 14c0-2.2 1.8-4 4-4s4 1.8 4 4"/>
+          </svg>
+        );
+
+      case "teamfluence":
+        return (
+          <svg viewBox="0 0 24 24" className={className}>
+            <rect width="24" height="24" rx="6" fill="#6366F1"/>
+            <circle cx="8" cy="8" r="2" fill="#FFF"/>
+            <circle cx="16" cy="8" r="2" fill="#FFF"/>
+            <circle cx="12" cy="16" r="2" fill="#FFF"/>
+            <path stroke="#FFF" strokeWidth="1.5" d="M8 8l4 8m4-8l-4 8"/>
+          </svg>
+        );
+
+      case "apollo":
+        return (
+          <svg viewBox="0 0 24 24" className={className}>
+            <rect width="24" height="24" rx="6" fill="#5B47FB"/>
+            <path fill="#FFF" d="M12 3l-1.5 6H6l4.5 3.5L9 18l3-2.5L15 18l-1.5-5.5L18 9h-4.5L12 3z"/>
+          </svg>
+        );
+
+      case "clay":
+        return (
+          <svg viewBox="0 0 24 24" className={className}>
+            <rect width="24" height="24" rx="6" fill="#FF6B35"/>
+            <path fill="#FFF" d="M6 6h12v3H6zm0 5h12v3H6zm0 5h8v3H6z"/>
+            <circle cx="20" cy="8" r="1.5" fill="#FFF"/>
+            <circle cx="20" cy="13" r="1.5" fill="#FFF"/>
+          </svg>
+        );
+
+      case "attio":
+        return (
+          <svg viewBox="0 0 24 24" className={className}>
+            <rect width="24" height="24" rx="6" fill="#6366F1"/>
+            <circle cx="12" cy="12" r="8" fill="none" stroke="#FFF" strokeWidth="1.5"/>
+            <circle cx="12" cy="12" r="4" fill="none" stroke="#FFF" strokeWidth="1.5"/>
+            <circle cx="12" cy="12" r="2" fill="#FFF"/>
+          </svg>
+        );
       
       default:
         return (
